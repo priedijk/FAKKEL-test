@@ -3,7 +3,6 @@ terraform {
     resource_group_name  = "tfstate-FAKKEL-test"
     storage_account_name = "tfstatefakkeltest"
     container_name       = "tfstatefakkeltest"
-    key                  = ""
   }
   required_providers {
     azurerm = {
