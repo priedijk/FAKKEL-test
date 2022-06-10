@@ -11,6 +11,6 @@ resource "azurerm_automation_account" "aa-rg" {
   public_network_access_enabled = false
 
   tags = {
-    environment = "development"
+    environment = "quick"
   }
 }
