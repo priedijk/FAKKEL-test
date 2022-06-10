@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "bastion" {
 
 resource "azurerm_virtual_network" "bastion" {
   name                = "bastionvnet"
-  address_space       = ["192.168.1.0/24"]
+  address_space       = ["10.100.0.0/24"]
   location            = azurerm_resource_group.bastion.location
   resource_group_name = azurerm_resource_group.bastion.name
 }
@@ -14,7 +14,7 @@ resource "azurerm_subnet" "bastion" {
   name                 = "AzureBastionSubnet"
   resource_group_name  = azurerm_resource_group.bastion.name
   virtual_network_name = azurerm_virtual_network.bastion.name
-  address_prefixes     = ["192.168.1.224/27"]
+  address_prefixes     = ["10.100.0.224/27"]
 }
 
 resource "azurerm_public_ip" "bastion" {
