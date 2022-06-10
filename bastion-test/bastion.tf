@@ -22,14 +22,14 @@ resource "azurerm_public_ip" "bastion" {
   location            = azurerm_resource_group.bastion.location
   resource_group_name = azurerm_resource_group.bastion.name
   allocation_method   = "Static"
-  sku                 = "standard"
+  sku                 = "Standard"
 }
 
 resource "azurerm_bastion_host" "bastion" {
   name                = "bastionbastion"
   location            = azurerm_resource_group.bastion.location
   resource_group_name = azurerm_resource_group.bastion.name
-  sku                 = "basic"
+  sku                 = "Basic"
 
   ip_configuration {
     name                 = "configuration"
