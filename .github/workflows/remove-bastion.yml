@@ -1,11 +1,6 @@
 name: "Remove Bastion"
 
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - bastion-test/**
+on: workflow_dispatch
 
 jobs:
   terraform-rg:
