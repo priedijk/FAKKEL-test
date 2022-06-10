@@ -1,4 +1,4 @@
-name: "Deploy Automation Account"
+name: "Remove Automation Account"
 
 on: workflow_dispatch
 
