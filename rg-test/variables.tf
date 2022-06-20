@@ -11,5 +11,5 @@ variable "resource_group_location" {
 variable "location_code" {
   description = "Location code identifier"
   type        = string
-  default     = "weu"
+  default     = "frc"
 }
