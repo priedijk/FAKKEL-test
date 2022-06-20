@@ -3,6 +3,6 @@ resource "random_pet" "rg-name" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name      = local.rgname
+  name      = "rg-${local.kv_suffix}"
   location  = var.resource_group_location
 }
