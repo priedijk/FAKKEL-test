@@ -30,7 +30,9 @@ jobs:
 
       - name: 🔎 Check IP
         id: ip
-        run: export runnerIP=$(curl -s https://api.ipify.org)
+        run: /
+         export runnerIP=$(curl -s https://api.ipify.org)
+         echo "::set-env name=runnerIP::$runnerIP"
 
       - uses: azure/login@v1
         with:
