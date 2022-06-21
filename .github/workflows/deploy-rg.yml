@@ -32,7 +32,7 @@ jobs:
         id: ip
         run: |
          export runnerIP=$(curl -s https://api.ipify.org)
-         echo "::set-env name=runnerIP::$runnerIP"
+         echo "RUNNERIP='$runnerIP'" >> $GITHUB_ENV
 
       - uses: azure/login@v1
         with:
@@ -46,6 +46,7 @@ jobs:
          echo ${runnerIP}/32
          echo $runnerIP/32
          echo $runnerIP
+         echo ${{ env.RUNNERIP }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
