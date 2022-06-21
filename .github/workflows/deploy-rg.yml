@@ -30,7 +30,7 @@ jobs:
 
       - name: 🔎 Check IP
         id: ip
-        run: curl -s https://api.ipify.org
+        run: export runnerIP=$(curl -s https://api.ipify.org)
 
       - uses: azure/login@v1
         with:
@@ -39,6 +39,11 @@ jobs:
       - name: Output Github runner IP
         run: |
          echo ${{ steps.ip.outputs.ipv4 }}/32
+         echo ${{ steps.ip.outputs }}/32
+         echo ${{ steps.ip }}/32
+         echo ${runnerIP}/32
+         echo $runnerIP/32
+         echo $runnerIP
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
