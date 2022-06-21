@@ -17,7 +17,7 @@ resource "azurerm_key_vault" "fakkel" {
   
   network_acls {
     bypass = "AzureServices"
-    default_action = "Allow"
+    default_action = "Deny"
   }
 
   access_policy {
@@ -25,7 +25,7 @@ resource "azurerm_key_vault" "fakkel" {
     object_id = data.azurerm_client_config.current.object_id
 
     key_permissions = [
-      "Get",
+      "get", "list", "set",
     ]
 
     secret_permissions = [
