@@ -17,7 +17,7 @@ resource "azurerm_key_vault" "fakkel" {
   
   network_acls {
     bypass = "AzureServices"
-    default_action = "Allow"
+    default_action = "Deny"
   }
 
   access_policy {
