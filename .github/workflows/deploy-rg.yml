@@ -30,7 +30,7 @@ jobs:
 
       - name: 🔎 Check IP
         id: ip
-        run: /
+        run: |
          export runnerIP=$(curl -s https://api.ipify.org)
          echo "::set-env name=runnerIP::$runnerIP"
 
