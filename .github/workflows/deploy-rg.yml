@@ -26,9 +26,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: 🔎 Check IP
+        id: ip
+        run: curl https://api.ipify.org
+
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Output Github runner IP
+        run: |
+         echo ${{ steps.ip.outputs.ipv4 }}/32
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
