@@ -21,6 +21,9 @@ jobs:
     defaults:
       run:
         working-directory: rg-test
+    outputs:
+      keyvault: ${{ env.KEYVAULT }}
+      runnerIP: ${{ env.RUNNERIP }}
 
     steps:
       - name: Checkout

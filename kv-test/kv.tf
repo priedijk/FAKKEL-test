@@ -25,7 +25,7 @@ resource "azurerm_key_vault" "fakkel" {
     object_id = "622c186c-008a-457c-be8b-d0f91f62e393"
 
     key_permissions = [
-      "Get", "List"
+      "Get"
     ]
 
     secret_permissions = [
