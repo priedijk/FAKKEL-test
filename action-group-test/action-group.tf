@@ -6,8 +6,8 @@ locals {
   ]
 
   multiple_emails = [
-    { name = "test1", email_address = "123@test.nl" },
-    { name = "test2", email_address = "456@test.nl" },
+    { name = "test1", email_address = "123@test.nl", use_common_alert_schema = true },
+    { name = "test2", email_address = "456@test.nl", use_common_alert_schema = true }
   ]
 
 }
