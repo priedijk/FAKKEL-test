@@ -2,7 +2,7 @@ locals {
   email_receiver_group = var.location_code == "weu" ? local.single_email : local.multiple_emails
 
   single_email = [
-    { name = "single", email_address = "single@test.nl" }
+    { name = "single", email_address = "single@test.nl", use_common_alert_schema = true }
   ]
 
   multiple_emails = [
@@ -29,7 +29,7 @@ resource "azurerm_monitor_action_group" "action-group" {
     content {
       name                    = email_receiver.value.name
       email_address           = email_receiver.value.email_address
-      use_common_alert_schema = true
+      use_common_alert_schema = email_receiver.value.use_common_alert_schema
     }
   }
 }
