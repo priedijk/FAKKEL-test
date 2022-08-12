@@ -1,5 +1,5 @@
 locals {
-  email_receiver_group = var.location_code == "weu" ? local.single_email : local.multiple_emails
+  email_receiver_group = var.location_code == "frc" ? local.single_email : local.multiple_emails
 
   single_email = [
     { name = "single", email_address = "single@test.nl" }
