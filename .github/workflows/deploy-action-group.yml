@@ -1,4 +1,4 @@
-name: "Deploy Automation Account"
+name: "Deploy Action group"
 
 on:
   push:
