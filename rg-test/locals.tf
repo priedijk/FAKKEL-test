@@ -1,3 +1,3 @@
 locals {
-    rgname = "meepmeep31"
+  rgname = "meepmeep31"
 }
