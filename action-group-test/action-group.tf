@@ -1,14 +1,14 @@
 locals {
-  email_receiver_group = var.location_code == "frc" ? local.single_email : local.multiple_emails
+  email_receiver_group = var.location_code == "weu" ? local.single_email : local.multiple_emails
 
   single_email = [
     { name = "single", email_address = "single@test.nl" }
-    ]
-    
+  ]
+
   multiple_emails = [
     { name = "test1", email_address = "123@test.nl" },
     { name = "test2", email_address = "456@test.nl" },
-    ]
+  ]
 
 }
 
@@ -26,10 +26,10 @@ resource "azurerm_monitor_action_group" "action-group" {
 
   dynamic "email_receiver" {
     for_each = local.email_receiver_group
-      content {
-        name                    = email_receiver.value.name
-        email_address           = email_receiver.value.email_address
-        use_common_alert_schema = true
-      }
+    content {
+      name                    = email_receiver.value.name
+      email_address           = email_receiver.value.email_address
+      use_common_alert_schema = true
+    }
   }
 }
