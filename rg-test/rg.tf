@@ -1,7 +1,8 @@
 locals {
-  chooser = var.location_code == "weu" ? var.choose_name_1 : var.choose_name_2
+  chooser = var.location_code == "weu" ? local.choose_name_1 : local.choose_name_2
+  choose_name_1 = "name1-chosen"
+  choose_name_2 = "name2-chosen"
 }
-
 resource "random_pet" "rg-name" {
   prefix = var.resource_group_name_prefix
 }

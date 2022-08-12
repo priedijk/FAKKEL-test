@@ -1,3 +1,0 @@
-locals {
-  rgname = "meepmeep31"
-}

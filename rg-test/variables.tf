@@ -13,13 +13,3 @@ variable "location_code" {
   type        = string
   default     = "frc"
 }
-
-variable "choose_name_1" {
-  default     = "name1-chosen"
-  description = "Prefix of the resource group name that's combined with a random ID so name is unique in your Azure subscription."
-}
-
-variable "choose_name_2" {
-  default     = "name2-chosen"
-  description = "Prefix of the resource group name that's combined with a random ID so name is unique in your Azure subscription."
-}
