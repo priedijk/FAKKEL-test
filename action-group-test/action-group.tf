@@ -2,12 +2,12 @@ locals {
   email_receiver_group = var.location_code == "weu" ? local.single_email : local.multiple_emails
 
   single_email = [
-    { name = single, email_address = "single@test.nl" }
+    { name = "single", email_address = "single@test.nl" }
     ]
     
   multiple_emails = [
-    { name = test1, email_address = "123@test.nl" },
-    { name = test2, email_address = "456@test.nl" },
+    { name = "test1", email_address = "123@test.nl" },
+    { name = "test2", email_address = "456@test.nl" },
     ]
 
 }
