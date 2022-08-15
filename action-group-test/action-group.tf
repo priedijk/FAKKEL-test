@@ -9,7 +9,7 @@ locals {
     { name = "test1", email_address = "123@test.nl", use_common_alert_schema = true },
     { name = "test2", email_address = "456@test.nl", use_common_alert_schema = true }
   ]
-
+  local1 = "peanut"
 }
 
 
@@ -17,6 +17,13 @@ locals {
 resource "azurerm_resource_group" "action-group-rg" {
   name     = "action-group-rg-resources"
   location = var.resource_group_location
+}
+
+resource "azurerm_monitor_action_group" "action-group" {
+  count               = var.location_code == "weu" && local.local1 == "peanut" ? 1 : 0
+  name                = "action-test"
+  resource_group_name = azurerm_resource_group.action-group-rg.name
+  short_name          = "testgroup1"
 }
 
 resource "azurerm_monitor_action_group" "action-group" {
