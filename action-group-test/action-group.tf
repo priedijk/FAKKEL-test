@@ -25,7 +25,7 @@ resource "azurerm_monitor_action_group" "action-group" {
   short_name          = "shortername"
 
   dynamic "arm_role_receiver" {
-    for_each = var.location_code == "weu" ? [] : [1]
+    for_each = var.location_code == "frc" ? [] : [1]
     content {
       name                    = "AzureAdvisorAlerts${var.location_code}"
       role_id                 = var.role-id-owner
