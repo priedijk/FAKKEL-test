@@ -20,7 +20,7 @@ resource "azurerm_resource_group" "action-group-rg" {
 }
 
 resource "azurerm_monitor_action_group" "test-group" {
-  count               = var.location_code == "weu" && local.local1 == "peanut" ? 1 : 0
+  count               = var.location_code == "weu" && local.local1 != "peanut" ? 1 : 0
   name                = "action-test"
   resource_group_name = azurerm_resource_group.action-group-rg.name
   short_name          = "testgroup1"
