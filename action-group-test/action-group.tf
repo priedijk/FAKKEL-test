@@ -24,6 +24,13 @@ resource "azurerm_monitor_action_group" "action-group" {
   resource_group_name = azurerm_resource_group.action-group-rg.name
   short_name          = "shortername"
 
+  arm_role_receiver {
+    count                   = var.location_code == "frc" ? 0 : 1
+    name                    = "AzureAdvisorAlerts${var.location_code}"
+    role_id                 = var.role-id-owner
+    use_common_alert_schema = true
+  }
+
   dynamic "email_receiver" {
     for_each = local.email_receiver_group
     content {

@@ -9,3 +9,8 @@ variable "location_code" {
   type        = string
   default     = "weu"
 }
+
+variable "role-id-owner" {
+  type    = string
+  default = "8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+}
