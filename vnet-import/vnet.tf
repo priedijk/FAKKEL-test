@@ -23,14 +23,14 @@ resource "azurerm_subnet" "firewall" {
   name                 = "AzureFirewallSubnet"
   resource_group_name  = azurerm_resource_group.vnet-rg.name
   virtual_network_name = azurerm_virtual_network.import-vnet.name
-  address_prefixes     = ["10.20.0.0/24"]
+  address_prefixes     = ["10.20.0.0/27"]
 }
 
 resource "azurerm_subnet" "gateway" {
   name                 = "GatewaySubnet"
   resource_group_name  = azurerm_resource_group.vnet-rg.name
   virtual_network_name = azurerm_virtual_network.import-vnet.name
-  address_prefixes     = ["10.20.0.32/24"]
+  address_prefixes     = ["10.20.0.32/27"]
 }
 
 /*
