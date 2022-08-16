@@ -1,5 +1,5 @@
 locals {
-  peanut = var.location == "weu" ? "yes" : "no"
+  peanut = var.location == "frc" ? "yes" : "no"
 }
 
 resource "azurerm_resource_group" "vnet-rg" {
