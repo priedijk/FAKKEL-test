@@ -4,7 +4,7 @@ locals {
 
 resource "azurerm_resource_group" "vnet-rg" {
   name     = "tf-import-test"
-  location = var.location
+  location = "westeurope"
 }
 
 resource "azurerm_virtual_network" "import-vnet" {
