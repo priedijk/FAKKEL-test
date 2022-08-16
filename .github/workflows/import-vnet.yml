@@ -42,14 +42,8 @@ jobs:
         id: validate
         run: terraform validate -no-color
 
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -no-color
-        continue-on-error: true
-
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
-        
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
+      - name: Execute Terraform import
+        id: terraform-import
+        run: |
+          terraform import azurerm_resource_group.vnet-rg /subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test
+          terraform import azurerm_virtual_network.import-vnet /subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test/providers/Microsoft.Network/virtualNetworks/import-vnet
