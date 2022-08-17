@@ -26,14 +26,21 @@ variable "single_email" {
 }
 
 variable "multiple_emails" {
-  description = "Allowed Ec2 ports"
-  type        = list
-  default     = {
-    "test1"  = "123@test.nl"
-    "test2"  = "456@test.nl"
+  type = map(object({
+	  name = string
+	  email_address = string
+	}))
+  default = {
+    mail = {
+      name          = "test1",
+      email_address = "123@test.nl"
+    }
+    mail = {
+      name          = "test2",
+      email_address = "456@test.nl"
+    }
   }
 }
-
 /*
 variable "multiple_emails" {
   default = {
