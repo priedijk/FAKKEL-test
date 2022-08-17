@@ -45,7 +45,7 @@ resource "azurerm_monitor_action_group" "action-group" {
     for_each = local.email_receiver_group-test
     content {
       name                    = each.value.mail.name
-      email_address           = eeach.value.mail.email_address
+      email_address           = each.value.mail.email_address
       use_common_alert_schema = true
     }
   }
