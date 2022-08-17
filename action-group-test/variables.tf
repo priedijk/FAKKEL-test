@@ -16,43 +16,31 @@ variable "role-id-owner" {
 }
 
 variable "single_email" {
+  type = map(object({
+    name          = string
+    email_address = string
+  }))
   default = {
-    mail = {
+    mail1 = {
       name          = "single",
       email_address = "single@test.nl"
     }
   }
-  type = map(map(string))
 }
 
 variable "multiple_emails" {
   type = map(object({
-	  name = string
-	  email_address = string
-	}))
+    name          = string
+    email_address = string
+  }))
   default = {
-    mail = {
+    mail1 = {
       name          = "test1",
       email_address = "123@test.nl"
     }
-    mail = {
+    mail2 = {
       name          = "test2",
       email_address = "456@test.nl"
     }
   }
 }
-/*
-variable "multiple_emails" {
-  default = {
-    mail = {
-      name          = "test1",
-      email_address = "123@test.nl"
-    }
-    mail = {
-      name          = "test2",
-      email_address = "456@test.nl"
-    }
-  }
-  type = map(map(string))
-}
-*/

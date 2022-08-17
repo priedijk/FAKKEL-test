@@ -1,6 +1,6 @@
 locals {
   email_receiver_group      = var.location_code == "frc" ? local.single_email : local.multiple_emails
-  email_receiver_group-test = var.location_code == "frc" ? var.single_email : var.multiple_emails
+  email_receiver_group-test = var.location_code == "weu" ? var.single_email : var.multiple_emails
 
   single_email = [
     { name = "single", email_address = "single@test.nl", use_common_alert_schema = true }
