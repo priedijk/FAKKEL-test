@@ -29,7 +29,7 @@ variable "multiple_emails" {
   description = "Allowed Ec2 ports"
   type        = list
   default     = {
-    "test1"  = ["123@test.nl"]
+    "test1"  = "123@test.nl"
     "test2"  = "456@test.nl"
   }
 }
