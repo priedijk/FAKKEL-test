@@ -9,6 +9,7 @@ variable "resource_group_location" {
   description = "Location of the resource group."
 }
 
+/*
 variable "subnets" {
   type = map(object({
     subnet_name    = string
@@ -25,4 +26,29 @@ variable "subnets" {
     }
   }
 }
+*/
+variable "network" {
+  type = map(object({
+    address_space = string
+    subnets = list(object({
+      subnet_name    = string
+      subnet_address = string
+    }))
+  }))
 
+  default = {
+    "import-vnet" = {
+      address_space = "10.20.0.0/16",
+      subnets = [
+        {
+          subnet_name    = "AzureFirewallSubnet"
+          subnet_address = "10.20.0.0/27"
+        },
+        {
+          subnet_name    = "GatewaySubnet"
+          subnet_address = "10.20.0.32/27"
+        }
+      ]
+    }
+  }
+}

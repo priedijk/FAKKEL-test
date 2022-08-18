@@ -1,5 +1,14 @@
 locals {
-  peanut = var.location == "frc" ? "yes" : "no"
+  subnets_flatlist = flatten([for key, val in var.vnets : [
+    for subnet in val.subnets : {
+      vnet_name      = key
+      subnet_name    = subnet.subnet_name
+      subnet_address = subnet.subnet_address
+    }
+    ]
+  ])
+
+  subnets = { for subnet in local.subnets_flatlist : subnet.subnet_name => subnet }
 }
 
 resource "azurerm_resource_group" "vnet-rg" {
@@ -8,23 +17,26 @@ resource "azurerm_resource_group" "vnet-rg" {
 }
 
 resource "azurerm_virtual_network" "import-vnet" {
+  for_each            = var.vnets
+  name                = each.key
+  resource_group_name = azurerm_resource_group.vnet-rg.name
+  location            = azurerm_resource_group.vnet-rg.location
+  address_space       = [each.value.address_space]
+}
+/*
+resource "azurerm_virtual_network" "import-vnet" {
   name                = "import-vnet"
   location            = azurerm_resource_group.vnet-rg.location
   resource_group_name = azurerm_resource_group.vnet-rg.name
   address_space       = ["10.20.0.0/16"]
-
-  tags = {
-    tag1 = "value1",
-    tag2 = "value2"
-  }
 }
-
+*/
 resource "azurerm_subnet" "subnets" {
-  for_each             = var.subnets
-  name                 = each.value.name
-  resource_group_name  = each.key
-  virtual_network_name = azurerm_virtual_network.import-vnet.name
-  address_prefixes     = each.value.address_prefix
+  for_each             = local.subnets
+  name                 = each.value.subnet_name
+  resource_group_name  = azurerm_resource_group.vnet-rg.name
+  virtual_network_name = azurerm_virtual_network.vnets[each.value.vnet_name].name
+  address_prefixes     = [each.value.subnet_address]
 }
 
 /*
