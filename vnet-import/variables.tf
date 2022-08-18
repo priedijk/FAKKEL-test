@@ -21,7 +21,7 @@ variable "network" {
     },
     "gateway" = {
       subnet_name    = "GatewaySubnet",
-      address_prefix = "10.20.0.32/27"
+      subnet_address = "10.20.0.32/27"
     }
   }
 }
