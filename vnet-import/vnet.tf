@@ -35,7 +35,7 @@ resource "azurerm_subnet" "subnets" {
   for_each             = local.subnets
   name                 = each.value.subnet_name
   resource_group_name  = azurerm_resource_group.vnet-rg.name
-  virtual_network_name = azurerm_virtual_network.network[each.value.vnet_name].name
+  virtual_network_name = azurerm_virtual_network.import-vnet[each.value.vnet_name].name
   address_prefixes     = [each.value.subnet_address]
 }
 
