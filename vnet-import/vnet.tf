@@ -1,5 +1,5 @@
 locals {
-  subnets_flatlist = flatten([for key, val in var.vnets : [
+  subnets_flatlist = flatten([for key, val in var.network : [
     for subnet in val.subnets : {
       vnet_name      = key
       subnet_name    = subnet.subnet_name
