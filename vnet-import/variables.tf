@@ -11,8 +11,8 @@ variable "resource_group_location" {
 
 variable "subnets" {
   type = map(object({
-    name          = string
-    email_address = string
+    subnet_name    = string
+    address_prefix = string
   }))
   default = {
     firewall = {
