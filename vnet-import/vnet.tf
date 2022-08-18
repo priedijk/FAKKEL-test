@@ -1,3 +1,4 @@
+/*
 locals {
   subnets_flatlist = flatten([for key, val in var.network : [
     for subnet in val.subnets : {
@@ -10,6 +11,7 @@ locals {
 
   subnets = { for subnet in local.subnets_flatlist : subnet.subnet_name => subnet }
 }
+*/
 
 resource "azurerm_resource_group" "vnet-rg" {
   name     = "tf-import-test"
