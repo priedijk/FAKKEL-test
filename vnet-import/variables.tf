@@ -14,17 +14,18 @@ variable "network" {
     subnet_name    = string
     subnet_address = string
   }))
-}
-default = {
-  "firewall" = {
-    subnet_name    = "AzureFirewallSubnet"
-    subnet_address = "10.20.0.0/27"
-  },
-  "gateway" = {
-    subnet_name    = "GatewaySubnet",
-    address_prefix = "10.20.0.32/27"
+  default = {
+    "firewall" = {
+      subnet_name    = "AzureFirewallSubnet"
+      subnet_address = "10.20.0.0/27"
+    },
+    "gateway" = {
+      subnet_name    = "GatewaySubnet",
+      address_prefix = "10.20.0.32/27"
+    }
   }
 }
+
 /*
 variable "subnets" {
   type = map(object({
