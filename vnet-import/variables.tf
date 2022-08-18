@@ -9,6 +9,22 @@ variable "resource_group_location" {
   description = "Location of the resource group."
 }
 
+variable "network" {
+  type = map(object({
+    subnet_name    = string
+    subnet_address = string
+  }))
+}
+default = {
+  "firewall" = {
+    subnet_name    = "AzureFirewallSubnet"
+    subnet_address = "10.20.0.0/27"
+  },
+  "gateway" = {
+    subnet_name    = "GatewaySubnet",
+    address_prefix = "10.20.0.32/27"
+  }
+}
 /*
 variable "subnets" {
   type = map(object({
@@ -26,7 +42,7 @@ variable "subnets" {
     }
   }
 }
-*/
+
 variable "network" {
   type = map(object({
     address_space = string
@@ -52,3 +68,4 @@ variable "network" {
     }
   }
 }
+*/

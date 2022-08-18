@@ -17,11 +17,10 @@ resource "azurerm_resource_group" "vnet-rg" {
 }
 
 resource "azurerm_virtual_network" "import-vnet" {
-  for_each            = var.network
-  name                = each.key
+  name                = import-vnet
   resource_group_name = azurerm_resource_group.vnet-rg.name
   location            = azurerm_resource_group.vnet-rg.location
-  address_space       = [each.value.address_space]
+  address_space       = ["10.20.0.0/16"]
 }
 /*
 resource "azurerm_virtual_network" "import-vnet" {
@@ -32,10 +31,10 @@ resource "azurerm_virtual_network" "import-vnet" {
 }
 */
 resource "azurerm_subnet" "subnets" {
-  for_each             = local.subnets
+  for_each             = var.network
   name                 = each.value.subnet_name
   resource_group_name  = azurerm_resource_group.vnet-rg.name
-  virtual_network_name = azurerm_virtual_network.import-vnet[each.value.vnet_name].name
+  virtual_network_name = azurerm_virtual_network.import-vnet.name
   address_prefixes     = [each.value.subnet_address]
 }
 
