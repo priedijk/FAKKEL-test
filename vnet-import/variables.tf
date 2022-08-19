@@ -34,7 +34,7 @@ variable "vnet_address_space" {
   }
 }
 
-variable "network" {
+variable "network_weu_ae" {
   type = map(object({
     subnet_name    = string
     subnet_address = string
