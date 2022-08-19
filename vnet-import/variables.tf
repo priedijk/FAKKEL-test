@@ -61,8 +61,16 @@ variable "nsg" {
 
 variable "nsg_rules_bastion" {
   type = map(object({
-    subnet_name    = string
-    subnet_address = string
+    name                        = string
+    description                 = string
+    priority                    = number
+    direction                   = string
+    access                      = string
+    protocol                    = string
+    source_port_range           = string
+    destination_port_range      = string
+    source_address_prefix       = string
+    destination_address_prefix  = string
   }))
   default = {
     "AllowWebExperienceInBound" = {
