@@ -38,7 +38,7 @@ resource "azurerm_virtual_network" "import-vnet2" {
 }
 */
 resource "azurerm_subnet" "subnets" {
-  for_each             = var.location_code == "weu" ? local.subnets_weu : local.subnets_frc
+  for_each             = var.location == "weu" ? local.subnets_weu : local.subnets_frc
   name                 = each.value.subnet_name
   resource_group_name  = azurerm_resource_group.vnet-rg.name
   virtual_network_name = azurerm_virtual_network.import-vnet.name
