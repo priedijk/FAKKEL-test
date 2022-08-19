@@ -1,5 +1,5 @@
 locals {
-    vnet_env      = "${var.network}_${var.location}_${var.tenant}"
+    vnet_env      = "var.network_${var.location}_${var.tenant}"
     netspace      = ""
     subnets       = ""
 }
@@ -15,8 +15,9 @@ resource "azurerm_virtual_network" "import-vnet" {
   name                = "import-vnet"
   resource_group_name = azurerm_resource_group.vnet-rg.name
   location            = azurerm_resource_group.vnet-rg.location
-  address_space       = [var.vnet_address_space.weu_ae.address_space]
+  address_space       = ["${lookup(var.vnet_address_space, "${var.tenant}_${var.environment}")}"]
 }
+
   
 /*
 resource "azurerm_virtual_network" "import-vnet1" {
@@ -34,7 +35,7 @@ resource "azurerm_virtual_network" "import-vnet2" {
 }
 */
 resource "azurerm_subnet" "subnets" {
-  for_each             = local.vnet_env
+  for_each             = var.network_weu_ae
   name                 = each.value.subnet_name
   resource_group_name  = azurerm_resource_group.vnet-rg.name
   virtual_network_name = azurerm_virtual_network.import-vnet.name
