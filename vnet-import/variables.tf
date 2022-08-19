@@ -91,7 +91,7 @@ variable "nsg_rules_bastion" {
       protocol                   = "Tcp"
       source_port_range          = "*"
       destination_port_range     = ""
-      destination_port_ranges    = ["7000","5000"]
+      destination_port_ranges    = ["7000", "5000"]
       source_address_prefix      = "Internet"
       destination_address_prefix = "*"
     },
@@ -104,7 +104,7 @@ variable "nsg_rules_bastion" {
       protocol                   = "Tcp"
       source_port_range          = "*"
       destination_port_range     = ""
-      destination_port_ranges    = ["8080","7050"]
+      destination_port_ranges    = ["8080", "7050"]
       source_address_prefix      = "GatewayManager"
       destination_address_prefix = "*"
     }
