@@ -49,5 +49,5 @@ output "test" {
 }
 
 output "test2" {
-  value = local.subnet_env 
+  value = local.subnet_env_name 
 }
