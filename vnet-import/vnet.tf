@@ -15,7 +15,7 @@ resource "azurerm_virtual_network" "import-vnet" {
   name                = "import-vnet"
   resource_group_name = azurerm_resource_group.vnet-rg.name
   location            = azurerm_resource_group.vnet-rg.location
-  address_space       = ["${lookup(var.vnet_address_space, "${var.tenant}_${var.environment}")}"]
+  address_space       = ["${lookup(var.vnet_address_space, "${var.location}_${var.tenant}")}"]
 }
 
   
