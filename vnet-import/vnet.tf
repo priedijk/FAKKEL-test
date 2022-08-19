@@ -15,7 +15,7 @@ resource "azurerm_virtual_network" "import-vnet" {
   name                = "import-vnet"
   resource_group_name = azurerm_resource_group.vnet-rg.name
   location            = azurerm_resource_group.vnet-rg.location
-  address_space       = [var.vnet_address_space.weu_ae.address_space]
+  address_space       = [local.subnets]
 }
 
   
