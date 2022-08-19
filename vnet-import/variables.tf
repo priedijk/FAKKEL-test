@@ -56,46 +56,46 @@ variable "nsg" {
   default = {
     nsg_name1 = "test1"
     nsg_name2 = "test2"
-}
+  }
 }
 
 variable "nsg_rules_bastion" {
   type = map(object({
-    name                        = string
-    description                 = string
-    priority                    = number
-    direction                   = string
-    access                      = string
-    protocol                    = string
-    source_port_range           = string
-    destination_port_range      = string
-    source_address_prefix       = string
-    destination_address_prefix  = string
+    name                       = string
+    description                = string
+    priority                   = number
+    direction                  = string
+    access                     = string
+    protocol                   = string
+    source_port_range          = string
+    destination_port_range     = string
+    source_address_prefix      = string
+    destination_address_prefix = string
   }))
   default = {
     "AllowWebExperienceInBound" = {
-        name                        = "AllowWebExperienceInBound"
-        description                 = "Allow our users in. Update this to be as restrictive as possible."
-        priority                    = 100
-        direction                   = "Inbound"
-        access                      = "Allow"
-        protocol                    = "Tcp"
-        source_port_range           = "*"
-        destination_port_range      = "80"
-        source_address_prefix       = "Internet"
-        destination_address_prefix  = "*"
+      name                       = "AllowWebExperienceInBound"
+      description                = "Allow our users in. Update this to be as restrictive as possible."
+      priority                   = 100
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "80"
+      source_address_prefix      = "Internet"
+      destination_address_prefix = "*"
     },
     "AllowControlPlaneInBound" = {
-        name                        = "AllowControlPlaneInBound"
-        description                 = "Service Requirement. Allow control plane access. Regional Tag not yet supported."
-        priority                    = 110
-        direction                   = "Inbound"
-        access                      = "Allow"
-        protocol                    = "Tcp"
-        source_port_range           = "*"
-        destination_port_range      = "8080"
-        source_address_prefix       = "GatewayManager"
-        destination_address_prefix  = "*"
+      name                       = "AllowControlPlaneInBound"
+      description                = "Service Requirement. Allow control plane access. Regional Tag not yet supported."
+      priority                   = 110
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "8080"
+      source_address_prefix      = "GatewayManager"
+      destination_address_prefix = "*"
     }
   }
 }
