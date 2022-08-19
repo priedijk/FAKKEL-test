@@ -1,7 +1,7 @@
 locals {
     vnet_env      = "var.network_${var.location}_${var.tenant}"
     netspace      = "${lookup(var.vnet_address_space, "${var.location}_${var.tenant}")}"
-    subnets       = "${lookup(var.vnet_address_space, "${var.location}_${var.tenant}")}.address_space"
+    subnets       = "${lookup(var.vnet_address_space, "${var.location}_${var.tenant}").address_space}"
 }
 /*
 resource "azurerm_virtual_network" "import-vnet" {
