@@ -52,9 +52,7 @@ variable "network_weu_ae" {
 }
 
 variable "nsg" {
-  type = map(object({
-    nsg_name = string
-  }))
+  type = map(string)
   default = {
     nsg_name = "test1"
     nsg_name = "test2"
