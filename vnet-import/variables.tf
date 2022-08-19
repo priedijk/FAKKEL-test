@@ -4,6 +4,11 @@ variable "location" {
   default     = "weu"
 }
 
+variable "tenant" {
+  description = "Location code identifier"
+  type        = string
+  default     = "ae"
+}
 variable "resource_group_location" {
   default     = "westeurope"
   description = "Location of the resource group."
@@ -14,10 +19,16 @@ variable "vnet_address_space" {
     address_space = string
   }))
   default = {
-    "weu" = {
+    "weu_ae" = {
       address_space = "10.20.0.0/16"
     },
-    "frc" = {
+    "frc_ae" = {
+      address_space = "10.0.2.0/26"
+    },
+    "weu_prod" = {
+      address_space = "10.20.0.0/16"
+    },
+    "frc_prod" = {
       address_space = "10.0.2.0/26"
     }
   }
