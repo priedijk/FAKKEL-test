@@ -44,7 +44,7 @@ resource "azurerm_network_security_rule" "nsg_rules_bastion" {
   source_address_prefix       = each.value.source_address_prefix
   destination_address_prefix  = each.value.destination_address_prefix
   resource_group_name         = azurerm_resource_group.vnet-rg.name
-  network_security_group_name = azurerm_network_security_group.nsg_bastion
+  network_security_group_name = azurerm_network_security_group.nsg_bastion.name
 }
 /*
 resource "azurerm_subnet_network_security_group_association" "nsg-assoc" {
