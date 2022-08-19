@@ -77,6 +77,7 @@ variable "nsg_rules_bastion" {
     protocol                   = string
     source_port_range          = string
     destination_port_range     = string
+    destination_port_ranges    = string
     source_address_prefix      = string
     destination_address_prefix = string
   }))
@@ -90,6 +91,7 @@ variable "nsg_rules_bastion" {
       protocol                   = "Tcp"
       source_port_range          = "*"
       destination_port_range     = "80"
+      destination_port_ranges    = ["",""]
       source_address_prefix      = "Internet"
       destination_address_prefix = "*"
     },
@@ -101,7 +103,8 @@ variable "nsg_rules_bastion" {
       access                     = "Allow"
       protocol                   = "Tcp"
       source_port_range          = "*"
-      destination_port_range     = "8080"
+      destination_port_range     = ""
+      destination_port_ranges    = ["8080","7050"]
       source_address_prefix      = "GatewayManager"
       destination_address_prefix = "*"
     }
