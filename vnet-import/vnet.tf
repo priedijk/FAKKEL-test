@@ -21,7 +21,7 @@ resource "azurerm_subnet" "subnets" {
 
 resource "azurerm_network_security_group" "nsg" {
   for_each            = var.nsg
-  name                = "nsg-[each.value]"
+  name                = "${join("nsg-",[each.value],"-shared")}"
   location            = azurerm_resource_group.vnet-rg.location
   resource_group_name = azurerm_resource_group.vnet-rg.name
 }
