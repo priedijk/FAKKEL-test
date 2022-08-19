@@ -9,6 +9,16 @@ variable "resource_group_location" {
   description = "Location of the resource group."
 }
 
+variable "vnet_address_space" {
+  type = list(object({
+    address_space = string
+  }))
+  default = [
+    {
+      weu = "10.20.0.0/16"
+    }
+  ]
+}
 variable "network" {
   type = map(object({
     subnet_name    = string
