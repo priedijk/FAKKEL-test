@@ -29,7 +29,7 @@ variable "vnet_address_space" {
       address_space = "10.20.0.0/16"
     },
     "frc_prod" = {
-      address_space = "10.0.2.0/26"
+      address_space = "10.0.0.0/26"
     }
   }
 }
