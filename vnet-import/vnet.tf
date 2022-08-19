@@ -1,7 +1,7 @@
 locals {
     vnet_env      = "var.network_${var.location}_${var.tenant}"
-    netspace      = ""
-    subnets       = ""
+    netspace      = "${lookup(var.vnet_address_space, "${var.location}_${var.tenant}")}"
+    subnets       = "${lookup(var.vnet_address_space, "${var.location}_${var.tenant}")}.address_space"
 }
 /*
 resource "azurerm_virtual_network" "import-vnet" {
@@ -40,4 +40,12 @@ resource "azurerm_subnet" "subnets" {
   resource_group_name  = azurerm_resource_group.vnet-rg.name
   virtual_network_name = azurerm_virtual_network.import-vnet.name
   address_prefixes     = [each.value.subnet_address]
+}
+
+output "test" {
+  value = local.netspace
+}
+
+output "test2" {
+  value = local.subnets
 }
