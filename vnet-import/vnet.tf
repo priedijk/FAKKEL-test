@@ -30,7 +30,7 @@ resource "azurerm_subnet_network_security_group_association" "nsg-assoc" {
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
-resource "azurerm_subnet_network_security_group_association" "nsg-assoc" {
+resource "azurerm_subnet_network_security_group_association" "nsg-assoc2" {
   subnet_id                 = azurerm_subnet.subnets.firewall
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
