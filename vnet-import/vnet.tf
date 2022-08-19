@@ -58,13 +58,13 @@ resource "azurerm_network_security_rule" "nsg_rules_bastion1" {
 
 resource "azurerm_network_security_rule" "nsg_rules_bastion2" {
   name                        = "AllowBastionHostToHostOutBound"
-  description                 = "Service Requirement. Allow Required Host to Host Communication."
+  description                 = ""
   priority                    = 130
   direction                   = "Outbound"
   access                      = "Allow"
   protocol                    = "Tcp"
   source_port_range           = "*"
-  destination_port_ranges     = ["8080", "5701"]
+  destination_port_ranges     = ["8080","5701"]
   source_address_prefix       = "VirtualNetwork"
   destination_address_prefix  = "VirtualNetwork"
   resource_group_name         = azurerm_resource_group.vnet-rg.name
