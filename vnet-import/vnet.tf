@@ -26,12 +26,12 @@ resource "azurerm_network_security_group" "nsg" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsg-assoc" {
-  subnet_id                 = azurerm_subnet.subnets["gateway"]
+  subnet_id                 = azurerm_subnet.subnets["gateway"].id
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsg-assoc2" {
-  subnet_id                 = azurerm_subnet.subnets["firewall"]
+  subnet_id                 = azurerm_subnet.subnets["firewall"].id
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
