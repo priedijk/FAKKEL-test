@@ -31,6 +31,7 @@ resource "azurerm_network_security_group" "nsg_bastion" {
   resource_group_name = azurerm_resource_group.vnet-rg.name
   location            = azurerm_resource_group.vnet-rg.location
 }
+
 resource "azurerm_network_security_rule" "nsg_rules_bastion1" {
   for_each                    = var.nsg_rules_bastion 
   name                        = each.value.name

@@ -81,7 +81,7 @@ variable "nsg_rules_bastion" {
         access                      = "Allow"
         protocol                    = "Tcp"
         source_port_range           = "*"
-        destination_port_range      = "443"
+        destination_port_range      = "80"
         source_address_prefix       = "Internet"
         destination_address_prefix  = "*"
     },
