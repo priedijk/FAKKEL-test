@@ -4,7 +4,7 @@ resource "azurerm_virtual_network" "import-vnet" {
   location            = azurerm_resource_group.vnet-rg.location
   address_space       = [var.vnet_address_space.weu.address_space]
 }
-
+/*
 resource "azurerm_virtual_network" "import-vnet1" {
   name                = "import-vnet1"
   resource_group_name = azurerm_resource_group.vnet-rg.name
@@ -18,7 +18,7 @@ resource "azurerm_virtual_network" "import-vnet2" {
   location            = azurerm_resource_group.vnet-rg.location
   address_space       = [var.vnet_address_space.value.weu.address_space]
 }
-
+*/
 resource "azurerm_subnet" "subnets" {
   for_each             = var.network
   name                 = each.value.subnet_name
