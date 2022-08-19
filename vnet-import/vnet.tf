@@ -1,5 +1,5 @@
 locals {
-    vnet_env      = "var.network_${var.location}_${var.tenant}"
+    vnet_env      = "${var.network}_${var.location}_${var.tenant}"
     netspace      = ""
     subnets       = ""
 }
