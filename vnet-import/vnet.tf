@@ -1,7 +1,9 @@
 locals {
     vnet_address_space = "${lookup(var.vnet_address_space, "${var.location}_${var.tenant}").address_space}"
     subnet_env_name    = "var.network_${var.location}_${var.tenant}"
+    /*
     subnet_env         = "${lookup(local.subnet_env_name)}"
+    */
 }
 /*
 resource "azurerm_virtual_network" "import-vnet" {
