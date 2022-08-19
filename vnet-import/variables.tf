@@ -90,7 +90,7 @@ variable "nsg_rules_bastion" {
       access                     = "Allow"
       protocol                   = "Tcp"
       source_port_range          = "*"
-      destination_port_range     = "80"
+      destination_port_range     = ""
       destination_port_ranges    = ["7000","5000"]
       source_address_prefix      = "Internet"
       destination_address_prefix = "*"
