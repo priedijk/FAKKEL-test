@@ -10,15 +10,19 @@ variable "resource_group_location" {
 }
 
 variable "vnet_address_space" {
-  type = list(object({
+  type = map(object({
     address_space = string
   }))
-  default = [
-    {
-      weu = "10.20.0.0/16"
+  default = {
+    "weu" = {
+      address_space = "10.20.0.0/16"
+    },
+    "frc" = {
+      address_space = "10.0.2.0/26"
     }
-  ]
+  }
 }
+
 variable "network" {
   type = map(object({
     subnet_name    = string
