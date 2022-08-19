@@ -58,3 +58,36 @@ variable "nsg" {
     nsg_name2 = "test2"
 }
 }
+
+variable "nsg_rules_bastion" {
+  type = map(object({
+    subnet_name    = string
+    subnet_address = string
+  }))
+  default = {
+    "AllowWebExperienceInBound" = {
+        name                        = "AllowWebExperienceInBound"
+        description                 = "Allow our users in. Update this to be as restrictive as possible."
+        priority                    = 100
+        direction                   = "Inbound"
+        access                      = "Allow"
+        protocol                    = "Tcp"
+        source_port_range           = "*"
+        destination_port_range      = "443"
+        source_address_prefix       = "Internet"
+        destination_address_prefix  = "*"
+    },
+    "AllowControlPlaneInBound" = {
+        name                        = "AllowControlPlaneInBound"
+        description                 = "Service Requirement. Allow control plane access. Regional Tag not yet supported."
+        priority                    = 110
+        direction                   = "Inbound"
+        access                      = "Allow"
+        protocol                    = "Tcp"
+        source_port_range           = "*"
+        destination_port_range      = "443"
+        source_address_prefix       = "GatewayManager"
+        destination_address_prefix  = "*"
+    }
+  }
+}

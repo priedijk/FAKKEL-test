@@ -21,11 +21,31 @@ resource "azurerm_subnet" "subnets" {
 
 resource "azurerm_network_security_group" "nsg" {
   for_each            = var.nsg
-  name                = nsg-each.value
+  name                = each.value
   location            = azurerm_resource_group.vnet-rg.location
   resource_group_name = azurerm_resource_group.vnet-rg.name
 }
 
+resource "azurerm_network_security_group" "nsg_bastion" {
+  name                = "nsg-bastion"
+  resource_group_name = azurerm_resource_group.vnet-rg.name
+  location            = azurerm_resource_group.vnet-rg.location
+}
+resource "azurerm_network_security_rule" "nsg_rules_bastion" {
+  for_each                    = var.nsg_rules_bastion 
+  name                        = each.value.name
+  description                 = each.value.description
+  priority                    = each.value.priority
+  direction                   = each.value.direction
+  access                      = each.value.access
+  protocol                    = each.value.protocol
+  source_port_range           = each.value.source_port_range
+  destination_port_range      = each.value.destination_port_range
+  source_address_prefix       = each.value.source_address_prefix
+  destination_address_prefix  = each.value.destination_address_prefix
+  resource_group_name         = azurerm_resource_group.vnet-rg.name
+  network_security_group_name = azurerm_network_security_group.nsg_bastion
+}
 /*
 resource "azurerm_subnet_network_security_group_association" "nsg-assoc" {
   subnet_id                 = azurerm_subnet.subnets["gateway"].id
