@@ -68,7 +68,7 @@ variable "nsg_rules_bastion" {
     access                      = string
     protocol                    = string
     source_port_range           = string
-    destination_port_range      = number
+    destination_port_range      = list
     source_address_prefix       = string
     destination_address_prefix  = string
   }))
@@ -93,7 +93,7 @@ variable "nsg_rules_bastion" {
         access                      = "Allow"
         protocol                    = "Tcp"
         source_port_range           = "*"
-        destination_port_range      = [8080,5701]
+        destination_port_range      = ["8080","5701"]
         source_address_prefix       = "GatewayManager"
         destination_address_prefix  = "*"
     }
