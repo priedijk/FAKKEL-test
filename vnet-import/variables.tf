@@ -43,15 +43,18 @@ variable "network_weu_ae" {
   type = map(object({
     subnet_name    = string
     subnet_address = string
+    bastion        = string
   }))
   default = {
     "firewall" = {
       subnet_name    = "AzureFirewallSubnet"
       subnet_address = "10.20.0.0/27"
+      bastion        = "10.20.0.64/27"
     },
     "gateway" = {
       subnet_name    = "GatewaySubnet",
       subnet_address = "10.20.0.32/27"
+      bastion        = "10.20.0.64/27"   
     }
   }
 }
