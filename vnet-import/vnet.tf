@@ -1,8 +1,3 @@
-resource "azurerm_resource_group" "vnet-rg" {
-  name     = "tf-import-test"
-  location = var.resource_group_location
-}
-
 resource "azurerm_virtual_network" "import-vnet" {
   name                = "import-vnet"
   resource_group_name = azurerm_resource_group.vnet-rg.name
