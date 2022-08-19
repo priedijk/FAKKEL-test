@@ -68,7 +68,6 @@ variable "nsg_rules_bastion" {
     access                      = string
     protocol                    = string
     source_port_range           = string
-    destination_port_range      = list
     source_address_prefix       = string
     destination_address_prefix  = string
   }))
