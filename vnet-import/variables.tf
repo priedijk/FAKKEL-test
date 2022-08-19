@@ -16,20 +16,25 @@ variable "resource_group_location" {
 
 variable "vnet_address_space" {
   type = map(object({
-    address_space = string
+    regional_space = string
+    address_space  = string
   }))
   default = {
     "weu_ae" = {
-      address_space = "10.20.0.0/16"
+      regional_space = "10.20.0.0/16"
+      address_space  = "10.20.0.0/16"
     },
     "frc_ae" = {
-      address_space = "10.0.2.0/26"
+      regional_space = "10.20.0.0/16"
+      address_space  = "10.0.2.0/26"
     },
     "weu_prod" = {
-      address_space = "10.20.0.0/16"
+      regional_space = "10.20.0.0/16"
+      address_space  = "10.20.0.0/16"
     },
     "frc_prod" = {
-      address_space = "10.0.0.0/26"
+      regional_space = "10.20.0.0/16"
+      address_space  = "10.0.0.0/26"
     }
   }
 }
