@@ -2,6 +2,12 @@ locals {
   vnet_address_space = lookup(var.vnet_address_space, "${var.location}_${var.tenant}").address_space
   subnets_weu        = var.tenant == "ae" ? var.network_weu_ae : var.network_weu_ae
   subnets_frc        = var.tenant == "ae" ? var.network_weu_ae : var.network_weu_ae
+
+  nsgs = {
+      weballow = var.allow_sub
+      apim  = var.notallow_sub
+      apim_ingress    = var.admin_sub
+  }
 }
 
 resource "azurerm_virtual_network" "import-vnet" {
@@ -27,7 +33,7 @@ resource "azurerm_subnet" "subnet-test" {
 }
 
 resource "azurerm_network_security_group" "nsg" {
-  for_each            = var.nsg
+  for_each            = local.nsgs
   name                = each.value
   location            = azurerm_resource_group.vnet-rg.location
   resource_group_name = azurerm_resource_group.vnet-rg.name
@@ -74,7 +80,7 @@ resource "azurerm_network_security_rule" "nsg_rules_bastion2" {
 resource "azurerm_subnet_network_security_group_association" "assoc" {
   for_each                  = var.location == "weu" ? local.subnets_weu : local.subnets_frc
   subnet_id                 = azurerm_subnet.subnets[each.value].id
-  network_security_group_id = azurerm_network_security_group[each.value.nsg].id
+  network_security_group_id = azurerm_network_security_group.nsg[each.value].id
 }
 
 /*
