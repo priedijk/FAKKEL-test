@@ -76,7 +76,7 @@ resource "azurerm_network_security_rule" "nsg_rules_bastion2" {
   source_address_prefix       = local.vnet_address_space
   destination_address_prefix  = "VirtualNetwork"
   resource_group_name         = azurerm_resource_group.vnet-rg.name
-  network_security_group_name = azurerm_network_security_group.nsgs["nsg_name1"]
+  network_security_group_name = azurerm_network_security_group.nsgs["weballow"]
 }
 
 resource "azurerm_subnet_network_security_group_association" "assoc" {
