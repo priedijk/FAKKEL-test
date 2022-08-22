@@ -84,7 +84,7 @@ variable "nsg_rules_bastion" {
   default = {
     "AllowWebExperienceInBound" = {
       name                       = "AllowWebExperienceInBound"
-      description                = "Allow our users in. Update this to be as restrictive as possible."
+      description                = ""
       priority                   = 100
       direction                  = "Inbound"
       access                     = "Allow"
@@ -97,7 +97,7 @@ variable "nsg_rules_bastion" {
     },
     "AllowControlPlaneInBound" = {
       name                       = "AllowControlPlaneInBound"
-      description                = "Service Requirement. Allow control plane access. Regional Tag not yet supported."
+      description                = ""
       priority                   = 110
       direction                  = "Inbound"
       access                     = "Allow"
