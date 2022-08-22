@@ -51,13 +51,13 @@ variable "network_weu_ae" {
       subnet_name    = "AzureFirewallSubnet"
       subnet_address = "10.20.0.0/27"
       bastion        = "10.20.0.64/27"
-      nsg            = "weballow"
+      nsg            = null
     },
     "gateway" = {
       subnet_name    = "GatewaySubnet",
       subnet_address = "10.20.0.32/27"
       bastion        = "10.20.0.64/27" 
-      nsg            = null
+      nsg            = "weballow"
     }
   }
 }
