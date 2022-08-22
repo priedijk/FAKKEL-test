@@ -92,7 +92,7 @@ variable "nsg_rules_bastion" {
       source_port_range          = "*"
       destination_port_range     = "80"
       destination_port_ranges    = null
-      source_address_prefix      = "Internet"
+      source_address_prefix      = local.vnet_address_space
       destination_address_prefix = "*"
     },
     "AllowControlPlaneInBound" = {
