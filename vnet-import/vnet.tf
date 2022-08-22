@@ -39,7 +39,7 @@ resource "azurerm_network_security_group" "nsg_bastion" {
   location            = azurerm_resource_group.vnet-rg.location
 }
 
-resource "azurerm_network_security_rule" "nsg_rules_bastion1" {
+resource "azurerm_network_security_rule" "nsg_rules_bastion" {
   for_each                    = var.nsg_rules_bastion
   name                        = each.value.name
   description                 = each.value.description
@@ -49,7 +49,7 @@ resource "azurerm_network_security_rule" "nsg_rules_bastion1" {
   protocol                    = each.value.protocol
   source_port_range           = each.value.source_port_range
   destination_port_range      = each.value.destination_port_range
-  destination_port_ranges      = each.value.destination_port_ranges
+  destination_port_ranges     = each.value.destination_port_ranges
   source_address_prefix       = each.value.source_address_prefix
   destination_address_prefix  = each.value.destination_address_prefix
   resource_group_name         = azurerm_resource_group.vnet-rg.name
