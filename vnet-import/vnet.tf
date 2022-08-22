@@ -4,9 +4,9 @@ locals {
   subnets_frc        = var.tenant == "ae" ? var.network_weu_ae : var.network_weu_ae
 
   nsgs = {
-      weballow = var.allow_sub
-      apim  = var.notallow_sub
-      apim_ingress    = var.admin_sub
+      weballow     = "nsg_web_${var.location}"
+      apim         = "nsg_ap_${var.location}"
+      apim_ingress = "nsg_api_${var.location}"
   }
 }
 
