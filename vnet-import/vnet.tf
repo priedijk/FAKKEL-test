@@ -1,14 +1,14 @@
 locals {
-  vnet_address_space = lookup(var.vnet_address_space, "${var.location}_${var.tenant}").address_space
-  
-  subnets            = var.location == "weu" ? local.subnets_weu : local.subnets_frc
-  subnets_weu        = var.tenant == "ae" ? var.network_weu_ae : var.network_weu_ae
-  subnets_frc        = var.tenant == "ae" ? var.network_weu_ae : var.network_weu_ae
+  vnet_address_space = lookup(var.address_space, "${var.location}_${var.tenant}").address_space
+
+  subnets     = var.location == "weu" ? local.subnets_weu : local.subnets_frc
+  subnets_weu = var.tenant == "ae" ? var.network_weu_ae : var.network_weu_ae
+  subnets_frc = var.tenant == "ae" ? var.network_weu_ae : var.network_weu_ae
 
   nsgs = {
-      weballow     = "nsg_web_${var.location}"
-      apim         = "nsg_ap_${var.location}"
-      apim_ingress = "nsg_api_${var.location}"
+    weballow     = "nsg_web_${var.location}"
+    apim         = "nsg_ap_${var.location}"
+    apim_ingress = "nsg_api_${var.location}"
   }
 }
 
@@ -72,7 +72,7 @@ resource "azurerm_network_security_rule" "nsg_rules_bastion2" {
   access                      = "Allow"
   protocol                    = "Tcp"
   source_port_range           = "*"
-  destination_port_ranges     = ["8080","5701"]
+  destination_port_ranges     = ["8080", "5701"]
   source_address_prefix       = local.vnet_address_space
   destination_address_prefix  = "VirtualNetwork"
   resource_group_name         = azurerm_resource_group.vnet-rg.name
@@ -81,7 +81,7 @@ resource "azurerm_network_security_rule" "nsg_rules_bastion2" {
 
 resource "azurerm_subnet_network_security_group_association" "assoc" {
   #for_each                  = var.location == "weu" ? local.subnets_weu : local.subnets_frc
-  for_each = { for k, v in local.subnets_weu : k => v if lookup(v, "nsg", "") != null }
+  for_each                  = { for k, v in local.subnets_weu : k => v if lookup(v, "nsg", "") != null }
   subnet_id                 = azurerm_subnet.subnets[each.key].id
   network_security_group_id = azurerm_network_security_group.nsg[each.value.nsg].id
 }

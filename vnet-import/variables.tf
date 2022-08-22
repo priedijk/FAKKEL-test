@@ -14,27 +14,37 @@ variable "resource_group_location" {
   description = "Location of the resource group."
 }
 
-variable "vnet_address_space" {
+variable "address_space" {
   type = map(object({
-    regional_space = string
-    address_space  = string
+    regional_space           = string
+    address_space            = string
+    local_gateway_ip_address = string
+    local_address_space      = list(string)
   }))
   default = {
     "weu_ae" = {
-      regional_space = "10.20.0.0/16"
-      address_space  = "10.20.0.0/16"
+      regional_space           = "10.20.0.0/16"
+      address_space            = "10.20.0.0/16"
+      local_gateway_ip_address = "171.1.2.3"
+      local_address_space      = ["171.1.0.0/16", "10.0.0.0/8", "172.16.0.0/12"]
     },
     "frc_ae" = {
-      regional_space = "10.20.0.0/16"
-      address_space  = "10.0.2.0/26"
+      regional_space           = "10.20.0.0/16"
+      address_space            = "10.0.2.0/26"
+      local_gateway_ip_address = "171.1.2.3"
+      local_address_space      = ["171.1.0.0/16", "10.0.0.0/8", "172.16.0.0/12"]
     },
     "weu_prod" = {
-      regional_space = "10.20.0.0/16"
-      address_space  = "10.20.0.0/16"
+      regional_space           = "10.20.0.0/16"
+      address_space            = "10.20.0.0/16"
+      local_gateway_ip_address = "171.1.2.3"
+      local_address_space      = ["171.1.0.0/16", "10.0.0.0/8", "172.16.0.0/12"]
     },
     "frc_prod" = {
-      regional_space = "10.20.0.0/16"
-      address_space  = "10.0.0.0/26"
+      regional_space           = "10.20.0.0/16"
+      address_space            = "10.0.0.0/26"
+      local_gateway_ip_address = "171.1.2.3"
+      local_address_space      = ["171.1.0.0/16", "10.0.0.0/8", "172.16.0.0/12"]
     }
   }
 }
@@ -56,13 +66,13 @@ variable "network_weu_ae" {
     "gateway" = {
       subnet_name    = "GatewaySubnet",
       subnet_address = "10.20.0.32/27"
-      bastion        = "10.20.0.64/27" 
+      bastion        = "10.20.0.64/27"
       nsg            = null
     }
     "troep" = {
       subnet_name    = "troep",
       subnet_address = "10.20.0.96/27"
-      bastion        = "10.20.0.64/27" 
+      bastion        = "10.20.0.64/27"
       nsg            = "apim"
     }
   }
@@ -113,7 +123,7 @@ variable "nsg_rules_bastion" {
       protocol                   = "Tcp"
       source_port_range          = "*"
       destination_port_range     = null
-      destination_port_ranges    = ["8080","7050"]
+      destination_port_ranges    = ["8080", "7050"]
       source_address_prefix      = "GatewayManager"
       destination_address_prefix = "*"
     }
