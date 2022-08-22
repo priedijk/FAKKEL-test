@@ -78,7 +78,8 @@ resource "azurerm_network_security_rule" "nsg_rules_bastion2" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "assoc" {
-  for_each                  = var.location == "weu" ? local.subnets_weu : local.subnets_frc
+  #for_each                  = var.location == "weu" ? local.subnets_weu : local.subnets_frc
+  for_each = { for k, v in local.subnets_weu : k => v if lookup(v, "nsg", "") != "" }
   subnet_id                 = azurerm_subnet.subnets[each.key].id
   network_security_group_id = azurerm_network_security_group.nsg[each.value.nsg].id
 }
