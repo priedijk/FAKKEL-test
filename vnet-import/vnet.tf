@@ -1,5 +1,7 @@
 locals {
   vnet_address_space = lookup(var.vnet_address_space, "${var.location}_${var.tenant}").address_space
+  
+  subnets            = var.location == "weu" ? local.subnets_weu : local.subnets_frc
   subnets_weu        = var.tenant == "ae" ? var.network_weu_ae : var.network_weu_ae
   subnets_frc        = var.tenant == "ae" ? var.network_weu_ae : var.network_weu_ae
 
