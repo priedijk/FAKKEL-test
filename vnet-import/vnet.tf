@@ -34,7 +34,7 @@ resource "azurerm_subnet" "subnet-test" {
   address_prefixes     = [var.network_weu_ae.firewall.bastion]
 }
 
-resource "azurerm_network_security_group" "nsg" {
+resource "azurerm_network_security_group" "nsgs" {
   for_each            = local.nsgs
   name                = each.value
   location            = azurerm_resource_group.vnet-rg.location
