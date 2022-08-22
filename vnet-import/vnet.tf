@@ -7,7 +7,7 @@ locals {
 
   nsgs = {
       weballow     = "nsg_web_${var.location}"
-      apim         = "nsg_ap_${var.location}"
+      apim         = replace(local.nsgs.weballow, "web", "api")
       apim_ingress = "nsg_api_${var.location}"
   }
 }
