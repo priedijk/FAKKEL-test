@@ -44,17 +44,20 @@ variable "network_weu_ae" {
     subnet_name    = string
     subnet_address = string
     bastion        = string
+    nsg            = string
   }))
   default = {
     "firewall" = {
       subnet_name    = "AzureFirewallSubnet"
       subnet_address = "10.20.0.0/27"
       bastion        = "10.20.0.64/27"
+      nsg            = "nsg_bastion"
     },
     "gateway" = {
       subnet_name    = "GatewaySubnet",
       subnet_address = "10.20.0.32/27"
       bastion        = "10.20.0.64/27" 
+      nsg            = null
     }
   }
 }
