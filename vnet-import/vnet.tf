@@ -34,7 +34,7 @@ resource "azurerm_subnet" "subnet-test" {
   address_prefixes     = [var.network_weu_ae.firewall.bastion]
 }
 
-resource "azurerm_network_security_group" "nsgs" {
+resource "azurerm_network_security_group" "nsg" {
   for_each            = local.nsgs
   name                = each.value
   location            = azurerm_resource_group.vnet-rg.location
@@ -76,7 +76,7 @@ resource "azurerm_network_security_rule" "nsg_rules_bastion2" {
   source_address_prefix       = local.vnet_address_space
   destination_address_prefix  = "VirtualNetwork"
   resource_group_name         = azurerm_resource_group.vnet-rg.name
-  network_security_group_name = azurerm_network_security_group.nsgs["weballow"].name
+  network_security_group_name = azurerm_network_security_group.nsg["weballow"].name
 }
 
 resource "azurerm_subnet_network_security_group_association" "assoc" {
