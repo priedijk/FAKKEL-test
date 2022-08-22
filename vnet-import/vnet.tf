@@ -7,7 +7,7 @@ locals {
 
   nsgs = {
       weballow     = "nsg_web_${var.location}"
-      apim         = replace(local.nsgs.weballow, "web", "api")
+      apim         = "nsg_ap_${var.location}"
       apim_ingress = "nsg_api_${var.location}"
   }
 }
@@ -76,7 +76,7 @@ resource "azurerm_network_security_rule" "nsg_rules_bastion2" {
   source_address_prefix       = local.vnet_address_space
   destination_address_prefix  = "VirtualNetwork"
   resource_group_name         = azurerm_resource_group.vnet-rg.name
-  network_security_group_name = azurerm_network_security_group.nsg_bastion.name
+  network_security_group_name = azurerm_network_security_group.nsgs["nsg_name1"]
 }
 
 resource "azurerm_subnet_network_security_group_association" "assoc" {
