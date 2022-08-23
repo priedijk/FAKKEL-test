@@ -23,6 +23,4 @@ resource "azurerm_virtual_network_gateway_connection" "connection_vpn" {
     saDataSizeKilobytes = local.ipsec_policy.saDataSizeKilobytes
     saLifeTimeSeconds   = local.ipsec_policy.saLifeTimeSeconds
   }
-
-  tags = var.tags
 }

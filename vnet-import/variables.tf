@@ -156,3 +156,8 @@ variable "ipsec_policy" {
     }
   }
 }
+
+variable "shared_key" {
+  type        = string
+  default     = "ihgwoih803247d8jal"
+}
