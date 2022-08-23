@@ -133,31 +133,31 @@ variable "nsg_rules_bastion" {
 variable "ipsec_policy" {
   type = map(object({
     dpd_timeout_seconds = string
-    dhGroup             = string
-    ikeEncryption       = string
-    ikeIntegrity        = string
-    ipsecEncryption     = string
-    ipsecIntegrity      = string
-    pfsGroup            = string
-    saDataSizeKilobytes = number
-    saLifeTimeSeconds   = number
+    dh_group            = string
+    ike_encryption      = string
+    ike_integrity       = string
+    ipsec_encryption    = string
+    ipsec_integrity     = string
+    pfs_group           = string
+    sa_datasize         = number
+    sa_lifetime         = number
   }))
   default = {
     "weu_ae" = {
       dpd_timeout_seconds = 3600
-      dhGroup             = "DHGroup14"
-      ikeEncryption       = "AES256"
-      ikeIntegrity        = "SHA256"
-      ipsecEncryption     = "AES256"
-      ipsecIntegrity      = "SHA256"
-      pfsGroup            = "None"
-      saDataSizeKilobytes = 2147483647
-      saLifeTimeSeconds   = 27000
+      dh_group            = "DHGroup14"
+      ike_encryption      = "AES256"
+      ike_integrity       = "SHA256"
+      ipsec_encryption    = "AES256"
+      ipsec_integrity     = "SHA256"
+      pfs_group           = "None"
+      sa_datasize         = 2147483647
+      sa_lifetime         = 27000
     }
   }
 }
 
 variable "shared_key" {
-  type        = string
-  default     = "ihgwoih803247d8jal"
+  type    = string
+  default = "ihgwoih803247d8jal"
 }

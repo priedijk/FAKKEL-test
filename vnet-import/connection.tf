@@ -14,13 +14,13 @@ resource "azurerm_virtual_network_gateway_connection" "connection_vpn" {
   type                       = "IPsec"
 
   ipsec_policy {
-    dhGroup             = local.ipsec_policy.dhGroup
-    ikeEncryption       = local.ipsec_policy.ikeEncryption
-    ikeIntegrity        = local.ipsec_policy.ikeIntegrity
-    ipsecEncryption     = local.ipsec_policy.ipsecEncryption
-    ipsecIntegrity      = local.ipsec_policy.ipsecIntegrity
-    pfsGroup            = local.ipsec_policy.pfsGroup
-    saDataSizeKilobytes = local.ipsec_policy.saDataSizeKilobytes
-    saLifeTimeSeconds   = local.ipsec_policy.saLifeTimeSeconds
+    dh_group         = local.ipsec_policy.dh_group
+    ike_encryption   = local.ipsec_policy.ike_encryption
+    ike_integrity    = local.ipsec_policy.ike_integrity
+    ipsec_encryption = local.ipsec_policy.ipsec_encryption
+    ipsec_integrity  = local.ipsec_policy.ipsec_integrity
+    pfs_group        = local.ipsec_policy.pfs_group
+    sa_datasize      = local.ipsec_policy.sa_datasize
+    sa_lifetime      = local.ipsec_policy.sa_lifetime
   }
 }
