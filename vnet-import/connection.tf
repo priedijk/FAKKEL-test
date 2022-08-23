@@ -1,4 +1,7 @@
-ipsec_policy = lookup(var.ipsec_policy, "${var.location}_${var.tenant}")
+locals {
+  ipsec_policy = lookup(var.ipsec_policy, "${var.location}_${var.tenant}")
+}
+
 
 resource "azurerm_virtual_network_gateway_connection" "connection_vpn" {
   name                       = "ared-connection-${var.location}-001"
@@ -20,6 +23,6 @@ resource "azurerm_virtual_network_gateway_connection" "connection_vpn" {
     saDataSizeKilobytes = local.ipsec_policy.saDataSizeKilobytes
     saLifeTimeSeconds   = local.ipsec_policy.saLifeTimeSeconds
   }
-  
-  tags                       = var.tags
+
+  tags = var.tags
 }
