@@ -129,3 +129,30 @@ variable "nsg_rules_bastion" {
     }
   }
 }
+
+variable "ipsec_policy" {
+  type = map(object({
+    dpd_timeout_seconds = string
+    dhGroup             = string
+    ikeEncryption       = string
+    ikeIntegrity        = string
+    ipsecEncryption     = string
+    ipsecIntegrity      = string
+    pfsGroup            = string
+    saDataSizeKilobytes = number
+    saLifeTimeSeconds   = number
+  }))
+  default = {
+    "weu_ae" = {
+      dpd_timeout_seconds = 3600
+      dhGroup             = "DHGroup14"
+      ikeEncryption       = "AES256"
+      ikeIntegrity        = "SHA256"
+      ipsecEncryption     = "AES256"
+      ipsecIntegrity      = "SHA256"
+      pfsGroup            = "None"
+      saDataSizeKilobytes = 2147483647
+      saLifeTimeSeconds   = 27000
+    }
+  }
+}
