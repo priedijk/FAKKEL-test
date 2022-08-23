@@ -1,3 +1,4 @@
+/*
 resource "azurerm_public_ip" "gateway_pip" {
   name                = "bastion-pip"
   location            = azurerm_resource_group.vnet-rg.location
@@ -21,5 +22,5 @@ resource "azurerm_virtual_network_gateway" "gateway_virtual" {
     private_ip_address_allocation = "Dynamic"
     subnet_id                     = azurerm_subnet.subnets["gateway"].id
   }
-
 }
+*/

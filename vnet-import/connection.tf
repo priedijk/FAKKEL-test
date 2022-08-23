@@ -1,3 +1,4 @@
+/*
 locals {
   ipsec_policy = lookup(var.ipsec_policy, "${var.location}_${var.tenant}")
 }
@@ -24,3 +25,4 @@ resource "azurerm_virtual_network_gateway_connection" "connection_vpn" {
     sa_lifetime      = local.ipsec_policy.sa_lifetime
   }
 }
+*/
