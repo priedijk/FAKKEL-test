@@ -5,6 +5,8 @@ locals {
   subnets_weu = var.tenant == "ae" ? var.network_weu_ae : var.network_weu_ae
   subnets_frc = var.tenant == "ae" ? var.network_weu_ae : var.network_weu_ae
 
+  vnet_space = lookup(var.address_space, "${var.location}_${var.tenant}")
+
   nsgs = {
     weballow     = "nsg_web_${var.location}"
     apim         = "nsg_ap_${var.location}"
@@ -16,7 +18,7 @@ resource "azurerm_virtual_network" "import-vnet" {
   name                = "import-vnet"
   resource_group_name = azurerm_resource_group.vnet-rg.name
   location            = azurerm_resource_group.vnet-rg.location
-  address_space       = [local.vnet_address_space]
+  address_space       = [local.vnet_space.address_space]
 }
 
 resource "azurerm_subnet" "subnets" {
@@ -94,5 +96,5 @@ resource "azurerm_subnet_network_security_group_association" "nsg-assoc" {
 */
 
 output "test" {
-  value = local.subnets_weu
+  value = local.vnet_space.regional_space
 }
