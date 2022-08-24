@@ -28,6 +28,15 @@ resource "azurerm_subnet" "subnets" {
   resource_group_name  = azurerm_resource_group.vnet-rg.name
   virtual_network_name = azurerm_virtual_network.import-vnet.name
   address_prefixes     = [each.value.subnet_address]
+
+  delegation {
+    for_each = { for k, v in local.subnets : k => v if lookup(v, "service_delegation", "") != null }
+    name =   "delegation"
+
+    service_delegation {
+      name    = each.value.service_delegation
+    }
+}
 }
 
 
@@ -36,14 +45,6 @@ resource "azurerm_subnet" "subnet-test" {
   resource_group_name  = azurerm_resource_group.vnet-rg.name
   virtual_network_name = azurerm_virtual_network.import-vnet.name
   address_prefixes     = [var.network_weu_ae.AzureFirewallSubnet.bastion]
-
-    delegation {
-    name =   "delegation"
-
-    service_delegation {
-      name    = "Microsoft.DBforPostgreSQL/flexibleServers"
-    }
-}
 }
 
 /*
