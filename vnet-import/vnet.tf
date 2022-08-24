@@ -19,6 +19,7 @@ resource "azurerm_virtual_network" "import-vnet" {
   resource_group_name = azurerm_resource_group.vnet-rg.name
   location            = azurerm_resource_group.vnet-rg.location
   address_space       = [local.vnet_space.address_space]
+  dns_servers         = ["10.20.0.1","10.20.0.2"]
 }
 
 resource "azurerm_subnet" "subnets" {
