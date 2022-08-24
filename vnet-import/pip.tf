@@ -1,30 +1,30 @@
 variable "public_ip" {
   type = map(object({
-    allocation_method = string
-    availability_zone = list(string)
-    sku               = string
+    allocation_method  = string
+    availability_zones = list(string)
+    sku                = string
     })
   )
   default = {
-    "bast" = {
-      allocation_method = "Static"
-      availability_zone = null
-      sku               = "Standard"
+    bast = {
+      allocation_method  = "Static"
+      availability_zones = ["1", "2", "3"]
+      sku                = "Standard"
     },
-    "gw" = {
-      allocation_method = "Static"
-      availability_zone = null
-      sku               = "Standard"
+    gw = {
+      allocation_method  = "Static"
+      availability_zones = null
+      sku                = "Standard"
     },
-    "fw" = {
-      allocation_method = "Static"
-      availability_zone = null
-      sku               = "Standard"
+    fw = {
+      allocation_method  = "Static"
+      availability_zones = ["1", "2", "3"]
+      sku                = "Standard"
     },
-    "fw-mgmt" = {
-      allocation_method = "Static"
-      availability_zone = null
-      sku               = "Standard"
+    fw-mgmt = {
+      allocation_method  = "Static"
+      availability_zones = ["1", "2", "3"]
+      sku                = "Standard"
     }
   }
 }
@@ -35,7 +35,7 @@ resource "azurerm_public_ip" "pip" {
   resource_group_name = azurerm_resource_group.vnet-rg.name
   location            = azurerm_resource_group.vnet-rg.location
   allocation_method   = each.value.allocation_method
-  zones               = each.value.availability_zone
+  zones               = each.value.availability_zones
   sku                 = each.value.sku
 }
 
