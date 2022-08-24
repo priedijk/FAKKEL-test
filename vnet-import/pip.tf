@@ -35,6 +35,6 @@ resource "azurerm_public_ip" "pip" {
   resource_group_name = azurerm_resource_group.vnet-rg.name
   location            = azurerm_resource_group.vnet-rg.location
   allocation_method   = each.value.allocation_method
-  availability_zone   = each.value.availability_zone
+  zones               = each.value.availability_zone
   sku                 = each.value.sku
 }
