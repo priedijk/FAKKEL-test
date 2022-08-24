@@ -51,32 +51,32 @@ variable "address_space" {
 
 variable "network_weu_ae" {
   type = map(object({
-    subnet_name    = string
-    subnet_address = string
-    bastion        = string
-    nsg            = string
+    subnet_name        = string
+    subnet_address     = string
+    bastion            = string
+    nsg                = string
     service_delegation = string
   }))
   default = {
     "AzureFirewallSubnet" = {
-      subnet_name    = "AzureFirewallSubnet"
-      subnet_address = "10.20.0.0/27"
-      bastion        = "10.20.0.64/27"
-      nsg            = null
+      subnet_name        = "AzureFirewallSubnet"
+      subnet_address     = "10.20.0.0/27"
+      bastion            = "10.20.0.64/27"
+      nsg                = null
       service_delegation = "Microsoft.DBforPostgreSQL/flexibleServers"
     },
     "GatewaySubnet" = {
-      subnet_name    = "GatewaySubnet",
-      subnet_address = "10.20.0.32/27"
-      bastion        = "10.20.0.64/27"
-      nsg            = null
+      subnet_name        = "GatewaySubnet",
+      subnet_address     = "10.20.0.32/27"
+      bastion            = "10.20.0.64/27"
+      nsg                = null
       service_delegation = null
     }
     "troep" = {
-      subnet_name    = "troep",
-      subnet_address = "10.20.0.96/27"
-      bastion        = "10.20.0.64/27"
-      nsg            = "apim"
+      subnet_name        = "troep",
+      subnet_address     = "10.20.0.96/27"
+      bastion            = "10.20.0.64/27"
+      nsg                = "apim"
       service_delegation = null
     }
   }

@@ -19,7 +19,7 @@ resource "azurerm_virtual_network" "import-vnet" {
   resource_group_name = azurerm_resource_group.vnet-rg.name
   location            = azurerm_resource_group.vnet-rg.location
   address_space       = [local.vnet_space.address_space]
-  dns_servers         = ["10.20.0.1","10.20.0.4"]
+  dns_servers         = ["10.20.0.1", "10.20.0.4"]
 }
 
 resource "azurerm_subnet" "subnets" {
@@ -29,14 +29,17 @@ resource "azurerm_subnet" "subnets" {
   virtual_network_name = azurerm_virtual_network.import-vnet.name
   address_prefixes     = [each.value.subnet_address]
 
-  delegation {
+  dynamic "delegation" {
     for_each = { for k, v in local.subnets : k => v if lookup(v, "service_delegation", "") != null }
-    name =   "delegation"
 
-    service_delegation {
-      name    = each.value.service_delegation
+    content {
+      name = "delegation"
+
+      service_delegation {
+        name = each.value.service_delegation
+      }
     }
-}
+  }
 }
 
 
