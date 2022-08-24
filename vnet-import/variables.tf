@@ -86,7 +86,7 @@ variable "nsg" {
   type = map(string)
   default = {
     nsg_name1 = "test1"
-    nsg_name2 = "test2"
+    nsg_name2 = "test3"
   }
 }
 
