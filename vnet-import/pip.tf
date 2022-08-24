@@ -1,7 +1,7 @@
 variable "public_ip" {
   type = map(object({
     allocation_method = string
-    availability_zone = string
+    availability_zone = list(string)
     sku               = string
     })
   )
