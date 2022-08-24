@@ -43,7 +43,6 @@ resource "azurerm_subnet" "subnets" {
   }
 }
 
-
 resource "azurerm_subnet" "subnet-test" {
   name                 = "delegation-nets"
   resource_group_name  = azurerm_resource_group.vnet-rg.name
