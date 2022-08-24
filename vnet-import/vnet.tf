@@ -45,7 +45,7 @@ resource "azurerm_subnet" "subnet-test" {
     }
   }
     delegation {
-    name =   "delegation"
+    name =   "delegation1"
 
     service_delegation {
       name    = "Microsoft.ContainerInstance/containerGroups"
