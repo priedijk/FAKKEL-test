@@ -55,8 +55,8 @@ variable "network_weu_ae" {
     subnet_address     = string
     bastion            = string
     nsg                = string
-    service_endpoint   = string
-    service_delegation = list(string)
+    service_endpoint   = list(string)
+    service_delegation = string
   }))
   default = {
     "AzureFirewallSubnet" = {
