@@ -28,7 +28,8 @@ resource "azurerm_subnet" "subnets" {
   resource_group_name  = azurerm_resource_group.vnet-rg.name
   virtual_network_name = azurerm_virtual_network.import-vnet.name
   address_prefixes     = [each.value.subnet_address]
-
+  service_endpoints    = each.value.service_endpoint
+  
   dynamic "delegation" {
     for_each = each.value.service_delegation == null ? [] : [1]
     

@@ -55,7 +55,8 @@ variable "network_weu_ae" {
     subnet_address     = string
     bastion            = string
     nsg                = string
-    service_delegation = string
+    service_endpoint   = string
+    service_delegation = list(string)
   }))
   default = {
     "AzureFirewallSubnet" = {
@@ -63,6 +64,7 @@ variable "network_weu_ae" {
       subnet_address     = "10.20.0.0/27"
       bastion            = "10.20.0.64/27"
       nsg                = null
+      service_endpoint   = null
       service_delegation = "Microsoft.DBforPostgreSQL/flexibleServers"
     },
     "GatewaySubnet" = {
@@ -70,14 +72,16 @@ variable "network_weu_ae" {
       subnet_address     = "10.20.0.32/27"
       bastion            = "10.20.0.64/27"
       nsg                = null
-      service_delegation = null
+      service_endpoint   = null
+      service_delegation = ["Microsoft.Storage"]
     }
     "troep" = {
       subnet_name        = "troep",
       subnet_address     = "10.20.0.96/27"
       bastion            = "10.20.0.64/27"
       nsg                = "apim"
-      service_delegation = null
+      service_endpoint   = null
+      service_delegation = ["Microsoft.Storage","Microsoft.EventHub"]
     }
   }
 }
