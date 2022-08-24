@@ -6,22 +6,22 @@ variable "public_ip" {
     })
   )
   default = {
-    bast = {
+    "bast" = {
       allocation_method  = "Static"
       availability_zones = ["1", "2", "3"]
       sku                = "Standard"
     },
-    gw = {
+    "gw" = {
       allocation_method  = "Static"
       availability_zones = null
       sku                = "Standard"
     },
-    fw = {
+    "fw" = {
       allocation_method  = "Static"
       availability_zones = ["1", "2", "3"]
       sku                = "Standard"
     },
-    fw-mgmt = {
+    "fw-mgmt" = {
       allocation_method  = "Static"
       availability_zones = ["1", "2", "3"]
       sku                = "Standard"
