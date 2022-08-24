@@ -30,14 +30,30 @@ resource "azurerm_subnet" "subnets" {
   address_prefixes     = [each.value.subnet_address]
 }
 
-/*
+
 resource "azurerm_subnet" "subnet-test" {
   name                 = "AzureBastionSubnet"
   resource_group_name  = azurerm_resource_group.vnet-rg.name
   virtual_network_name = azurerm_virtual_network.import-vnet.name
   address_prefixes     = [var.network_weu_ae.firewall.bastion]
+
+    delegation {
+    name =   "delegation"
+
+    service_delegation {
+      name    = "Microsoft.DBforPostgreSQL/flexibleServers"
+    }
+  }
+    delegation {
+    name =   "delegation"
+
+    service_delegation {
+      name    = "Microsoft.ContainerInstance/containerGroups"
+    }
+}
 }
 
+/*
 resource "azurerm_network_security_group" "nsg" {
   for_each            = local.nsgs
   name                = each.value
