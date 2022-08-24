@@ -30,7 +30,7 @@ resource "azurerm_subnet" "subnets" {
   address_prefixes     = [each.value.subnet_address]
 
   dynamic "delegation" {
-    for_each = local.subnets.service_delegation == null ? [] : [1]
+    for_each = local.subnets[each.key].service_delegation == null ? [] : [1]
     #for_each = { for k, v in local.subnets : k => v if lookup(v, "service_delegation", "") != null }
     content {
       name = "delegation"
