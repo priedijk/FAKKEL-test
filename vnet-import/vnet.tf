@@ -29,6 +29,7 @@ resource "azurerm_subnet" "subnets" {
   address_prefixes     = [each.value.subnet_address]
 }
 
+/*
 resource "azurerm_subnet" "subnet-test" {
   name                 = "AzureBastionSubnet"
   resource_group_name  = azurerm_resource_group.vnet-rg.name
