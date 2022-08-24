@@ -38,3 +38,11 @@ resource "azurerm_public_ip" "pip" {
   zones               = each.value.availability_zone
   sku                 = each.value.sku
 }
+
+resource "azurerm_management_lock" "public-ip" {
+  for_each   = var.public_ip
+  name       = "PiP_DoNotDelete"
+  scope      = azurerm_public_ip.pip[each.key].id
+  lock_level = "CanNotDelete"
+  notes      = "Locked by the team."
+}
