@@ -80,7 +80,7 @@ variable "network_weu_ae" {
       subnet_address     = "10.20.0.96/27"
       bastion            = "10.20.0.64/27"
       nsg                = "apim"
-      service_endpoint   = ["Microsoft.Storage","Microsoft.EventHub"]
+      service_endpoint   = ["Microsoft.Storage", "Microsoft.EventHub"]
       service_delegation = null
     }
   }
