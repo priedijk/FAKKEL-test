@@ -8,22 +8,22 @@ variable "public_ip" {
   default = {
     "bast" = {
       allocation_method = "Static"
-      availability_zone = "Zone-Redundant"
+      availability_zone = ["Zone-Redundant"]
       sku               = "Standard"
     },
     "gw" = {
       allocation_method = "Static"
-      availability_zone = "No-Zone"
+      availability_zone = ["No-Zone"]
       sku               = "Standard"
     },
     "fw" = {
       allocation_method = "Static"
-      availability_zone = "Zone-Redundant"
+      availability_zone = ["Zone-Redundant"]
       sku               = "Standard"
     },
     "fw-mgmt" = {
       allocation_method = "Static"
-      availability_zone = "Zone-Redundant"
+      availability_zone = ["Zone-Redundant"]
       sku               = "Standard"
     }
   }
