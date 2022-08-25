@@ -2,7 +2,16 @@ name: "Import VNET test"
 
 on:
   workflow_dispatch:
-
+    inputs:
+      location:
+        description: "Hub Location (weu / frc)"
+        type: string
+        required: true
+      tenant:
+        description: "GitHub tenant to deploy to (ae / prod)"
+        type: string
+        required: true
+        
 jobs:
   terraform-rg:
     name: "Import resources"
@@ -46,5 +55,5 @@ jobs:
         id: terraform-import
         shell: pwsh
         run: |
-          ./../import/import-weu-ae.ps1
+          ./../import/import-${{ inputs.location }}-${{ inputs.tenant }}.ps1
 
