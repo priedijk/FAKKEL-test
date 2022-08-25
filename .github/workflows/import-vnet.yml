@@ -14,9 +14,6 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       #ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
       TF_CLI_ARGS_init: '-backend-config="key=vnet-import.tfstate"'
-    defaults:
-      run:
-        working-directory: vnet-import
 
     steps:
       - name: Checkout
@@ -32,19 +29,18 @@ jobs:
       - name: Terraform Format
         continue-on-error: true
         id: fmt
-        run: terraform fmt -check
+        run: terraform -chdir=vnet-import fmt -check
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: terraform -chdir=vnet-import init
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: terraform -chdir=vnet-import validate -no-color
 
       - name: Execute Terraform import
         id: terraform-import
         run: |
-          ls
           ./import/import-weu-ae.sh
 
