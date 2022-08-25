@@ -29,6 +29,7 @@ variable "public_ip" {
   }
 }
 
+/*
 resource "azurerm_public_ip" "pip" {
   for_each            = var.public_ip
   name                = "pip-${each.key}-shared-hub-${var.location}-001"
@@ -39,7 +40,7 @@ resource "azurerm_public_ip" "pip" {
   sku                 = each.value.sku
 }
 
-/*
+
 resource "azurerm_management_lock" "public-ip" {
   for_each   = var.public_ip
   name       = "PiP_DoNotDelete"
