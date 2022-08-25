@@ -41,6 +41,7 @@ jobs:
 
       - name: Execute Terraform import
         id: terraform-import
+        shell: pwsh
         run: |
-          ./import/import-weu-ae.sh
+          ./import/import-weu-ae.ps1
 
