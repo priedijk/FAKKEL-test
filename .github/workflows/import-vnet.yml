@@ -43,5 +43,6 @@ jobs:
         id: terraform-import
         shell: pwsh
         run: |
+          terraform -chdir=vnet-import
           ./import/import-weu-ae.ps1
 
