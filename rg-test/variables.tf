@@ -14,6 +14,12 @@ variable "location_code" {
   default     = "weu"
 }
 
+variable "tenant" {
+  description = "tenant"
+  type        = string
+  default     = "ae"
+}
+
 variable "address_space" {
   type = map(string)
 }
