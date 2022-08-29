@@ -15,5 +15,5 @@ variable "location_code" {
 }
 
 variable "subnets" {
-  type = map(object({}))
+  type = map(string)
 }
