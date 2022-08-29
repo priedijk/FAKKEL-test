@@ -4,6 +4,10 @@ locals {
   choose_name_2 = "name2-chosen"
   dns1 = "10.20.0.1"
   dns2 = "10.20.0.4"
+
+  dns_servers = [local.dns_server1, local.dns_server2]
+  dns_server1 = replace(var.address_space.vnet, "0.0/16", "0.36")
+  dns_server2 = replace(var.address_space.vnet, "0.0/16", "0.37")
 }
 
 resource "random_pet" "rg-name" {
@@ -20,5 +24,5 @@ resource "azurerm_virtual_network" "vnet" {
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   address_space       = var.address_space2.vnet
-  dns_servers         = [local.dns1, local.dns2]
+  dns_servers         = local.dns_servers
 }
