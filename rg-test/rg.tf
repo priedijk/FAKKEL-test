@@ -9,6 +9,6 @@ resource "random_pet" "rg-name" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "rg-${var.subnets.rg_name}"
+  name     = "rg-${var.address_space.rg_name}"
   location = var.resource_group_location
 }

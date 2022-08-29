@@ -14,6 +14,6 @@ variable "location_code" {
   default     = "weu"
 }
 
-variable "subnets" {
+variable "address_space" {
   type = map(string)
 }
