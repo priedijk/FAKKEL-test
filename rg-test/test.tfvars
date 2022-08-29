@@ -1,1 +1,3 @@
-rg_name="pluto"
+subnets = {
+    rg_name="pluto"
+}

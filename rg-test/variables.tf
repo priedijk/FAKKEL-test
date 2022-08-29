@@ -13,3 +13,7 @@ variable "location_code" {
   type        = string
   default     = "weu"
 }
+
+variable "subnets" {
+  type = map(object({}))
+}
