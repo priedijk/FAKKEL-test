@@ -6,8 +6,8 @@ locals {
   dns2 = "10.20.0.4"
 
   dns_servers = [local.dns_server1, local.dns_server2]
-  dns_server1 = replace(var.address_space.vnet, "0.0/16", "0.36")
-  dns_server2 = replace(var.address_space.vnet, "0.0/16", "0.37")
+  dns_server1 = replace(var.address_space.vnet, "0.0/24", "0.36")
+  dns_server2 = replace(var.address_space.vnet, "0.0/24", "0.37")
 }
 
 resource "random_pet" "rg-name" {
