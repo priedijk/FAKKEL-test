@@ -4,3 +4,7 @@ address_space = {
     "test"      ="0.64/26"
     "rg_name"   ="pluto"
 }
+
+address_space2 = {
+    "vnet"      =["10.100.0.0/24","10.300.0.0/24"]
+}

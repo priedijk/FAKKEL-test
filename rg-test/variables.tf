@@ -17,3 +17,6 @@ variable "location_code" {
 variable "address_space" {
   type = map(string)
 }
+variable "address_space2" {
+  type = map(list(string))
+}
