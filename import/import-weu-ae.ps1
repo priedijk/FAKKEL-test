@@ -8,7 +8,6 @@ param(
 #echo $(ARM_SUBSCRIPTION_ID)
 echo $subscription
 echo "$subscription"
-echo $(subscription)
 echo ${subscription}
 echo $location
 echo $tenant
