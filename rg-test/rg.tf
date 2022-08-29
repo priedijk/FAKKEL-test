@@ -19,6 +19,6 @@ resource "azurerm_virtual_network" "vnet" {
   name                = "rg-vnet-te"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
-  address_space       = var.addres_space2
+  address_space       = var.address_space2.vnet
   dns_servers         = [local.dns1, local.dns2]
 }
