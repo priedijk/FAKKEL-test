@@ -60,9 +60,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: /
-          '-var-file=test.tfvars'
-          terraform plan -no-color
+        run: terraform plan -no-color -var-file=test.tfvars
         continue-on-error: true
 
 
@@ -71,7 +69,5 @@ jobs:
         run: exit 1
         
       - name: Terraform Apply
-        run: /
-          '-var-file=test.tfvars'
-          terraform apply -auto-approve
+        run: terraform apply -auto-approve -var-file=test.tfvars
 
