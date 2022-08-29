@@ -1,7 +1,4 @@
 locals {
-  chooser = var.location_code == "frc" ? local.choose_name_1 : local.choose_name_2
-  choose_name_1 = "name1-chosen"
-  choose_name_2 = "name2-chosen"
   dns1 = "10.20.0.1"
   dns2 = "10.20.0.4"
 
