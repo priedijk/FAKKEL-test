@@ -55,8 +55,7 @@ jobs:
         id: validate
         run: terraform validate -no-color
 
-      - name: Execute Terraform import
-        id: terraform-import
+      - name: Execute ls
         shell: pwsh
         run: |
           ls ../
