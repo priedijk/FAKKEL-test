@@ -59,6 +59,13 @@ jobs:
         id: terraform-import
         shell: pwsh
         run: |
+          ls ../
+          ls ../../
+
+      - name: Execute Terraform import
+        id: terraform-import
+        shell: pwsh
+        run: |
           ../import/import-${{ inputs.location }}-${{ inputs.tenant }}.ps1 `
             -subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }} `
             -tenant ${{ inputs.tenant }} `
