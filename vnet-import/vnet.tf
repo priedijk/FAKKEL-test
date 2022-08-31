@@ -50,7 +50,7 @@ resource "azurerm_subnet" "subnet-test" {
   address_prefixes     = [var.network_weu_ae.AzureFirewallSubnet.bastion]
 }
 
-/*
+
 resource "azurerm_network_security_group" "nsg" {
   for_each            = local.nsgs
   name                = each.value
@@ -58,6 +58,7 @@ resource "azurerm_network_security_group" "nsg" {
   resource_group_name = azurerm_resource_group.vnet-rg.name
 }
 
+/*
 resource "azurerm_network_security_group" "nsg_bastion" {
   name                = "nsg-bastion"
   resource_group_name = azurerm_resource_group.vnet-rg.name
@@ -80,18 +81,18 @@ resource "azurerm_network_security_rule" "nsg_rules_bastion" {
   resource_group_name         = azurerm_resource_group.vnet-rg.name
   network_security_group_name = azurerm_network_security_group.nsg_bastion.name
 }
-
+*/
 resource "azurerm_network_security_rule" "nsg_rules_bastion2" {
-  name                        = "AllowBastionHostToHostOutBound"
+  name                        = "portranges"
   description                 = ""
-  priority                    = 130
+  priority                    = 100
   direction                   = "Outbound"
   access                      = "Allow"
   protocol                    = "Tcp"
   source_port_range           = "*"
-  destination_port_ranges     = ["8080", "5701"]
+  destination_port_range      = "65200-65535"
   source_address_prefix       = local.vnet_address_space
-  destination_address_prefix  = "VirtualNetwork"
+  destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.vnet-rg.name
   network_security_group_name = azurerm_network_security_group.nsg["weballow"].name
 }
