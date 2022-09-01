@@ -20,6 +20,6 @@ terraform import azurerm_network_security_group.nsg['\"apim\"'] "/subscriptions/
 terraform import azurerm_network_security_group.nsg['\"apim_ingress\"'] "/subscriptions/${subscription}/resourceGroups/tf-import-test/providers/Microsoft.Network/networkSecurityGroups/nsg_api_weu"
 terraform import azurerm_network_security_group.nsg['\"weballow\"'] "/subscriptions/${subscription}/resourceGroups/tf-import-test/providers/Microsoft.Network/networkSecurityGroups/nsg_web_weu"
 
-azurerm_network_security_rule.nsg_rules_bastion2  "/subscriptions/${subscription}/resourceGroups/tf-import-test/providers/Microsoft.Network/networkSecurityGroups/nsg_web_weu/securityRules/portranges"
+terraform import azurerm_network_security_rule.nsg_rules_bastion2  "/subscriptions/${subscription}/resourceGroups/tf-import-test/providers/Microsoft.Network/networkSecurityGroups/nsg_web_weu/securityRules/portranges"
 
 terraform import azurerm_subnet_network_security_group_association.assoc['\"troep\"'] "/subscriptions/${subscription}/resourceGroups/tf-import-test/providers/Microsoft.Network/virtualNetworks/import-vnet/subnets/troep"
