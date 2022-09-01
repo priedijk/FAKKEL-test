@@ -65,7 +65,7 @@ variable "network_weu_ae" {
       bastion            = "10.20.0.64/27"
       nsg                = null
       service_endpoint   = null
-      service_delegation = "Microsoft.DBforPostgreSQL/flexibleServers"
+      service_delegation = null
     },
     "GatewaySubnet" = {
       subnet_name        = "GatewaySubnet",
