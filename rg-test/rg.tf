@@ -13,3 +13,8 @@ resource "azurerm_resource_group" "rg" {
   name     = "rg-${var.address_space.rg_name}"
   location = var.resource_group_location
 }
+
+data "azurerm_resource_group" "rg" {
+  name       = "rg-${var.address_space.rg_name}"
+  depends_on = [azurerm_resource_group.rg]
+}

@@ -9,16 +9,16 @@ locals {
 
 resource "azurerm_virtual_network" "vnet" {
   name                = "rg-vnet-te"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.rg.location
   address_space       = var.address_space2.vnet
   dns_servers         = local.dns_servers
 }
 
 resource "azurerm_subnet" "tb" {
-  name                                          = "tbsubnet"
-  resource_group_name                           = azurerm_resource_group.rg.name
-  virtual_network_name                          = azurerm_virtual_network.vnet.name
-  address_prefixes                              = [replace(var.address_space.vnet, "0.0/24", "0.176/28")]
-  service_endpoints                             = var.location_code == "weu" && var.tenant == "ae" ? ["Microsoft.Storage"] : null
+  name                 = "tbsubnet"
+  resource_group_name  = data.azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes     = [replace(var.address_space.vnet, "0.0/24", "0.176/28")]
+  service_endpoints    = var.location_code == "weu" && var.tenant == "ae" ? ["Microsoft.Storage"] : null
 }
