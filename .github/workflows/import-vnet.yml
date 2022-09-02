@@ -7,10 +7,12 @@ on:
         description: "Hub Location (weu / frc)"
         type: string
         required: true
+        default: 'weu'
       tenant:
         description: "GitHub tenant to deploy to (ae / prod)"
         type: string
         required: true
+        default: 'ae'
       terraform-import-prefix:
         description: "Prefix of the terraform import file (<prefix>-<location>-<environment>)"
         type: string
