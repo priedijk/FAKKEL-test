@@ -6,11 +6,15 @@ param(
     [String] [Parameter (Mandatory = $true)]  $terraformdir
 )
 
-$import="terraform -chdir=${terraformdir} import"
-echo $terraformdir
+$import="terraform -chdir="${terraformdir}" import"
 
-terraform -chdir=${terraformdir} import azurerm_resource_group.vnet-rg "/subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test"
+#$terraformdir="..\kv-test"
+
+terraform -chdir="${terraformdir}" import azurerm_resource_group.vnet-rg "/subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test"
+& $import azurerm_resource_group.vnet-rg "/subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test"
+
 exit
+
 terraform import azurerm_resource_group.vnet-rg "/subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test"
 
 terraform import azurerm_virtual_network.import-vnet "/subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test/providers/Microsoft.Network/virtualNetworks/import-vnet"
