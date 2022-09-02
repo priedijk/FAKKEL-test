@@ -6,7 +6,7 @@ param(
     [String] [Parameter (Mandatory = $true)]  $terraformdir
 )
 
-$import="terraform -chdir=\"${terraformdir}\" import"
+$import="terraform -chdir='\"${terraformdir}\"' import"
 
 #$terraformdir="..\kv-test"
 
