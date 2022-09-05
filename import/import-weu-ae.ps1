@@ -3,7 +3,7 @@ param(
     [String] [Parameter (Mandatory = $true)]  $subscription,
     [String] [Parameter (Mandatory = $true)]  $location,
     [String] [Parameter (Mandatory = $true)]  $tenant,
-    [String] [Parameter (Mandatory = $true)]  $terraformdir,
+    [String] [Parameter (Mandatory = $true)]  $terraformdir
 )
 
 $import="terraform -chdir='${terraformdir}' import"
