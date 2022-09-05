@@ -15,6 +15,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 data "azurerm_resource_group" "rg" {
+  count      = var.location_code == "frc" ? 0 : 1
   name       = "rg-${var.address_space.rg_name}"
   depends_on = [azurerm_resource_group.rg]
 }
