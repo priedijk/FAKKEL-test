@@ -14,6 +14,10 @@ variable "resource_group_location" {
   description = "Location of the resource group."
 }
 
+variable "outputtest" {
+  type    = string
+  default = "normal-variable"
+}
 # variable "address_space" {
 #   type = map(object({
 #     regional_space           = string

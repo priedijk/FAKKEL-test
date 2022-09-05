@@ -1,3 +1,5 @@
+outputtest = "vars-variable"
+
 address_space = {
   "weu_ae" = {
     regional_space           = "10.20.0.0/16"

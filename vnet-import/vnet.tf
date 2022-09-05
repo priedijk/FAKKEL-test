@@ -106,3 +106,6 @@ resource "azurerm_subnet_network_security_group_association" "nsg-assoc" {
 output "test" {
   value = local.vnet_space.regional_space
 }
+output "test2" {
+  value = var.outputtest
+}
