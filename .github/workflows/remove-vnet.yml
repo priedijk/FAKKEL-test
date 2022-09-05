@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 jobs:
   terraform-rg:
-    name: "TF Resource Group"
+    name: "Remove VNET"
     runs-on: ubuntu-latest
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
