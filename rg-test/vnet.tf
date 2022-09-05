@@ -23,8 +23,8 @@ resource "azurerm_subnet" "tb" {
   service_endpoints    = var.location_code == "weu" && var.tenant == "ae" ? ["Microsoft.Storage"] : null
 }
 
-resource "azurerm_subnet" "tb" {
-  name                 = "tbsubnet"
+resource "azurerm_subnet" "tb1" {
+  name                 = "tb1subnet"
   resource_group_name  = azurerm_resource_group.rg[0].name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = [replace(var.address_space.vnet, "0.0/24", "0.0/28")]
