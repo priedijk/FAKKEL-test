@@ -7,15 +7,14 @@ param(
 )
 
 $import="terraform -chdir='${terraformdir}' import"
-$varfile="test.tfvars"
+#$varfile="test.tfvars"
 #$terraformdir="..\kv-test"
 
 terraform -chdir="${terraformdir}" import azurerm_resource_group.vnet-rg "/subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test"
-terraform -chdir="${terraformdir}" -var-file="${varfile}" import azurerm_resource_group.vnet-rg "/subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test"
+#terraform -chdir="${terraformdir}" -var-file="${varfile}" import azurerm_resource_group.vnet-rg "/subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test"
 
 #& "${import}" azurerm_resource_group.vnet-rg "/subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test"
 
-exit
 
 terraform import azurerm_resource_group.vnet-rg "/subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test"
 
