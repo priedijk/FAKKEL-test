@@ -9,8 +9,8 @@ locals {
 
 resource "azurerm_virtual_network" "vnet" {
   name                = "rg-vnet-te"
-  resource_group_name = data.azurerm_resource_group.rg.name
-  location            = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg[0].name
+  location            = data.azurerm_resource_group.rg[0].location
   address_space       = var.address_space2.vnet
   dns_servers         = local.dns_servers
 }
