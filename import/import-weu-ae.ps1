@@ -3,15 +3,17 @@ param(
     [String] [Parameter (Mandatory = $true)]  $subscription,
     [String] [Parameter (Mandatory = $true)]  $location,
     [String] [Parameter (Mandatory = $true)]  $tenant,
-    [String] [Parameter (Mandatory = $true)]  $terraformdir
+    [String] [Parameter (Mandatory = $true)]  $terraformdir,
 )
 
-$import="terraform -chdir='\"${terraformdir}\"' import"
-
+$import="terraform -chdir='${terraformdir}' import"
+$varfile="test.tfvars"
 #$terraformdir="..\kv-test"
 
 terraform -chdir="${terraformdir}" import azurerm_resource_group.vnet-rg "/subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test"
-& $import azurerm_resource_group.vnet-rg "/subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test"
+terraform -chdir="${terraformdir}" -var-file="${varfile}" import azurerm_resource_group.vnet-rg "/subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test"
+
+#& "${import}" azurerm_resource_group.vnet-rg "/subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test"
 
 exit
 
