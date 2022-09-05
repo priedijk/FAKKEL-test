@@ -60,7 +60,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -var-file=test.tfvars
+        run: terraform plan -no-color -var-file=test.tfvars -var shared_key=${{ secrets.SECRET_KEY }}
         continue-on-error: true
 
 
@@ -69,5 +69,5 @@ jobs:
         run: exit 1
         
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var-file=test.tfvars
+        run: terraform apply -auto-approve -var-file=test.tfvars -var shared_key=${{ secrets.SECRET_KEY }}
 
