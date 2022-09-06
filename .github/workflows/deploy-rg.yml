@@ -70,5 +70,5 @@ jobs:
         run: exit 1
         
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var-file=test.tfvars -var shared_key=${{ secrets.SECRET_KEY }}
+        run: terraform apply -auto-approve -var-file=test.tfvars -var shared_key=${{ github.event.inputs.Location == 'frc' && secrets.SECRET_KEY || secrets.SECRET_KEY2 }}
 
