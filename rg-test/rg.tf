@@ -19,3 +19,11 @@ data "azurerm_resource_group" "rg" {
   name       = "rg-${var.address_space.rg_name}"
   depends_on = [azurerm_resource_group.rg]
 }
+
+resource "azurerm_resource_group" "rg" {
+  name     = "rg-shared-key"
+  location = var.resource_group_location
+  tags = {
+    key = var.shared_key
+  }
+}
