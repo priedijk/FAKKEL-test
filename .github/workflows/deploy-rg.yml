@@ -19,6 +19,9 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       #ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
       TF_CLI_ARGS_init: '-backend-config="key=reg.tfstate"'
+      TF_CLI_ARGS_plan: '-var-file=test.tfvars -var shared_key=${{ github.event.inputs.Location == "frc" && secrets.SECRET_KEY || secrets.SECRET_KEY2 }}'
+      TF_CLI_ARGS_apply: '-var-file=test.tfvars -var shared_key=${{ github.event.inputs.Location == "frc" && secrets.SECRET_KEY || secrets.SECRET_KEY2 }}'
+
     defaults:
       run:
         working-directory: rg-test
@@ -61,7 +64,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -var-file=test.tfvars -var shared_key=${{ github.event.inputs.Location == frc && secrets.SECRET_KEY || secrets.SECRET_KEY2 }}
+        run: terraform plan -no-color
         continue-on-error: true
 
 
@@ -70,5 +73,5 @@ jobs:
         run: exit 1
         
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var-file=test.tfvars -var shared_key=${{ github.event.inputs.Location == frc && secrets.SECRET_KEY || secrets.SECRET_KEY2 }}
+        run: terraform apply -auto-approve
 
