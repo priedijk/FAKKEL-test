@@ -61,7 +61,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -var-file=test.tfvars -var shared_key=${{ github.event.inputs.Location == 'frc' && secrets.SECRET_KEY || secrets.SECRET_KEY2 }}
+        run: terraform plan -no-color -var-file=test.tfvars -var shared_key=${{ github.event.inputs.Location == "frc" && secrets.SECRET_KEY || secrets.SECRET_KEY2 }}
         continue-on-error: true
 
 
@@ -70,5 +70,5 @@ jobs:
         run: exit 1
         
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var-file=test.tfvars -var shared_key=${{ github.event.inputs.Location == 'frc' && secrets.SECRET_KEY || secrets.SECRET_KEY2 }}
+        run: terraform apply -auto-approve -var-file=test.tfvars -var shared_key=${{ github.event.inputs.Location == "frc" && secrets.SECRET_KEY || secrets.SECRET_KEY2 }}
 
