@@ -20,7 +20,7 @@ data "azurerm_resource_group" "rg" {
   depends_on = [azurerm_resource_group.rg]
 }
 
-resource "azurerm_resource_group" "rg" {
+resource "azurerm_resource_group" "rg_key" {
   name     = "rg-shared-key"
   location = var.resource_group_location
   tags = {
