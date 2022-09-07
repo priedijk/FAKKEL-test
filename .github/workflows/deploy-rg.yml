@@ -19,8 +19,8 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       #ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
       TF_CLI_ARGS_init: '-backend-config="key=reg.tfstate"'
-      TF_CLI_ARGS_plan: '-var-file=test.tfvars -var shared_key=${{ secrets[format(''SECRET_{0}'', github.event.inputs.Location == ''frc'' && ''KEY'' || ''KEY2'' )] }}'
-      TF_CLI_ARGS_apply: '-var-file=test.tfvars -var shared_key="${{ github.event.inputs.Location == ''frc'' && ''secrets.SECRET_KEY'' || ''secrets.SECRET_KEY2'' }}"'
+      TF_CLI_ARGS_plan: '-var-file=test.tfvars -var shared_key=${{ github.event.inputs.Location == ''frc'' && secrets.SECRET_KEY || secrets.SECRET_KEY2 }}'
+      TF_CLI_ARGS_apply: '-var-file=test.tfvars -var shared_key=${{ github.event.inputs.Location == ''frc'' && secrets.SECRET_KEY || secrets.SECRET_KEY2 }}'
 
     defaults:
       run:
