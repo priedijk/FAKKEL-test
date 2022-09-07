@@ -29,5 +29,5 @@ variable "address_space2" {
 
 variable "shared_key" {
   type    = string
-  default = "placeholder"
+  default = "placeholder1"
 }
