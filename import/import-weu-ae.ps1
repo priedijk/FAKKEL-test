@@ -6,6 +6,9 @@ param(
     [String] [Parameter (Mandatory = $true)]  $terraformdir
 )
 
+
+terraform state rm azurerm_virtual_network.import-vnet
+
 terraform -chdir="${terraformdir}" import azurerm_resource_group.vnet-rg "/subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test"
 #terraform -chdir="${terraformdir}" -var-file="${varfile}" import azurerm_resource_group.vnet-rg "/subscriptions/e2c1b56d-a413-43fc-b1e2-f73e153c05ad/resourceGroups/tf-import-test"
 
