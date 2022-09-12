@@ -8,13 +8,6 @@ on:
         options:
           - 'weu'
           - 'frc'
-      key:
-        description: "key (weu / frc)"
-        type: choice
-        required: true
-        options:
-          - 'KEY'
-          - 'KEY2'
       terraform-action:
         description: 'Terraform action'
         type: choice
@@ -28,17 +21,17 @@ on:
         type: boolean
         default: false
 
-name: Secret test
+name: Bastion test
 
 jobs:
   secret-test:
-    uses: ./.github/workflows/deploy-secret-test-reusable.yml
+    uses: ./.github/workflows/reusable-workflow.yml
     with:
       location: ${{ github.event.inputs.location }}
       confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
       terraform-action: ${{ github.event.inputs.terraform-action }}
-      terraform-directory: 'secret-in-reusable'
-      terraform-init-args: '-backend-config="key=secret-test.tfstate"'
-      terraform-plan-args: '-var shared_key=${VPN_SECRET}'
-      terraform-apply-args: '-var shared_key=${VPN_SECRET}'
+      terraform-directory: 'bastion-test'
+      terraform-init-args: '-backend-config="key=bastion.tfstate"'
+      terraform-plan-args: ''
+      terraform-apply-args: ''
     secrets: inherit
