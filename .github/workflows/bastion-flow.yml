@@ -24,7 +24,7 @@ on:
 name: Bastion test
 
 jobs:
-  secret-test:
+  Bastion-test:
     uses: ./.github/workflows/reusable-workflow.yml
     with:
       location: ${{ github.event.inputs.location }}
