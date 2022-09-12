@@ -8,7 +8,3 @@ output "range" {
 output "range-replaced" {
   value = replace(var.address_space.vnet, var.address_space.replace, var.address_space.test)
 }
-
-output "shared_key" {
-  value = var.shared_key
-}
