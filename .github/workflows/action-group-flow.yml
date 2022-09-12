@@ -1,0 +1,37 @@
+on:
+  workflow_dispatch:
+    inputs:
+      location:
+        description: "Hub Location (weu / frc)"
+        type: choice
+        required: true
+        options:
+          - 'weu'
+          - 'frc'
+      terraform-action:
+        description: 'Terraform action'
+        type: choice
+        required: true
+        options:
+          - 'plan'
+          - 'plan+apply'
+          - 'destroy'
+      confirm-destroy:
+        description: "Confirm destroy"
+        type: boolean
+        default: false
+
+name: Action-group test
+
+jobs:
+  action-group-test:
+    uses: ./.github/workflows/reusable-workflow.yml
+    with:
+      location: ${{ github.event.inputs.location }}
+      confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
+      terraform-action: ${{ github.event.inputs.terraform-action }}
+      terraform-directory: 'action-group-test'
+      terraform-init-args: '-backend-config="key=action-group.tfstate"'
+      terraform-plan-args: ''
+      terraform-apply-args: ''
+    secrets: inherit

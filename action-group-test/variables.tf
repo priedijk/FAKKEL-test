@@ -23,7 +23,7 @@ variable "single_email" {
   default = {
     mail1 = {
       name          = "single",
-      email_address = "single@test.nl"
+      email_address = "singles@test.nl"
     }
   }
 }
