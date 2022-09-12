@@ -4,10 +4,6 @@ locals {
   choose_name_2 = "name2-chosen"
 }
 
-resource "random_pet" "rg-name" {
-  prefix = var.resource_group_name_prefix
-}
-
 resource "azurerm_resource_group" "rg" {
   count    = var.location_code == "frc" ? 0 : 1
   name     = "rg-${var.address_space.rg_name}"
@@ -18,12 +14,4 @@ data "azurerm_resource_group" "rg" {
   count      = var.location_code == "frc" ? 0 : 1
   name       = "rg-${var.address_space.rg_name}"
   depends_on = [azurerm_resource_group.rg]
-}
-
-resource "azurerm_resource_group" "rg_key" {
-  name     = "rg-shared-key"
-  location = var.resource_group_location
-  tags = {
-    key = var.shared_key
-  }
 }

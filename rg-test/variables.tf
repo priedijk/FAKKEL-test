@@ -26,8 +26,3 @@ variable "address_space" {
 variable "address_space2" {
   type = map(list(string))
 }
-
-variable "shared_key" {
-  type    = string
-  default = "placeholder1"
-}

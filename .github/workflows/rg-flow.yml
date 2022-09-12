@@ -21,17 +21,17 @@ on:
         type: boolean
         default: false
 
-name: Action-group test
+name: Resource-group test
 
 jobs:
-  Action-group-test:
+  Resource-group-test:
     uses: ./.github/workflows/reusable-workflow.yml
     with:
       location: ${{ github.event.inputs.location }}
       confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
       terraform-action: ${{ github.event.inputs.terraform-action }}
-      terraform-directory: 'action-group-test'
-      terraform-init-args: '-backend-config="key=action-group.tfstate"'
-      terraform-plan-args: ''
-      terraform-apply-args: ''
+      terraform-directory: 'rg-test'
+      terraform-init-args: '-backend-config="key=reg.tfstate"'
+      terraform-plan-args: '-var-file=test.tfvars'
+      terraform-apply-args: '-var-file=test.tfvars'
     secrets: inherit
