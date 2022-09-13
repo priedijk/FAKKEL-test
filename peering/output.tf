@@ -6,9 +6,9 @@ data "azurerm_virtual_network" "vnet1" {
 resource "azurerm_resource_group" "output" {
   name     = "output-tester"
   location = "westeurope"
-  tags = {
-    key1 = data.azurerm_virtual_network.vnet1.vnet_peerings
-  }
+  # tags = {
+  #   key1 = data.azurerm_virtual_network.vnet1.vnet_peerings
+  # }
 }
 
 output "peering1" {
