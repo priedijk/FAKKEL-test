@@ -2,7 +2,7 @@
 **/.terraform/*
 
 #test folder
-/xtTests
+/xTests
 
 # .tfstate files
 *.tfstate
