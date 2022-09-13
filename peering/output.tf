@@ -1,4 +1,4 @@
-data "azurerm_virtual_network" "vnet1" {
+data "azurerm_virtual_network" "output-vnet1" {
   name                = azurerm_virtual_network.vnet1.name
   resource_group_name = azurerm_resource_group.rg.name
 }
