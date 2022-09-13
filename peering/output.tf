@@ -13,6 +13,6 @@ output "peering1-1" {
 output "peering2" {
   value = data.azurerm_virtual_network.vnet1.vnet_peerings_addresses.id
 }
-output "peering2" {
+output "peering2-1" {
   value = data.azurerm_virtual_network.vnet1.vnet_peerings_addresses[each.key]
 }
