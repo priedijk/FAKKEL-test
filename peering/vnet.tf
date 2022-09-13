@@ -36,7 +36,7 @@ resource "azurerm_subnet" "tb1" {
 resource "azurerm_virtual_network" "vnet2" {
   name                = "rg-vnet2"
   resource_group_name = azurerm_resource_group.rg.name
-  location            = "francecentral"
+  location            = azurerm_resource_group.rg.location
   address_space       = [local.vnet_range2]
 }
 
@@ -51,7 +51,7 @@ resource "azurerm_subnet" "subnet2" {
 resource "azurerm_virtual_network" "vnet3" {
   name                = "rg-vnet3"
   resource_group_name = azurerm_resource_group.rg.name
-  location            = "northeurope"
+  location            = azurerm_resource_group.rg.location
   address_space       = [local.vnet_range3]
 }
 
