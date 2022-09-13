@@ -12,7 +12,7 @@ resource "azurerm_route_table" "example" {
 }
 
 resource "azurerm_subnet_route_table_association" "example" {
-  for_each       = output.peering1
+  for_each       = data.azurerm_virtual_network.vnet1.vnet_peerings
   subnet_id      = [each.value]
   route_table_id = azurerm_route_table.example.id
 }
