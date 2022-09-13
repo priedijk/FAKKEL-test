@@ -1,6 +1,12 @@
 locals {
-  vnet_range1 = "10.20.0.0/24"
-  vnet_range2 = "10.30.0.0/24"
+  vnet_range1 = ["10.20.0.0/24"]
+  vnet_range2 = ["10.30.0.0/24"]
+}
+
+resource "azurerm_resource_group" "rg" {
+
+  name     = "rg-${var.location_code}-peering"
+  location = var.resource_group_location
 }
 
 resource "azurerm_virtual_network" "vnet1" {
