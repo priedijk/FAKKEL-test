@@ -39,4 +39,5 @@ jobs:
       terraform-init-args: '-backend-config="key=vnet-import.tfstate"'
       terraform-plan-args: '-var-file="test.tfvars"'
       terraform-apply-args: '-var-file="test.tfvars"'
+      terraform-import-file: ${{ inputs.terraform-import-file }}
     secrets: inherit
