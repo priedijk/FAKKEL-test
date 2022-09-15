@@ -1,0 +1,42 @@
+on:
+  workflow_dispatch:
+    inputs:
+      location:
+        description: "Hub Location (weu / frc)"
+        type: choice
+        required: true
+        options:
+          - 'weu'
+          - 'frc'
+      terraform-action:
+        description: 'Terraform action'
+        type: choice
+        required: true
+        options:
+          - 'plan'
+          - 'plan+apply'
+          - 'destroy'
+          - 'import'
+      confirm-destroy:
+        description: "Confirm destroy"
+        type: boolean
+        default: false
+      terraform-import-file:
+        description: "(Import only!) Name of the terraform import file. Use the statefile name without location (<statefileName>.ps1)"
+        type: string
+        default: ''  
+
+name: Vnet test
+
+jobs:
+  Vnet-test:
+    uses: ./.github/workflows/reusable-workflow.yml
+    with:
+      location: ${{ github.event.inputs.location }}
+      confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
+      terraform-action: ${{ github.event.inputs.terraform-action }}
+      terraform-directory: 'vnet-import'
+      terraform-init-args: '-backend-config="key=vnet-import.tfstate"'
+      terraform-plan-args: '-var-file="test.tfvars"'
+      terraform-apply-args: '-var-file="test.tfvars"'
+    secrets: inherit

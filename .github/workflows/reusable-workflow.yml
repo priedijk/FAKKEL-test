@@ -83,7 +83,7 @@ jobs:
         id: terraform-import
         shell: pwsh
         run: |
-          ./Templates/import/${{ inputs.terraform-import-file }}.ps1 `
+          ./import/${{ inputs.terraform-import-file }}.ps1 `
             -subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }} `
             -tenant ${{ inputs.tenant }} `
             -location ${{ inputs.location }} `
