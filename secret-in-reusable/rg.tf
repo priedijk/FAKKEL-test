@@ -4,6 +4,8 @@ resource "azurerm_resource_group" "secret" {
   name     = "secret-test"
   location = "westeurope"
   tags = {
-    key = var.shared_key
+    key   = var.shared_key
+    test1 = var.testput1
+    test2 = var.testput2
   }
 }

@@ -17,6 +17,9 @@ case $2 in
     ;;
 esac
 
+echo "TF_VAR_testput1=$VPN_SECRET" >> $GITHUB_ENV
+echo "TF_VAR_testput2=${VPN_SECRET}" >> $GITHUB_ENV
+
 echo $TF_CLI_ARGS_plan
 echo $VPN_SECRET
 echo "TF_CLI_ARGS_plan=$(echo $TF_CLI_ARGS_plan | envsubst)"
