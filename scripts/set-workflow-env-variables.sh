@@ -17,6 +17,8 @@ case $2 in
     ;;
 esac
 
+echo $TF_CLI_ARGS_plan
+echo "TF_CLI_ARGS_plan=$(echo $TF_CLI_ARGS_plan | envsubst)"
 
 echo "TF_CLI_ARGS_plan=$(echo $TF_CLI_ARGS_plan | envsubst)" >> $GITHUB_ENV
 echo "TF_CLI_ARGS_apply=$(echo $TF_CLI_ARGS_apply | envsubst)" >> $GITHUB_ENV
