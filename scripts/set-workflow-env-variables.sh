@@ -18,6 +18,7 @@ case $2 in
 esac
 
 echo $TF_CLI_ARGS_plan
+echo $VPN_SECRET
 echo "TF_CLI_ARGS_plan=$(echo $TF_CLI_ARGS_plan | envsubst)"
 
 echo "TF_CLI_ARGS_plan=$(echo $TF_CLI_ARGS_plan | envsubst)" >> $GITHUB_ENV
