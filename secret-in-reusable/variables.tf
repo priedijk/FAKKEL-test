@@ -24,3 +24,7 @@ variable "testput2" {
   type    = string
   default = "placeholder"
 }
+variable "testput3" {
+  type    = string
+  default = "placeholder"
+}
