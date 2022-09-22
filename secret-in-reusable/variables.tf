@@ -22,7 +22,7 @@ variable "testput1" {
 }
 variable "testput2" {
   type    = string
-  default = "placeholder"
+  default = "dGVzdCZoZWxsbw=="
 }
 variable "testput3" {
   type    = string
