@@ -34,8 +34,8 @@ on:
         type: string
         default: ''
       IsNewDeployment:
-        description: "Only tick when it's the first time deploying to the location and environment"
-        type: string
+        description: "IsNewDeployment?"
+        type: boolean
         default: ''
         required: true
 
