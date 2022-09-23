@@ -20,7 +20,7 @@ on:
         description: "Confirm destroy"
         type: boolean
         default: false
-      IsNewDeployment:
+      IsNewDeployment?:
         description: "Only tick when it's the first time deploying to the location and environment"
         type: boolean
         default: false
