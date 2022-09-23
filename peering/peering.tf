@@ -1,5 +1,5 @@
 resource "azurerm_virtual_network_peering" "peering" {
-  count                     = var.new_deployment == "true" ? 1 : 0
+  count                     = var.new_deployment == "true" ? 0 : 1
   name                      = "perfrom-${var.location_code}-to-${local.inverter}"
   resource_group_name       = azurerm_resource_group.rg.name
   virtual_network_name      = azurerm_virtual_network.vnet.name

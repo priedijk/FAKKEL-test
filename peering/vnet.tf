@@ -7,7 +7,7 @@ locals {
 }
 
 data "azurerm_virtual_network" "vnet" {
-  count               = var.new_deployment == "true" ? 1 : 0
+  count               = var.new_deployment == "true" ? 0 : 1
   name                = "rg-${local.inverter}-peering"
   resource_group_name = "rg-${local.inverter}-peering"
 }
