@@ -8,6 +8,11 @@ on:
         options:
           - 'weu'
           - 'frc'
+      tenant:
+        description: "GitHub tenant to deploy to (AE / MVP1)"
+        type: string
+        required: true
+        default: 'ae'
       terraform-action:
         description: 'Terraform action'
         type: choice
@@ -33,6 +38,7 @@ jobs:
     uses: ./.github/workflows/reusable-workflow.yml
     with:
       location: ${{ github.event.inputs.location }}
+      tenant: ${{ github.event.inputs.tenant }}
       confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
       IsNewDeployment: ${{ github.event.inputs.IsNewDeployment }}
       terraform-action: ${{ github.event.inputs.terraform-action }}

@@ -14,7 +14,7 @@ data "azurerm_virtual_network" "vnet" {
 
 resource "azurerm_resource_group" "rg" {
   name     = "rg-${var.location_code}-peering"
-  location = var.resource_group_location
+  location = var.location
 }
 
 resource "azurerm_virtual_network" "vnet" {

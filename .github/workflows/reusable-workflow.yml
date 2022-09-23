@@ -5,6 +5,10 @@ on:
         description: "Hub Location (weu / frc)"
         type: string
         required: true
+      tenant:
+        description: "GitHub tenant to deploy to (AE / MVP1)"
+        type: string
+        required: true
       terraform-action:
         description: 'Terraform action'
         type: string

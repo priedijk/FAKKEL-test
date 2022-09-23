@@ -18,22 +18,13 @@ case $2 in
 esac
 
 case $3 in
-    "false")
+    false)
     echo "TF_VAR_new_deployment1=false" >> $GITHUB_ENV
-    echo $3
     ;;
-    "true")
+    true)
     echo "TF_VAR_new_deployment1=true" >> $GITHUB_ENV
-    echo $3
     ;;
 esac
-
-echo $3
-echo "1"
-$3 -eq "false"
-echo "2"
-$3 -eq "true"
-echo "3"
 
 # echo "TF_VAR_shared_key=$VPN_SECRET" >> $GITHUB_ENV
  echo "TF_VAR_testput1=$VPN_SECRET" >> $GITHUB_ENV
