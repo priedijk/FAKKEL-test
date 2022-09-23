@@ -20,7 +20,7 @@ on:
         description: "Confirm destroy"
         type: boolean
         default: false
-      IsNewDeployment?:
+      IsNewDeployment:
         description: "Only tick when it's the first time deploying to the location and environment"
         type: boolean
         default: false
@@ -33,7 +33,7 @@ jobs:
     with:
       location: ${{ github.event.inputs.location }}
       confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
-      IsNewDeployment?: ${{ github.event.inputs.isNewDeployment? }}
+      IsNewDeployment: ${{ github.event.inputs.isNewDeployment }}
       terraform-action: ${{ github.event.inputs.terraform-action }}
       terraform-directory: 'peering'
       terraform-init-args: '-backend-config="key=vnet-peering.tfstate"'
