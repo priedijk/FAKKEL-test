@@ -35,8 +35,8 @@ on:
         default: ''
       IsNewDeployment:
         description: "IsNewDeployment?"
-        type: boolean
-        default: false
+        type: string
+        default: ''s
         required: true
 
 jobs:

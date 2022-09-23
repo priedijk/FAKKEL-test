@@ -24,6 +24,7 @@ on:
         description: "IsNewDeployment?"
         type: boolean
         default: false
+        required: true
 
 name: Vnet-peering test
 
