@@ -3,18 +3,14 @@ locals {
   vnet_range1 = "10.20.0.0/24"
   vnet_range2 = "10.30.0.0/24"
 
+  inverter = var.location_code == "frc" ? "weu" : "frc"
 }
 
-# data "azurerm_virtual_network" "vnet_weu" {
-#   count               = var.location_code == "frc" ? 1 : 0
-#   name                = "rg-weu-peering"
-#   resource_group_name = "rg-weu-peering"
-# }
-# data "azurerm_virtual_network" "vnet_frc" {
-#   count               = var.location_code == "weu" ? 1 : 0
-#   name                = "rg-frc-peering"
-#   resource_group_name = "rg-frc-peering"
-# }
+data "azurerm_virtual_network" "vnet" {
+  count               = var.new_deployment == "true" ? 1 : 0
+  name                = "rg-${local.inverter}-peering"
+  resource_group_name = "rg-${local.inverter}-peering"
+}
 
 resource "azurerm_resource_group" "rg" {
   name     = "rg-${var.location_code}-peering"
