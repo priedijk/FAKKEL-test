@@ -19,6 +19,11 @@ esac
 
 echo $2
 echo $3
+echo "1"
+$3 = false
+echo "2"
+$3 = true
+echo "3"
 
 case $3 in
     false)
