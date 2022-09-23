@@ -20,17 +20,17 @@ esac
 echo $2
 echo $3
 echo "1"
-$3 = false
+$3 -eq false
 echo "2"
-$3 = true
+$3 -eq true
 echo "3"
 
 case $3 in
-    false)
+    "false")
     echo "TF_VAR_new_deployment1=false" >> $GITHUB_ENV
     echo $3
     ;;
-    true)
+    "true")
     echo "TF_VAR_new_deployment1=true" >> $GITHUB_ENV
     echo $3
     ;;
