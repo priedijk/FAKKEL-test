@@ -33,6 +33,11 @@ on:
         description: "Name of the terraform import file. Use the statefile name without location (<statefileName>.ps1)"
         type: string
         default: ''
+      IsNewDeployment?:
+        description: "Only tick when it's the first time deploying to the location and environment"
+        type: string
+        default: ''
+        required: true
 
 jobs:
   terraform-deploy:
@@ -59,7 +64,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Set workflow environment variables
-        run: ./scripts/set-workflow-env-variables.sh ${{ inputs.tenant }} ${{ inputs.Location }}
+        run: ./scripts/set-workflow-env-variables.sh ${{ inputs.tenant }} ${{ inputs.Location }} ${{ inputs.IsNewDeployment }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2

@@ -19,3 +19,9 @@ variable "tenant" {
   type        = string
   default     = "ae"
 }
+
+variable "new_deployment" {
+  description = "new deployment tick"
+  type        = string
+  default     = "false"
+}

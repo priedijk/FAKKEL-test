@@ -17,6 +17,17 @@ case $2 in
     ;;
 esac
 
+case $3 in
+    false)
+    echo "TF_VAR_new_deployment=false" >> $GITHUB_ENV
+    ;;
+    true)
+    echo "TF_VAR_new_deployment=true" >> $GITHUB_ENV
+    ;;
+esac
+
+echo $3
+
 # echo "TF_VAR_shared_key=$VPN_SECRET" >> $GITHUB_ENV
  echo "TF_VAR_testput1=$VPN_SECRET" >> $GITHUB_ENV
  echo "TF_VAR_testput2=${VPN_SECRET}" >> $GITHUB_ENV
