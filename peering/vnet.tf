@@ -6,12 +6,6 @@ locals {
   inverter = var.location_code == "frc" ? "weu" : "frc"
 }
 
-data "azurerm_virtual_network" "vnet" {
-  count               = var.new_deployment == "true" ? 0 : 1
-  name                = "rg-${local.inverter}-peering"
-  resource_group_name = "rg-${local.inverter}-peering"
-}
-
 resource "azurerm_resource_group" "rg" {
   name     = "rg-${var.location_code}-peering"
   location = var.location
