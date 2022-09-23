@@ -43,7 +43,7 @@ jobs:
       IsNewDeployment: ${{ github.event.inputs.IsNewDeployment }}
       terraform-action: ${{ github.event.inputs.terraform-action }}
       terraform-directory: 'peering'
-      terraform-init-args: '-backend-config="key=vnet-peering.tfstate"'
+      terraform-init-args: '-backend-config="key=vnet-peering-${{ github.event.inputs.location }}.tfstate"'
       terraform-plan-args: ''
       terraform-apply-args: ''
     secrets: inherit
