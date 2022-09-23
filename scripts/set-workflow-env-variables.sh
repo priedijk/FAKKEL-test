@@ -19,10 +19,12 @@ esac
 
 case $3 in
     false)
-    echo "TF_VAR_new_deployment=false" >> $GITHUB_ENV
+    echo "TF_VAR_new_deployment1=false" >> $GITHUB_ENV
+    echo $3
     ;;
     true)
-    echo "TF_VAR_new_deployment=true" >> $GITHUB_ENV
+    echo "TF_VAR_new_deployment1=true" >> $GITHUB_ENV
+    echo $3
     ;;
 esac
 
