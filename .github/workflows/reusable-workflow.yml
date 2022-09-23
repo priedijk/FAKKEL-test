@@ -65,7 +65,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Set workflow environment variables
-        run: ./scripts/set-workflow-env-variables.sh ${{ inputs.tenant }} ${{ inputs.Location }} ${{ inputs.IsNewDeployment }}
+        run: ./scripts/set-workflow-env-variables.sh ${{ inputs.tenant }} ${{ inputs.location }} ${{ inputs.IsNewDeployment }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
