@@ -12,7 +12,9 @@ on:
         description: "GitHub tenant to deploy to (AE / MVP1)"
         type: string
         required: true
-        default: 'ae'
+        options:
+         - 'AE'
+         - 'PROD'
       terraform-action:
         description: 'Terraform action'
         type: choice
