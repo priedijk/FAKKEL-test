@@ -1,0 +1,45 @@
+on:
+  workflow_dispatch:
+    inputs:
+      location:
+        description: "Hub Location (weu / frc)"
+        type: choice
+        required: true
+        options:
+          - 'weu'
+          - 'frc'
+      tenant:
+        description: "GitHub tenant to deploy to (AE / MVP1)"
+        type: string
+        required: true
+        options:
+         - 'AE'
+         - 'PROD'
+      terraform-action:
+        description: 'Terraform action'
+        type: choice
+        required: true
+        options:
+          - 'plan'
+          - 'plan+apply'
+          - 'destroy'
+      confirm-destroy:
+        description: "Confirm destroy"
+        type: boolean
+        default: false
+
+name: Random ID test
+
+jobs:
+  Keyvault-test:
+    uses: ./.github/workflows/reusable-workflow.yml
+    with:
+      location: ${{ github.event.inputs.location }}
+      tenant: ${{ github.event.inputs.tenant }}
+      confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
+      terraform-action: ${{ github.event.inputs.terraform-action }}
+      terraform-directory: 'random_test'
+      terraform-init-args: '-backend-config="key=random_test.tfstate"'
+      terraform-plan-args: ''
+      terraform-apply-args: ''
+    secrets: inherit
