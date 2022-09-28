@@ -6,4 +6,4 @@ param(
 )
 
 
-terraform -chdir="${terraformdir}" import random_id.random "VtU"
+terraform -chdir="${terraformdir}" import random_id.import "VtU"
