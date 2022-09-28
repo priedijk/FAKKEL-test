@@ -23,10 +23,15 @@ on:
           - 'plan'
           - 'plan+apply'
           - 'destroy'
+          - 'import'
       confirm-destroy:
         description: "Confirm destroy"
         type: boolean
         default: false
+      terraform-import-file:
+        description: "(Import only!) Name of the terraform import file. Use the statefile name without location (<statefileName>.ps1)"
+        type: string
+        default: ''  
       IsNewDeployment:
         description: "IsNewDeployment?"
         type: boolean
@@ -48,4 +53,5 @@ jobs:
       terraform-init-args: '-backend-config="key=random_test.tfstate"'
       terraform-plan-args: ''
       terraform-apply-args: ''
+      terraform-import-file: ${{ inputs.terraform-import-file }}
     secrets: inherit
