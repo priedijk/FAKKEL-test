@@ -27,6 +27,11 @@ on:
         description: "Confirm destroy"
         type: boolean
         default: false
+      IsNewDeployment:
+        description: "IsNewDeployment?"
+        type: boolean
+        default: false
+        required: true
 
 name: Resource-group test
 
@@ -37,6 +42,7 @@ jobs:
       location: ${{ github.event.inputs.location }}
       tenant: ${{ github.event.inputs.tenant }}
       confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
+      IsNewDeployment: ${{ github.event.inputs.IsNewDeployment }}
       terraform-action: ${{ github.event.inputs.terraform-action }}
       terraform-directory: 'rg-test'
       terraform-init-args: '-backend-config="key=reg.tfstate"'

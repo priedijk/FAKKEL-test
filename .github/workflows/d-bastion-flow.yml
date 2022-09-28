@@ -27,6 +27,11 @@ on:
         description: "Confirm destroy"
         type: boolean
         default: false
+      IsNewDeployment:
+        description: "IsNewDeployment?"
+        type: boolean
+        default: false
+        required: true
 
 name: Bastion test
 

@@ -1,3 +1,8 @@
+variable "new_deployment" {
+  description = "new deployment tick"
+  type        = string
+  default     = "empty"
+}
 
 variable "resource_group_location" {
   default     = "westeurope"
