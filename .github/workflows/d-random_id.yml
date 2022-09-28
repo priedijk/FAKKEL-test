@@ -36,7 +36,7 @@ on:
 name: Random ID test
 
 jobs:
-  Keyvault-test:
+  random-id-test:
     uses: ./.github/workflows/reusable-workflow.yml
     with:
       location: ${{ github.event.inputs.location }}
