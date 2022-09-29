@@ -28,7 +28,7 @@ on:
         type: boolean
         default: false
       IsNewDeployment:
-        description: "Initial foundation deployment \n (should be true during the initial deployment of both hubs (weu & frc). A second deployment is needed after the initial deployment has been done for each hub)\n"
+        description: "Initial foundation deployment             (should be true during the initial deployment of both hubs (weu & frc). A second deployment is needed after the initial deployment has been done for each hub)"
         type: boolean
         default: false
         required: true
