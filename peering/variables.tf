@@ -22,11 +22,6 @@ variable "tenant" {
 
 variable "new_deployment" {
   description = "new deployment tick"
-  type        = string
-  default     = "empty"
-}
-variable "new_deployment1" {
-  description = "new deployment tick"
-  type        = string
-  default     = "empty"
+  type        = bool
+  default     = false
 }
