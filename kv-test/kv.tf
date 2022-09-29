@@ -1,5 +1,9 @@
 data "azurerm_client_config" "current" {}
 
+data "azuread_group" "moderngroup" {
+  display_name = "moderngroup"
+}
+
 resource "random_id" "kvname" {
   byte_length = 4
 }
@@ -26,7 +30,7 @@ resource "azurerm_key_vault" "fakkel" {
 
   access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = "622c186c-008a-457c-be8b-d0f91f62e393"
+    object_id = data.azuread_group.moderngroup.object_id
 
     key_permissions = [
       "Get"
