@@ -38,7 +38,7 @@ on:
         type: string
         default: ''
       IsNewDeployment:
-        description: "Initial foundation deployment__________(should be true during the initial deployment of both hubs (weu & frc). A second deployment is needed after the initial deployment has been done for each hub)"
+        description: "Initial foundation deployment          (should be true during the initial deployment of both hubs (weu & frc). A second deployment is needed after the initial deployment has been done for each hub)"
         type: string
         default: ''
         required: true
