@@ -1,7 +1,7 @@
 variable "new_deployment" {
   description = "new deployment tick"
-  type        = string
-  default     = "empty"
+  type        = bool
+  default     = false
 }
 
 variable "location_code" {
