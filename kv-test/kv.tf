@@ -9,7 +9,7 @@ resource "azurerm_resource_group" "fakkel" {
   location = "West Europe"
 }
 
-resource "azurerm_key_vault" "fakkel" {
+resource "azurerm_key_vault" "bananenblad" {
   name                        = "kv-test-${var.location_code}-${lower(random_id.kvname.hex)}"
   location                    = azurerm_resource_group.fakkel.location
   resource_group_name         = azurerm_resource_group.fakkel.name
