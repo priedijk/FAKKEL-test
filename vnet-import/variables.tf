@@ -4,6 +4,12 @@ variable "location" {
   default     = "weu"
 }
 
+variable "location_code" {
+  description = "Location code identifier"
+  type        = string
+  default     = "weu"
+}
+
 variable "tenant" {
   description = "Location code identifier"
   type        = string
