@@ -9,12 +9,12 @@ on:
           - 'weu'
           - 'frc'
       tenant:
-        description: "GitHub tenant to deploy to (AE / MVP1)"
+        description: "GitHub tenant to deploy to (ae / prod)"
         type: string
         required: true
         options:
-         - 'AE'
-         - 'PROD'
+         - 'ae'
+         - 'prod'
       terraform-action:
         description: 'Terraform action'
         type: choice
@@ -28,7 +28,7 @@ on:
         type: boolean
         default: false
       IsNewDeployment:
-        description: "Initial foundation deployment ...... (should be true during the initial deployment of both hubs (weu & frc). A second deployment is needed after the initial deployment has been done for each hub)"
+        description: "IsNewDeployment"
         type: boolean
         default: false
         required: true

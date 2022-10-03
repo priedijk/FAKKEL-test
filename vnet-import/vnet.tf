@@ -1,16 +1,16 @@
 locals {
-  vnet_address_space = lookup(var.address_space, "${var.location}_${var.tenant}").address_space
+  vnet_address_space = lookup(var.address_space, "${var.location_code}_${var.tenant}").address_space
 
   subnets     = var.location == "weu" ? local.subnets_weu : local.subnets_frc
   subnets_weu = var.tenant == "ae" ? var.network_weu_ae : var.network_weu_ae
   subnets_frc = var.tenant == "ae" ? var.network_weu_ae : var.network_weu_ae
 
-  vnet_space = lookup(var.address_space, "${var.location}_${var.tenant}")
+  vnet_space = lookup(var.address_space, "${var.location_code}_${var.tenant}")
 
   nsgs = {
-    weballow     = "nsg_web_${var.location}"
-    apim         = "nsg_ap_${var.location}"
-    apim_ingress = "nsg_api_${var.location}"
+    weballow     = "nsg_web_${var.location_code}"
+    apim         = "nsg_ap_${var.location_code}"
+    apim_ingress = "nsg_api_${var.location_code}"
   }
 }
 

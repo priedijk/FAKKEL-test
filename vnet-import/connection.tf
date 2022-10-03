@@ -1,11 +1,11 @@
 /*
 locals {
-  ipsec_policy = lookup(var.ipsec_policy, "${var.location}_${var.tenant}")
+  ipsec_policy = lookup(var.ipsec_policy, "${var.location_code}_${var.tenant}")
 }
 
 
 resource "azurerm_virtual_network_gateway_connection" "connection_vpn" {
-  name                       = "ared-connection-${var.location}-001"
+  name                       = "ared-connection-${var.location_code}-001"
   location                   = azurerm_resource_group.vnet-rg.location
   resource_group_name        = azurerm_resource_group.vnet-rg.name
   virtual_network_gateway_id = azurerm_virtual_network_gateway.gateway_virtual.id

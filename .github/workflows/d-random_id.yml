@@ -9,12 +9,12 @@ on:
           - 'weu'
           - 'frc'
       tenant:
-        description: "GitHub tenant to deploy to (AE / MVP1)"
+        description: "GitHub tenant to deploy to (ae / prod)"
         type: string
         required: true
         options:
-         - 'AE'
-         - 'PROD'
+         - 'ae'
+         - 'prod'
       terraform-action:
         description: 'Terraform action'
         type: choice
@@ -29,7 +29,7 @@ on:
         type: boolean
         default: false
       terraform-import-file:
-        description: "(Import only!) Name of the terraform import file. Use the statefile name without location (<statefileName>.ps1)"
+        description: "(Import only!) <import-file-name>.ps1"
         type: string
         default: ''  
       IsNewDeployment:

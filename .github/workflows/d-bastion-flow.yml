@@ -9,12 +9,12 @@ on:
           - 'weu'
           - 'frc'
       tenant:
-        description: "GitHub tenant to deploy to (AE / MVP1)"
+        description: "GitHub tenant to deploy to (ae / prod)"
         type: string
         required: true
         options:
-         - 'AE'
-         - 'PROD'
+         - 'ae'
+         - 'prod'
       terraform-action:
         description: 'Terraform action'
         type: choice

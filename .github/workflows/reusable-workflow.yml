@@ -6,9 +6,9 @@ on:
         type: string
         required: true
       tenant:
-        description: "GitHub tenant to deploy to (AE / MVP1)"
+        description: "GitHub tenant to deploy to (ae / prod)"
         type: string
-        required: true
+        default: 'ae'
       terraform-action:
         description: 'Terraform action'
         type: string
