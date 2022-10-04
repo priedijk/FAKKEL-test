@@ -32,10 +32,6 @@ resource "azurerm_private_dns_zone_virtual_network_link" "hub" {
   private_dns_zone_name = each.value
   virtual_network_id    = local.vnet_data.id
 
-  depends_on = [
-    azurerm_private_dns_zone.hub
-  ]
-
   lifecycle {
     ignore_changes = [
       name
