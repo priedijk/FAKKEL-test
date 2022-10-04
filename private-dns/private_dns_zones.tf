@@ -13,14 +13,14 @@ data "azurerm_virtual_network" "weu" {
 }
 
 resource "azurerm_resource_group" "hub_private_dns" {
-  count    = var.location_code == "frc" ? 0 : 1
+  count    = var.location_code == "weu" ? 1 : 0
   name     = "privatedns-test-001"
   location = var.location
 }
 
 resource "azurerm_private_dns_zone" "hub" {
   # count               = var.location_code == "frc" ? 0 : 1
-  for_each            = var.location_code == "frc" ? toset(var.dns_zones) : []
+  for_each            = var.location_code == "weu" ? toset(var.dns_zones) : []
   name                = each.value
   resource_group_name = local.private_dns_rg_name
 }
