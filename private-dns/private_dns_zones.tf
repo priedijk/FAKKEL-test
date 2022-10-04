@@ -20,8 +20,8 @@ resource "azurerm_resource_group" "hub_private_dns" {
 }
 
 resource "azurerm_private_dns_zone" "hub" {
-  count               = var.location_code == "frc" ? 0 : 1
-  for_each            = toset(var.dns_zones)
+  # count               = var.location_code == "frc" ? 0 : 1
+  for_each            = var.location_code == "frc" ? toset(var.dns_zones) : {}
   name                = each.value
   resource_group_name = local.private_dns_rg_name
   tags                = var.tags
