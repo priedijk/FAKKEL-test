@@ -16,7 +16,6 @@ resource "azurerm_resource_group" "hub_private_dns" {
   count    = var.location_code == "frc" ? 0 : 1
   name     = "privatedns-test-001"
   location = var.location
-  tags     = var.tags
 }
 
 resource "azurerm_private_dns_zone" "hub" {
@@ -24,7 +23,6 @@ resource "azurerm_private_dns_zone" "hub" {
   for_each            = var.location_code == "frc" ? toset(var.dns_zones) : {}
   name                = each.value
   resource_group_name = local.private_dns_rg_name
-  tags                = var.tags
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "hub" {
@@ -33,7 +31,6 @@ resource "azurerm_private_dns_zone_virtual_network_link" "hub" {
   resource_group_name   = local.private_dns_rg_name
   private_dns_zone_name = each.value
   virtual_network_id    = local.vnet_data
-  tags                  = var.tags
   lifecycle {
     ignore_changes = [
       name
