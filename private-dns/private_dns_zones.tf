@@ -27,7 +27,7 @@ resource "azurerm_private_dns_zone" "hub" {
 
 resource "azurerm_private_dns_zone_virtual_network_link" "hub" {
   for_each              = toset(var.dns_zones)
-  name                  = "${each.value}-hub-vnet-${location_code}"
+  name                  = "${each.value}-hub-vnet-${var.location_code}"
   resource_group_name   = local.private_dns_rg_name
   private_dns_zone_name = each.value
   virtual_network_id    = local.vnet_data
