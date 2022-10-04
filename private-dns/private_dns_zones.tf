@@ -25,7 +25,7 @@ resource "azurerm_private_dns_zone" "hub" {
   resource_group_name = local.private_dns_rg_name
 
   depends_on = [
-    azurerm_private_dns_zone.hub
+    azurerm_resource_group.hub_private_dns
   ]
 }
 
