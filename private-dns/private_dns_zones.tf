@@ -23,6 +23,10 @@ resource "azurerm_private_dns_zone" "hub" {
   for_each            = var.location_code == "weu" ? toset(var.dns_zones) : []
   name                = each.value
   resource_group_name = local.private_dns_rg_name
+
+  depends_on = [
+    azurerm_private_dns_zone.hub
+  ]
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "hub" {
