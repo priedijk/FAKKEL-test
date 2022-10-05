@@ -8,17 +8,14 @@ resource "random_id" "appname" {
 }
 
 resource "azurerm_service_plan" "first" {
-  name                = "first-appserviceplan"
-  location            = azurerm_resource_group.spoke.location
-  resource_group_name = azurerm_resource_group.spoke.name
-  zone_redundant      = true
-  kind                = "Linux"
-  reserved            = true
+  name                  = "first-appserviceplan"
+  location              = azurerm_resource_group.spoke.location
+  resource_group_name   = azurerm_resource_group.spoke.name
+  zone_balancing_enable = true
+  os_type               = "Linux"
+  sku_name              = "P1v3"
+  reserved              = true
 
-  sku {
-    tier = "PremiumV3"
-    size = "P1v3"
-  }
 }
 
 
