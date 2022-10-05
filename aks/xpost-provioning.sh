@@ -16,6 +16,10 @@
 # export AKS=$(terraform output -raw aks_name)
 # export RG=$(terraform output -raw aks_resource_group_name)
 
+echo IDENTITY_RESOURCE_GROUP1
+echo IDENTITY_RESOURCE_GROUP2
+echo IDENTITY_RESOURCE_GROUP3
+
 echo $IDENTITY_RESOURCE_GROUP
 echo $IDENTITY_CLIENT_ID
 echo $IDENTITY_RESOURCE_ID
