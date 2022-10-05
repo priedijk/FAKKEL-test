@@ -27,7 +27,7 @@ jobs:
       confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
       post-provisioning: ${{ github.event.inputs.post-provisioning }}
       terraform-action: ${{ github.event.inputs.terraform-action }}
-      terraform-directory: 'aks'
+      terraform-directory: 'aks2'
       terraform-init-args: '-backend-config="key=aks-test.tfstate"'
       terraform-plan-args: ''
       terraform-apply-args: ''
