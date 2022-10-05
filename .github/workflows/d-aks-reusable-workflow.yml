@@ -66,9 +66,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Set workflow environment variables
-        run: ./scripts/set-workflow-env-variables.sh ${{ inputs.tenant }} ${{ inputs.location }} ${{ inputs.IsNewDeployment }}
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
@@ -116,5 +113,5 @@ jobs:
           terraform -chdir=${{ inputs.terraform-directory }} destroy -auto-approve -input=false
 
       - name: AKS post-provisioning
-        if: inputs.post-provisioning
+        if: inputs.post-provisioning == 'true'
         run: ./aks/xpost-provioning.sh
