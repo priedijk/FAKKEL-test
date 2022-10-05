@@ -1,0 +1,345 @@
+# after install
+
+export TF_LOG=trace
+
+export AKS=$(az aks list --query '[].name' -o tsv)
+export RG=$(az aks list --query '[].resourceGroup' -o tsv)
+az aks enable-addons --addons azure-keyvault-secrets-provider --name $AKS  --resource-group $RG
+
+
+# on console
+
+az login --service-principal -u 16f393ec-2523-4db2-8c56-175b2839e735 -p xxxxxxxxxxxxxxxxxxxxx  --tenant thx1139corp.onmicrosoft.com
+
+export ACR=$(az acr list --query '[].name' -o tsv)
+export AKS=$(az aks list --query '[].name' -o tsv)
+export RG=$(az aks list --query '[].resourceGroup' -o tsv)
+echo $RG $AKS $ACR
+
+az aks get-credentials -n $AKS -g $RG --admin --overwrite-existing
+sudo az aks install-cli  
+
+echo FROM tvdvoorde/php5000:2>Dockerfile
+
+az acr build -t php5000:2 -r $ACR .
+
+kubectl create deployment test --image=$ACR.azurecr.io/php5000:2
+kubectl expose deployment test --type=LoadBalancer --port=80 --target-port=5000
+kubectl get service -w
+
+
+
+helm repo add aad-pod-identity https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
+
+helm install kube-system aad-pod-identity/aad-pod-identity --set nmi.priorityClassName="system-cluster-critical" --set mic.priorityClassName="system-cluster-critical" 
+
+export IDENTITY_RESOURCE_GROUP="rg-id"
+export IDENTITY_NAME="application-identity"
+
+az group create -g ${IDENTITY_RESOURCE_GROUP} -l westeurope
+
+az identity create --resource-group ${IDENTITY_RESOURCE_GROUP} --name ${IDENTITY_NAME}
+
+export IDENTITY_CLIENT_ID="$(az identity show -g rg-id -n ${IDENTITY_NAME} --query clientId -otsv)"
+export IDENTITY_RESOURCE_ID="$(az identity show -g ${IDENTITY_RESOURCE_GROUP} -n ${IDENTITY_NAME} --query id -otsv)"
+
+export NODE_GROUP=$(az aks show -g $RG -n $AKS --query nodeResourceGroup -o tsv)
+export NODES_RESOURCE_ID=$(az group show -n $NODE_GROUP -o tsv --query "id")
+echo $NODE_GROUP
+echo $NODES_RESOURCE_ID
+
+az role assignment create --role "Virtual Machine Contributor" --assignee "$IDENTITY_CLIENT_ID" --scope $NODES_RESOURCE_ID
+
+
+
+az aks command invoke -n $AKS -g $RG -c 'kubectl get pods'
+
+export IDENTITY_NAME="my-pod-identity"
+
+cat <<EOF>podid.yaml
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentity
+metadata:
+  name: ${IDENTITY_NAME}
+spec:
+  type: 0
+  resourceID: ${IDENTITY_RESOURCE_ID}
+  clientID: ${IDENTITY_CLIENT_ID}
+EOF
+
+cat podid.yaml
+
+
+
+az aks command invoke -n $AKS -g $RG  -f podid.yaml -c 'kubectl apply -f podid.yaml'
+
+cat <<EOF>binding.yaml
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentityBinding
+metadata:
+  name: ${IDENTITY_NAME}-binding
+spec:
+  azureIdentity: ${IDENTITY_NAME}
+  selector: ${IDENTITY_NAME}
+EOF
+
+cat binding.yaml
+
+az aks command invoke -n $AKS -g $RG  -f binding.yaml -c 'kubectl apply -f binding.yaml'
+
+
+
+
+
+
+cat<<EOF>demo.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo
+  labels:
+    aadpodidbinding: ${IDENTITY_NAME}
+spec:
+  containers:
+  - name: demo
+    image: mcr.microsoft.com/oss/azure/aad-pod-identity/demo:v1.6.3
+    args:
+      - --subscriptionid=5053b074-62e4-469e-91a2-f56553bdfebb
+      - --clientid=${IDENTITY_CLIENT_ID}
+      - --resourcegroup=${IDENTITY_RESOURCE_GROUP}
+    env:
+      - name: MY_POD_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.name
+      - name: MY_POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.namespace
+      - name: MY_POD_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.podIP
+  nodeSelector:
+
+    kubernetes.io/os: linux
+EOF
+
+az aks command invoke -n $AKS -g $RG  -f demo.yaml -c 'kubectl apply -f demo.yaml'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#######
+
+https://azure.github.io/aad-pod-identity/docs/getting-started/role-assignment/
+
+
+export RG=rg6
+export AKS=aks6
+export SUB=$(az account show --query "id" -o tsv)
+
+echo $RG $AKS $SUB
+
+az group create -g $RG -l westeurope
+az aks create -n $AKS -g $RG --network-plugin=azure --network-policy=calico -c 3
+az aks get-credentials -n $AKS -g $RG --overwrite-existing
+
+
+export ID=$(az aks show -g $RG -n $AKS --query identityProfile.kubeletidentity.clientId -o tsv)
+export NODE_RESOURCE_GROUP="$(az aks show -g ${RG} -n ${AKS} --query nodeResourceGroup -otsv)"
+
+echo $ID $NODE_RESOURCE_GROUP
+
+az role assignment create --role "Managed Identity Operator" --assignee $ID --scope /subscriptions/$SUB/resourcegroups/$NODE_RESOURCE_GROUP
+az role assignment create --role "Virtual Machine Contributor" --assignee $ID --scope /subscriptions/$SUB/resourcegroups/$NODE_RESOURCE_GROUP
+
+
+export IDENTITY_RESOURCE_GROUP=$RG-id
+export IDENTITY_NAME=demo1138
+
+echo $IDENTITY_RESOURCE_GROUP $IDENTITY_NAME
+
+az group create -g ${IDENTITY_RESOURCE_GROUP} -l westeurope
+
+az identity create -g ${IDENTITY_RESOURCE_GROUP} -n ${IDENTITY_NAME}
+
+az role assignment create --role "Managed Identity Operator" --assignee $ID --scope /subscriptions/$SUB/resourcegroups/$IDENTITY_RESOURCE_GROUP
+
+
+####
+
+***IN TF UP TO HERE
+
+
+
+
+
+
+helm repo add aad-pod-identity https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
+helm repo update
+helm install aad-pod-identity aad-pod-identity/aad-pod-identity --namespace=kube-system
+
+
+export IDENTITY_CLIENT_ID="$(az identity show -g ${IDENTITY_RESOURCE_GROUP} -n ${IDENTITY_NAME} --query clientId -otsv)"
+export IDENTITY_RESOURCE_ID="$(az identity show -g ${IDENTITY_RESOURCE_GROUP} -n ${IDENTITY_NAME} --query id -otsv)"
+
+echo $IDENTITY_CLIENT_ID $IDENTITY_RESOURCE_ID
+
+cat <<EOF | kubectl apply -f -
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentity
+metadata:
+  name: ${IDENTITY_NAME}
+spec:
+  type: 0
+  resourceID: ${IDENTITY_RESOURCE_ID}
+  clientID: ${IDENTITY_CLIENT_ID}
+EOF
+
+cat <<EOF | kubectl apply -f -
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentityBinding
+metadata:
+  name: ${IDENTITY_NAME}-binding
+spec:
+  azureIdentity: ${IDENTITY_NAME}
+  selector: ${IDENTITY_NAME}
+EOF
+
+
+cat<<EOF>demo.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo
+  labels:
+    aadpodidbinding: $IDENTITY_NAME
+spec:
+  containers:
+  - name: demo
+    image: mcr.microsoft.com/oss/azure/aad-pod-identity/demo:v1.8.4
+    args:
+      - --subscription-id=${SUB}
+      - --resource-group=${IDENTITY_RESOURCE_GROUP}
+      - --identity-client-id=${IDENTITY_CLIENT_ID}
+  nodeSelector:
+    kubernetes.io/os: linux
+EOF
+
+kubectl apply -f demo.yaml
+
+kubectl logs demo -f
+
+
+
+export KEYVAULT_GROUP=$RG-key
+export KEYVAULT=${RG}thx932920123
+
+echo $KEYVAULT_GROUP $KEYVAULT
+
+az group create -g $KEYVAULT_GROUP -l westeurope
+az keyvault create --name $KEYVAULT -g $KEYVAULT_GROUP
+az keyvault secret set --name MYSECRET --vault-name $KEYVAULT --value MYVALUE
+
+az keyvault set-policy -n $KEYVAULT  --secret-permissions get list --object-id $IDENTITY_CLIENT_ID
+
+az keyvault set-policy -n $KEYVAULT --secret-permissions get --spn $IDENTITY_CLIENT_ID
+
+export TENANT=$(az account show --query "tenantId" -o tsv)
+
+
+az aks enable-addons --addons azure-keyvault-secrets-provider --name $AKS  --resource-group $RG
+
+
+cat<<EOF|kubectl apply -f -
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: azure-kvname-podid
+spec:
+  provider: azure
+  secretObjects:
+  - secretName: testsecret
+    type: Opaque                              
+    data: 
+    - objectName: mysecret
+      key: datafield
+  parameters:
+    usePodIdentity: "true"               
+    keyvaultName: ${KEYVAULT}    
+    cloudName: ""                        
+    objects:  |
+      array:
+        - |
+          objectName: mysecret
+          objectType: secret             
+          objectVersion: ""              
+    tenantId: ${TENANT}              
+EOF
+
+cat<<EOF|kubectl apply -f -
+kind: Pod
+apiVersion: v1
+metadata:
+  name: php
+  labels:
+    aadpodidbinding: $IDENTITY_NAME
+spec:
+  containers:
+    - name: php
+      image: tvdvoorde/php5000:2
+      volumeMounts:
+      - name: secrets-store01-inline
+        mountPath: "/mnt/secrets-store"
+        readOnly: true
+      env:
+      - name: SECRETVALUEFROMKEYVAULT
+        valueFrom:
+          secretKeyRef:
+            name: testsecret
+            key: datafield
+  volumes:
+    - name: secrets-store01-inline
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: "azure-kvname-podid"
+EOF
+
+
+
+
+
+1 main.go:73] failed list all vm, error: compute.VirtualMachinesClient#List: 
+
+Failure responding to request: StatusCode=403 -- Original Error: autorest/azure: 
+Service returned an error. 
+Status=403 
+Code="AuthorizationFailed" 
+Message="The client 'be5ee36c-6143-44ec-99d8-f9f70061cf75' 
+with object id 'be5ee36c-6143-44ec-99d8-f9f70061cf75' 
+does not have authorization to perform action 
+'Microsoft.Compute/virtualMachines/read' over scope 
+'/subscriptions/5053b074-62e4-469e-91a2-f56553bdfebb/resourceGroups/rg-spoke6385b445/providers/Microsoft.Compute' 
+
+
