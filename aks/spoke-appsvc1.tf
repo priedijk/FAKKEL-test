@@ -14,7 +14,6 @@ resource "azurerm_service_plan" "first" {
   zone_balancing_enabled = true
   os_type                = "Linux"
   sku_name               = "P1v3"
-  reserved               = true
 }
 
 
