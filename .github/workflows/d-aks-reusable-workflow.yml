@@ -129,7 +129,23 @@ jobs:
           export AGIC_RESOURCE_ID=$(terraform output -raw agic_id) `
           export VM=$(terraform output -raw vm) `
           export AKS=$(terraform output -raw aks_name) `
-          export RG=$(terraform output -raw aks_resource_group_name)
+          export RG=$(terraform output -raw aks_resource_group_name) `
+
+          echo $IDENTITY_RESOURCE_GROUP `
+          echo $IDENTITY_CLIENT_ID `
+          echo $IDENTITY_RESOURCE_ID `
+          echo $IDENTITY_TENANT_ID `
+          echo $KEYVAULT_NAME `
+          echo $ID_NAME `
+          echo $SUBSCRIPTION_ID `
+          echo $AGW_NAME `
+          echo $AGW_RESOURCE_GROUP `
+          echo $AGIC_CLIENT_ID `
+          echo $AGIC_TENANT_ID `
+          echo $AGIC_RESOURCE_ID `
+          echo $VM `
+          echo $AKS `
+          echo $RG 
 
       - name: AKS post-provisioning
         if: inputs.post-provisioning == 'true'
