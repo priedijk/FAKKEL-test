@@ -7,13 +7,13 @@ terraform {
   }
   required_providers {
     azurerm = {
-      use_oidc = true
-      source   = "hashicorp/azurerm"
-      version  = "2.81.0"
+      source  = "hashicorp/azurerm"
+      version = "2.81.0"
     }
   }
 }
 provider "azurerm" {
   # Configuration options
+  use_oidc = true
   features {}
 }
