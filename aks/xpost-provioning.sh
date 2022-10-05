@@ -1,20 +1,20 @@
 ### --- REMOTE ---
 
-export IDENTITY_RESOURCE_GROUP=$(terraform output -raw resourcegroup)
-export IDENTITY_CLIENT_ID=$(terraform output -raw identity_client_id)
-export IDENTITY_TENANT_ID=$(terraform output -raw identity_tenant_id)
-export IDENTITY_RESOURCE_ID=$(terraform output -raw identity_id)
-export KEYVAULT_NAME=$(terraform output -raw keyvault_name)
-export ID_NAME=$(terraform output -raw id_name)
-export SUBSCRIPTION_ID=$(terraform output -raw subscription_id)
-export AGW_NAME=$(terraform output -raw agw_name)
-export AGW_RESOURCE_GROUP=$(terraform output -raw agw_resource_group)
-export AGIC_CLIENT_ID=$(terraform output -raw agic_client_id)
-export AGIC_TENANT_ID=$(terraform output -raw agic_tenant_id)
-export AGIC_RESOURCE_ID=$(terraform output -raw agic_id)
-export VM=$(terraform output -raw vm)
-export AKS=$(terraform output -raw aks_name)
-export RG=$(terraform output -raw aks_resource_group_name)
+# export IDENTITY_RESOURCE_GROUP=$(terraform output -raw resourcegroup)
+# export IDENTITY_CLIENT_ID=$(terraform output -raw identity_client_id)
+# export IDENTITY_TENANT_ID=$(terraform output -raw identity_tenant_id)
+# export IDENTITY_RESOURCE_ID=$(terraform output -raw identity_id)
+# export KEYVAULT_NAME=$(terraform output -raw keyvault_name)
+# export ID_NAME=$(terraform output -raw id_name)
+# export SUBSCRIPTION_ID=$(terraform output -raw subscription_id)
+# export AGW_NAME=$(terraform output -raw agw_name)
+# export AGW_RESOURCE_GROUP=$(terraform output -raw agw_resource_group)
+# export AGIC_CLIENT_ID=$(terraform output -raw agic_client_id)
+# export AGIC_TENANT_ID=$(terraform output -raw agic_tenant_id)
+# export AGIC_RESOURCE_ID=$(terraform output -raw agic_id)
+# export VM=$(terraform output -raw vm)
+# export AKS=$(terraform output -raw aks_name)
+# export RG=$(terraform output -raw aks_resource_group_name)
 
 echo $IDENTITY_RESOURCE_GROUP
 echo $IDENTITY_CLIENT_ID
@@ -31,6 +31,8 @@ echo $AGIC_RESOURCE_ID
 echo $VM
 echo $AKS
 echo $RG
+
+exit 1
 
 az aks command invoke -n $AKS -g $RG -c 'helm repo add aad-pod-identity https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts && helm repo update && helm upgrade --install aad-pod-identity aad-pod-identity/aad-pod-identity --namespace=kube-system'
 
