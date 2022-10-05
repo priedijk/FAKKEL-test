@@ -44,12 +44,9 @@ jobs:
       TF_VAR_location_code: ${{ inputs.location }}
       TF_VAR_new_deployment: ${{ inputs.IsNewDeployment }}
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      # ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID_NEW }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      ARM_USE_OIDC: true
-      VPN_SECRET: ${{ inputs.Location == 'weu' && secrets.SECRET_KEY || secrets.SECRET_KEY2 }}
   
     steps:
       - name: Log inputs
@@ -59,25 +56,11 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v3
-
+      
       - name: 'Az CLI login'
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-      # - name: 'Az CLI login'
-      #   uses: azure/login@v1
-      #   with:
-      #     client-id: ${{ secrets.AZURE_CLIENT_ID_NEW }}
-      #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-      #     subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      
-      # - name: 'Az CLI login'
-      #   uses: azure/login@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Set workflow environment variables
         run: ./scripts/set-workflow-env-variables.sh ${{ inputs.tenant }} ${{ inputs.location }} ${{ inputs.IsNewDeployment }}
@@ -115,12 +98,6 @@ jobs:
       - name: Terraform Plan
         id: plan
         if: inputs.terraform-action != 'import'
-        # env:
-        #   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        #   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        #   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-        #   ARM_USE_OIDC: true
-
         run: |
           terraform -chdir=${{ inputs.terraform-directory }} plan -input=false
 
