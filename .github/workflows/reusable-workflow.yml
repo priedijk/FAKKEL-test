@@ -59,11 +59,11 @@ jobs:
       TF_VAR_environment: ${{ inputs.environment }}
       TF_VAR_location_code: ${{ inputs.location }}
       TF_VAR_new_deployment: ${{ inputs.IsNewDeployment }}
-      # ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       # ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      # ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      # ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      # ARM_USE_OIDC: true
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_USE_OIDC: true
       VPN_SECRET: ${{ inputs.Location == 'weu' && secrets.SECRET_KEY || secrets.SECRET_KEY2 }}
   
     steps:
@@ -123,11 +123,11 @@ jobs:
       - name: Terraform Plan
         id: plan
         if: inputs.terraform-action != 'import'
-        env:
-          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          ARM_USE_OIDC: true
+        # env:
+        #   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        #   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        #   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        #   ARM_USE_OIDC: true
 
         run: |
           terraform -chdir=${{ inputs.terraform-directory }} plan -input=false
