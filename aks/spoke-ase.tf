@@ -56,7 +56,7 @@
 #   }
 # }
 
-# resource "azurerm_app_service_plan" "aseplan" {
+# resource "azurerm_service_plan" "aseplan" {
 #   name                       = "ase3-plan"
 #   location                   = azurerm_resource_group.spoke.location
 #   resource_group_name        = azurerm_resource_group.spoke.name
@@ -76,7 +76,7 @@
 #   name                = "ase3-${random_id.appname.hex}"
 #   location            = azurerm_resource_group.spoke.location
 #   resource_group_name = azurerm_resource_group.spoke.name
-#   app_service_plan_id = azurerm_app_service_plan.aseplan.id
+#   app_service_plan_id = azurerm_service_plan.aseplan.id
 #   # identity {
 #   #   type = "SystemAssigned"
 #   # }

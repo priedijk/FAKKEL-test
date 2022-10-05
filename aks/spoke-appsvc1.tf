@@ -7,7 +7,7 @@ resource "random_id" "appname" {
   byte_length = 4
 }
 
-resource "azurerm_app_service_plan" "first" {
+resource "azurerm_service_plan" "first" {
   name                = "first-appserviceplan"
   location            = azurerm_resource_group.spoke.location
   resource_group_name = azurerm_resource_group.spoke.name
@@ -26,7 +26,7 @@ resource "azurerm_app_service" "main1" {
   name                = "appsvc1-${random_id.appname.hex}"
   location            = azurerm_resource_group.spoke.location
   resource_group_name = azurerm_resource_group.spoke.name
-  app_service_plan_id = azurerm_app_service_plan.first.id
+  app_service_plan_id = azurerm_service_plan.first.id
   identity {
     type = "SystemAssigned"
   }
@@ -173,7 +173,7 @@ resource "azurerm_app_service_slot" "staging" {
   app_service_name    = azurerm_app_service.main1.name
   location            = azurerm_resource_group.spoke.location
   resource_group_name = azurerm_resource_group.spoke.name
-  app_service_plan_id = azurerm_app_service_plan.first.id
+  app_service_plan_id = azurerm_service_plan.first.id
 
   site_config {
     vnet_route_all_enabled = true

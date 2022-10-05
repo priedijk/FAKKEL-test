@@ -1,5 +1,5 @@
 
-# resource "azurerm_app_service_plan" "second" {
+# resource "azurerm_service_plan" "second" {
 #   name                = "second-appserviceplan"
 #   location            = azurerm_resource_group.spoke.location
 #   resource_group_name = azurerm_resource_group.spoke.name
@@ -19,7 +19,7 @@
 #   name                = "appsvc2-${random_id.appname.hex}"
 #   location            = azurerm_resource_group.spoke.location
 #   resource_group_name = azurerm_resource_group.spoke.name
-#   app_service_plan_id = azurerm_app_service_plan.first.id
+#   app_service_plan_id = azurerm_service_plan.first.id
 #   identity {
 #     type = "SystemAssigned"
 #   }
@@ -39,7 +39,7 @@
 #   name                = "appsvc3-${random_id.appname.hex}"
 #   location            = azurerm_resource_group.spoke.location
 #   resource_group_name = azurerm_resource_group.spoke.name
-#   app_service_plan_id = azurerm_app_service_plan.second.id
+#   app_service_plan_id = azurerm_service_plan.second.id
 #   identity {
 #     type = "SystemAssigned"
 #   }
