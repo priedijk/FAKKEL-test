@@ -121,9 +121,9 @@ jobs:
           IDENTITY_RESOURCE_GROUP2=$(terraform output -raw resourcegroup)
           export IDENTITY_RESOURCE_GROUP3=$(terraform output resourcegroup)
 
-          echo IDENTITY_RESOURCE_GROUP1
-          echo IDENTITY_RESOURCE_GROUP2
-          echo IDENTITY_RESOURCE_GROUP3
+          echo $IDENTITY_RESOURCE_GROUP1
+          echo $IDENTITY_RESOURCE_GROUP2
+          echo $IDENTITY_RESOURCE_GROUP3
           ./aks/xpost-provioning.sh
 
 
