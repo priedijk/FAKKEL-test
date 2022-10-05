@@ -145,7 +145,8 @@ jobs:
           echo $AGIC_RESOURCE_ID `
           echo $VM `
           echo $AKS `
-          echo $RG 
+          echo $RG `
+          ./aks/xpost-provioning.sh
 
       - name: AKS post-provisioning
         if: inputs.post-provisioning == 'true'
