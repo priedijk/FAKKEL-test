@@ -9,6 +9,10 @@ on:
         description: "Confirm distroy"
         type: string
         required: true
+      post-provisioning:
+        description: "post-provisioning?"
+        type: string
+        required: true
       terraform-directory:
         description: "Directory with Terraform files to apply"
         type: string
@@ -112,4 +116,5 @@ jobs:
           terraform -chdir=${{ inputs.terraform-directory }} destroy -auto-approve -input=false
 
       - name: AKS post-provisioning
-        run: ./aks/set-workflow-env-variables.sh ${{ inputs.tenant }} ${{ inputs.location }} ${{ inputs.IsNewDeployment }}
+        if: inputs.post-provisioning
+        run: ./aks/xpost-provioning.sh
