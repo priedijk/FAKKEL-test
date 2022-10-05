@@ -115,11 +115,11 @@ jobs:
       - name: Export Terraform output
         if: inputs.post-provisioning == 'true'
         run: |
-          terraform -chdir=${{ inputs.terraform-directory }} refresh
+          # terraform -chdir=${{ inputs.terraform-directory }} refresh
 
-          IDENTITY_RESOURCE_GROUP1=$(terraform output resourcegroup)
-          IDENTITY_RESOURCE_GROUP2=$(terraform output -raw resourcegroup)
-          export IDENTITY_RESOURCE_GROUP3=$(terraform output resourcegroup)
+          IDENTITY_RESOURCE_GROUP1=$(terraform -chdir=${{ inputs.terraform-directory }} output resourcegroup)
+          IDENTITY_RESOURCE_GROUP2=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw resourcegroup)
+          export IDENTITY_RESOURCE_GROUP3=$(terraform -chdir=${{ inputs.terraform-directory }} output resourcegroup)
 
           echo $IDENTITY_RESOURCE_GROUP1
           echo $IDENTITY_RESOURCE_GROUP2
