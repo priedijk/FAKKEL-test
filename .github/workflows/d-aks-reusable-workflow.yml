@@ -126,9 +126,9 @@ jobs:
           echo $IDENTITY_RESOURCE_GROUP1
           echo $IDENTITY_RESOURCE_GROUP2
           echo $IDENTITY_RESOURCE_GROUP3
-          # ./aks/xpost-provioning.sh
+          ./aks/xpost-provioning.sh
 
 
-      - name: AKS post-provisioning
-        if: inputs.post-provisioning == 'true'
-        run: ./aks/xpost-provioning.sh
+      # - name: AKS post-provisioning
+      #   if: inputs.post-provisioning == 'true'
+      #   run: ./aks/xpost-provioning.sh

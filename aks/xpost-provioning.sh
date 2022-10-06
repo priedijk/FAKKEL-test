@@ -1,3 +1,5 @@
+#!/bin/bash  
+
 ### --- REMOTE ---
 
 # export IDENTITY_RESOURCE_GROUP=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw resourcegroup)
