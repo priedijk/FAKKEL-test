@@ -114,6 +114,7 @@ jobs:
 
       - name: Export Terraform output
         if: inputs.post-provisioning == 'true'
+        shell: bash
         run: |
           # terraform -chdir=${{ inputs.terraform-directory }} refresh
           terraform -chdir=${{ inputs.terraform-directory }} output resourcegroup
