@@ -20,16 +20,21 @@
 
 
           # terraform -chdir=${{ inputs.terraform-directory }} refresh
+          echo "two in script"
           terraform -chdir=output-test output resourcegroup
           terraform -chdir=output-test output -raw resourcegroup
 
+          echo "set vars"
           IDENTITY_RESOURCE_GROUP1="$(terraform -chdir=output-test output resourcegroup)"
           IDENTITY_RESOURCE_GROUP2="$(terraform -chdir=output-test output -raw resourcegroup)"
           export IDENTITY_RESOURCE_GROUP3="$(terraform -chdir=output-test output resourcegroup)"
-
+  
+echo "echo vars"
 echo $IDENTITY_RESOURCE_GROUP1
 echo $IDENTITY_RESOURCE_GROUP2
 echo $IDENTITY_RESOURCE_GROUP3
+
+exit 1
 
 echo $IDENTITY_RESOURCE_GROUP
 echo $IDENTITY_CLIENT_ID
@@ -46,8 +51,6 @@ echo $AGIC_RESOURCE_ID
 echo $VM
 echo $AKS
 echo $RG
-
-exit 1
 
 az aks command invoke -n $AKS -g $RG -c 'helm repo add aad-pod-identity https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts && helm repo update && helm upgrade --install aad-pod-identity aad-pod-identity/aad-pod-identity --namespace=kube-system'
 
