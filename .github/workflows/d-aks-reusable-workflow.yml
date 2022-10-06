@@ -116,6 +116,8 @@ jobs:
         if: inputs.post-provisioning == 'true'
         run: |
           terraform -chdir=${{ inputs.terraform-directory }} refresh
+          terraform -chdir=${{ inputs.terraform-directory }} output resourcegroup
+          terraform -chdir=${{ inputs.terraform-directory }} output -raw resourcegroup
 
           IDENTITY_RESOURCE_GROUP1=$(terraform -chdir=${{ inputs.terraform-directory }} output resourcegroup)
           IDENTITY_RESOURCE_GROUP2=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw resourcegroup)
@@ -124,7 +126,7 @@ jobs:
           echo $IDENTITY_RESOURCE_GROUP1
           echo $IDENTITY_RESOURCE_GROUP2
           echo $IDENTITY_RESOURCE_GROUP3
-          ./aks/xpost-provioning.sh
+          # ./aks/xpost-provioning.sh
 
 
       - name: AKS post-provisioning

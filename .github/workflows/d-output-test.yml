@@ -1,0 +1,34 @@
+on:
+  workflow_dispatch:
+    inputs:
+      terraform-action:
+        description: 'Terraform action'
+        type: choice
+        required: true
+        options:
+          - 'plan'
+          - 'plan+apply'
+          - 'destroy'
+      confirm-destroy:
+        description: "Confirm destroy"
+        type: boolean
+        default: false
+      post-provisioning:
+        description: "post-provisioning?"
+        type: boolean
+        default: false
+
+name: Output test
+
+jobs:
+  output-test:
+    uses: ./.github/workflows/d-aks-reusable-workflow.yml
+    with:
+      confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
+      post-provisioning: ${{ github.event.inputs.post-provisioning }}
+      terraform-action: ${{ github.event.inputs.terraform-action }}
+      terraform-directory: 'output-test'
+      terraform-init-args: '-backend-config="key=aks-test.tfstate"'
+      terraform-plan-args: ''
+      terraform-apply-args: ''
+    secrets: inherit
