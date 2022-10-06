@@ -20,14 +20,14 @@
 
 
           # terraform -chdir=${{ inputs.terraform-directory }} refresh
-          echo "two in script"
-          terraform -chdir=output-test output resourcegroup
-          terraform -chdir=output-test output -raw resourcegroup
+          # echo "two in script"
+          # terraform -chdir=output-test output resourcegroup
+          # terraform -chdir=output-test output -raw resourcegroup
 
-          echo "set vars"
-          IDENTITY_RESOURCE_GROUP1="$(terraform -chdir=output-test output resourcegroup)"
-          IDENTITY_RESOURCE_GROUP2="$(terraform -chdir=output-test output -raw resourcegroup)"
-          export IDENTITY_RESOURCE_GROUP3="$(terraform -chdir=output-test output resourcegroup)"
+          # echo "set vars"
+          # IDENTITY_RESOURCE_GROUP1="$(terraform -chdir=output-test output resourcegroup)"
+          # IDENTITY_RESOURCE_GROUP2="$(terraform -chdir=output-test output -raw resourcegroup)"
+          # export IDENTITY_RESOURCE_GROUP3="$(terraform -chdir=output-test output resourcegroup)"
   
 echo "echo vars"
 echo $IDENTITY_RESOURCE_GROUP1
