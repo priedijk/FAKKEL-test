@@ -2,21 +2,21 @@
 
 ### --- REMOTE ---
 
-export IDENTITY_RESOURCE_GROUP=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw resourcegroup)
-export IDENTITY_CLIENT_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw identity_client_id)
-export IDENTITY_TENANT_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw identity_tenant_id)
-export IDENTITY_RESOURCE_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw identity_id)
-export KEYVAULT_NAME=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw keyvault_name)
-export ID_NAME=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw id_name)
-export SUBSCRIPTION_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw subscription_id)
-export AGW_NAME=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw agw_name)
-export AGW_RESOURCE_GROUP=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw agw_resource_group)
-export AGIC_CLIENT_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw agic_client_id)
-export AGIC_TENANT_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw agic_tenant_id)
-export AGIC_RESOURCE_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw agic_id)
-export VM=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw vm)
-export AKS=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw aks_name)
-export RG=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw aks_resource_group_name)
+export IDENTITY_RESOURCE_GROUP=$(terraform -chdir=$CHDIR output -raw resourcegroup)
+export IDENTITY_CLIENT_ID=$(terraform -chdir=$CHDIR output -raw identity_client_id)
+export IDENTITY_TENANT_ID=$(terraform -chdir=$CHDIR output -raw identity_tenant_id)
+export IDENTITY_RESOURCE_ID=$(terraform -chdir=$CHDIR output -raw identity_id)
+export KEYVAULT_NAME=$(terraform -chdir=$CHDIR output -raw keyvault_name)
+export ID_NAME=$(terraform -chdir=$CHDIR output -raw id_name)
+export SUBSCRIPTION_ID=$(terraform -chdir=$CHDIR output -raw subscription_id)
+export AGW_NAME=$(terraform -chdir=$CHDIR output -raw agw_name)
+export AGW_RESOURCE_GROUP=$(terraform -chdir=$CHDIR output -raw agw_resource_group)
+export AGIC_CLIENT_ID=$(terraform -chdir=$CHDIR output -raw agic_client_id)
+export AGIC_TENANT_ID=$(terraform -chdir=$CHDIR output -raw agic_tenant_id)
+export AGIC_RESOURCE_ID=$(terraform -chdir=$CHDIR output -raw agic_id)
+export VM=$(terraform -chdir=$CHDIR output -raw vm)
+export AKS=$(terraform -chdir=$CHDIR output -raw aks_name)
+export RG=$(terraform -chdir=$CHDIR output -raw aks_resource_group_name)
 
 echo $IDENTITY_RESOURCE_GROUP
 echo $IDENTITY_CLIENT_ID
