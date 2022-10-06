@@ -122,15 +122,19 @@ jobs:
           terraform -chdir=${{ inputs.terraform-directory }} output resourcegroup
           echo "raw output"
           terraform -chdir=${{ inputs.terraform-directory }} output -raw resourcegroup
-          echo "export vars"
-          IDENTITY_RESOURCE_GROUP1="$(terraform -chdir=${{ inputs.terraform-directory }} output resourcegroup)"
-          IDENTITY_RESOURCE_GROUP2="$(terraform -chdir=${{ inputs.terraform-directory }} output -raw resourcegroup)"
-          export IDENTITY_RESOURCE_GROUP3="$(terraform -chdir=${{ inputs.terraform-directory }} output resourcegroup)"
+          # echo "export vars"
+          # IDENTITY_RESOURCE_GROUP1="$(terraform -chdir=${{ inputs.terraform-directory }} output resourcegroup)"
+          # IDENTITY_RESOURCE_GROUP2="$(terraform -chdir=${{ inputs.terraform-directory }} output -raw resourcegroup)"
+          # export IDENTITY_RESOURCE_GROUP3="$(terraform -chdir=${{ inputs.terraform-directory }} output resourcegroup)"
           
-          echo "echo vars Identities"
-          echo $IDENTITY_RESOURCE_GROUP1
-          echo $IDENTITY_RESOURCE_GROUP2
-          echo $IDENTITY_RESOURCE_GROUP3
+          # echo "echo vars Identities"
+          # echo $IDENTITY_RESOURCE_GROUP1
+          # echo $IDENTITY_RESOURCE_GROUP2
+          # echo $IDENTITY_RESOURCE_GROUP3
+
+          export CHDIR=${{ inputs.terraform-directory }}
+          echo $CHDIR
+          ./aks/xpost-provioning.sh
 
 
       - name: AKS post-provisioning

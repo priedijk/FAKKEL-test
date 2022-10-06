@@ -24,10 +24,10 @@
           # terraform -chdir=output-test output resourcegroup
           # terraform -chdir=output-test output -raw resourcegroup
 
-          # echo "set vars"
-          # IDENTITY_RESOURCE_GROUP1="$(terraform -chdir=output-test output resourcegroup)"
-          # IDENTITY_RESOURCE_GROUP2="$(terraform -chdir=output-test output -raw resourcegroup)"
-          # export IDENTITY_RESOURCE_GROUP3="$(terraform -chdir=output-test output resourcegroup)"
+          echo "set vars"
+          IDENTITY_RESOURCE_GROUP1="$(terraform -chdir=$CHDIR output resourcegroup)"
+          IDENTITY_RESOURCE_GROUP2="$(terraform -chdir=$CHDIR output -raw resourcegroup)"
+          export IDENTITY_RESOURCE_GROUP3="$(terraform -chdir=$CHDIR output resourcegroup)"
   
 echo "echo vars in script"
 echo $IDENTITY_RESOURCE_GROUP1
