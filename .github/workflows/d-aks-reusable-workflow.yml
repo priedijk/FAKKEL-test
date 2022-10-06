@@ -105,7 +105,7 @@ jobs:
           terraform -chdir=${{ inputs.terraform-directory }} plan -input=false
 
       - name: Terraform Apply
-        if: inputs.terraform-action == 'plan+apply' inputs.post-provisioning == 'false'
+        if: inputs.terraform-action == 'plan+apply' && inputs.post-provisioning == 'false'
         run: |
           terraform -chdir=${{ inputs.terraform-directory }} apply -auto-approve -input=false
 
