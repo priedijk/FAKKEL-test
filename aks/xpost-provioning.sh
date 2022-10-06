@@ -23,9 +23,9 @@
           terraform -chdir=output-test output resourcegroup
           terraform -chdir=output-test output -raw resourcegroup
 
-          IDENTITY_RESOURCE_GROUP1=$(terraform -chdir=output-test output resourcegroup)
-          IDENTITY_RESOURCE_GROUP2=$(terraform -chdir=output-test output -raw resourcegroup)
-          export IDENTITY_RESOURCE_GROUP3=$(terraform -chdir=output-test output resourcegroup)
+          IDENTITY_RESOURCE_GROUP1="$(terraform -chdir=output-test output resourcegroup)"
+          IDENTITY_RESOURCE_GROUP2="$(terraform -chdir=output-test output -raw resourcegroup)"
+          export IDENTITY_RESOURCE_GROUP3="$(terraform -chdir=output-test output resourcegroup)"
 
 echo $IDENTITY_RESOURCE_GROUP1
 echo $IDENTITY_RESOURCE_GROUP2
