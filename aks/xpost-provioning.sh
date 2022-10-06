@@ -2,39 +2,21 @@
 
 ### --- REMOTE ---
 
-# export IDENTITY_RESOURCE_GROUP=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw resourcegroup)
-# export IDENTITY_CLIENT_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw identity_client_id)
-# export IDENTITY_TENANT_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw identity_tenant_id)
-# export IDENTITY_RESOURCE_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw identity_id)
-# export KEYVAULT_NAME=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw keyvault_name)
-# export ID_NAME=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw id_name)
-# export SUBSCRIPTION_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw subscription_id)
-# export AGW_NAME=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw agw_name)
-# export AGW_RESOURCE_GROUP=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw agw_resource_group)
-# export AGIC_CLIENT_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw agic_client_id)
-# export AGIC_TENANT_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw agic_tenant_id)
-# export AGIC_RESOURCE_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw agic_id)
-# export VM=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw vm)
-# export AKS=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw aks_name)
-# export RG=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw aks_resource_group_name)
-
-
-          # terraform -chdir=${{ inputs.terraform-directory }} refresh
-          # echo "two in script"
-          # terraform -chdir=output-test output resourcegroup
-          # terraform -chdir=output-test output -raw resourcegroup
-
-          echo "set vars"
-          IDENTITY_RESOURCE_GROUP1="$(terraform -chdir=$CHDIR output resourcegroup)"
-          IDENTITY_RESOURCE_GROUP2="$(terraform -chdir=$CHDIR output -raw resourcegroup)"
-          export IDENTITY_RESOURCE_GROUP3="$(terraform -chdir=$CHDIR output resourcegroup)"
-  
-echo "echo vars in script"
-echo $IDENTITY_RESOURCE_GROUP1
-echo $IDENTITY_RESOURCE_GROUP2
-echo $IDENTITY_RESOURCE_GROUP3
-
-exit 0
+export IDENTITY_RESOURCE_GROUP=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw resourcegroup)
+export IDENTITY_CLIENT_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw identity_client_id)
+export IDENTITY_TENANT_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw identity_tenant_id)
+export IDENTITY_RESOURCE_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw identity_id)
+export KEYVAULT_NAME=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw keyvault_name)
+export ID_NAME=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw id_name)
+export SUBSCRIPTION_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw subscription_id)
+export AGW_NAME=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw agw_name)
+export AGW_RESOURCE_GROUP=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw agw_resource_group)
+export AGIC_CLIENT_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw agic_client_id)
+export AGIC_TENANT_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw agic_tenant_id)
+export AGIC_RESOURCE_ID=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw agic_id)
+export VM=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw vm)
+export AKS=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw aks_name)
+export RG=$(terraform -chdir=${{ inputs.terraform-directory }} output -raw aks_resource_group_name)
 
 echo $IDENTITY_RESOURCE_GROUP
 echo $IDENTITY_CLIENT_ID

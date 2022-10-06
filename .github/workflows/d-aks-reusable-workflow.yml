@@ -100,12 +100,12 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        if: inputs.terraform-action != 'import'
+        if: inputs.terraform-action != 'import' && inputs.post-provisioning == 'false'
         run: |
           terraform -chdir=${{ inputs.terraform-directory }} plan -input=false
 
       - name: Terraform Apply
-        if: inputs.terraform-action == 'plan+apply'
+        if: inputs.terraform-action == 'plan+apply' inputs.post-provisioning == 'false'
         run: |
           terraform -chdir=${{ inputs.terraform-directory }} apply -auto-approve -input=false
 
