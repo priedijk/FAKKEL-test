@@ -26,7 +26,7 @@ case $3 in
     ;;
 esac
 
- echo "TF_VAR_shared_key=${VPN_SECRET}" >> $GITHUB_ENV
+#  echo "TF_VAR_shared_key=${VPN_SECRET}" >> $GITHUB_ENV
 
  echo "TF_VAR_testput1=$VPN_SECRET" >> $GITHUB_ENV
  echo "TF_VAR_testput2=${VPN_SECRET}" >> $GITHUB_ENV
