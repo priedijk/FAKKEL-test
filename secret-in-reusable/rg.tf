@@ -5,8 +5,6 @@ resource "azurerm_resource_group" "secret" {
   location = "westeurope"
   tags = {
     key   = var.shared_key
-    test1 = var.testput1
-    # test2 = base64decode(var.testput2)
-    test3 = var.testput3
+    test2 = base64decode(var.shared_key)
   }
 }
