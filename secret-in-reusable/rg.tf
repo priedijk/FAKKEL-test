@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "secret" {
   tags = {
     key   = var.shared_key
     test2 = base64decode(var.shared_key)
-    test2 = var.testput2
-    test2 = base64decode(var.testput2)
+    test3 = var.testput2
+    test4 = base64decode(var.testput2)
   }
 }
