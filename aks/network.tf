@@ -1,14 +1,14 @@
-resource "azurerm_virtual_network" "spoke" {
-  name                = "spoke${random_id.nr.hex}"
-  location            = azurerm_resource_group.spoke.location
-  resource_group_name = azurerm_resource_group.spoke.name
+resource "azurerm_virtual_network" "aks" {
+  name                = "aks-vnet"
+  location            = azurerm_resource_group.aks.location
+  resource_group_name = azurerm_resource_group.aks.name
   address_space       = ["10.20.16.0/23"]
 }
 
 resource "azurerm_subnet" "systempool" {
   name                 = "systempool-subnet"
-  resource_group_name  = azurerm_resource_group.spoke.name
-  virtual_network_name = azurerm_virtual_network.spoke.name
+  resource_group_name  = azurerm_resource_group.aks.name
+  virtual_network_name = azurerm_virtual_network.aks.name
   address_prefixes     = ["10.20.17.32/27"]
 }
 
@@ -19,8 +19,8 @@ resource "azurerm_subnet_route_table_association" "systempool" {
 
 resource "azurerm_subnet" "userpool" {
   name                 = "userpool-subnet"
-  resource_group_name  = azurerm_resource_group.spoke.name
-  virtual_network_name = azurerm_virtual_network.spoke.name
+  resource_group_name  = azurerm_resource_group.aks.name
+  virtual_network_name = azurerm_virtual_network.aks.name
   address_prefixes     = ["10.20.17.64/27"]
 }
 
@@ -32,8 +32,8 @@ resource "azurerm_subnet_route_table_association" "userpool" {
 
 resource "azurerm_subnet" "data" {
   name                 = "data-subnet"
-  resource_group_name  = azurerm_resource_group.spoke.name
-  virtual_network_name = azurerm_virtual_network.spoke.name
+  resource_group_name  = azurerm_resource_group.aks.name
+  virtual_network_name = azurerm_virtual_network.aks.name
   address_prefixes     = ["10.20.16.192/26"]
 }
 
@@ -42,15 +42,15 @@ resource "azurerm_subnet_route_table_association" "data" {
   route_table_id = azurerm_route_table.main.id
 }
 
-resource "azurerm_subnet" "spoke1end" {
-  name                 = "spoke1end-subnet"
-  resource_group_name  = azurerm_resource_group.spoke.name
-  virtual_network_name = azurerm_virtual_network.spoke.name
+resource "azurerm_subnet" "aks1end" {
+  name                 = "aks1end-subnet"
+  resource_group_name  = azurerm_resource_group.aks.name
+  virtual_network_name = azurerm_virtual_network.aks.name
   address_prefixes     = ["10.20.17.0/28"]
 }
 
-resource "azurerm_subnet_route_table_association" "spoke1end" {
-  subnet_id      = azurerm_subnet.spoke1end.id
+resource "azurerm_subnet_route_table_association" "aks1end" {
+  subnet_id      = azurerm_subnet.aks1end.id
   route_table_id = azurerm_route_table.main.id
 }
 
