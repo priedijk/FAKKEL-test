@@ -34,10 +34,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
     #availability_zones          = ["1", "2", "3"]
   }
 
-  oms_agent {
-    log_analytics_workspace_id = azurerm_log_analytics_workspace.hub.id
-  }
-
   azure_active_directory_role_based_access_control {
     managed = true
     # admin_group_object_ids = ["7ce4b940-3b71-4a60-a935-edec80b406b4"]
