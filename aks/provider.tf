@@ -7,11 +7,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "= 3.8.0"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = "= 3.1.0"
+      version = "= 3.28.0"
     }
   }
 }
@@ -22,8 +18,4 @@ provider "azurerm" {
       prevent_deletion_if_contains_resources = false
     }
   }
-}
-
-resource "random_id" "nr" {
-  byte_length = 4
 }
