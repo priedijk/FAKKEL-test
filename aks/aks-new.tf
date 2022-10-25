@@ -20,7 +20,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
   resource_group_name       = azurerm_resource_group.aks.name
   dns_prefix                = "aks-test1"
   automatic_channel_upgrade = "node-image"
-  private_dns_zone_id       = "None"
   kubernetes_version        = "1.23.12"
 
   default_node_pool {
