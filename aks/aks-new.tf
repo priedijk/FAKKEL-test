@@ -10,8 +10,9 @@ resource "azurerm_kubernetes_cluster_node_pool" "userpool" {
   min_count             = 1
   max_count             = 2
   #availability_zones   = ["1", "2", "3"]
-  vnet_subnet_id      = azurerm_subnet.userpool.id
-  enable_auto_scaling = true
+  vnet_subnet_id       = azurerm_subnet.userpool.id
+  enable_auto_scaling  = true
+  orchestrator_version = "1.23.12"
 }
 
 resource "azurerm_kubernetes_cluster" "aks" {
@@ -20,8 +21,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
   resource_group_name       = azurerm_resource_group.aks.name
   dns_prefix                = "aks-test1"
   automatic_channel_upgrade = "node-image"
-  kubernetes_version        = "1.24"
-  # kubernetes_version        = "1.23.12"
+  kubernetes_version        = "1.23.12"
+  # kubernetes_version        = "1.24"
+
 
   default_node_pool {
     name                         = "default"
@@ -31,6 +33,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     vnet_subnet_id               = azurerm_subnet.systempool.id
     enable_auto_scaling          = true
     only_critical_addons_enabled = true
+    orchestrator_version         = "1.23.12"
     #availability_zones          = ["1", "2", "3"]
   }
 
