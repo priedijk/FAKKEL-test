@@ -10,8 +10,8 @@ resource "azurerm_monitor_action_group" "action_group" {
 
   event_hub_receiver {
     name                    = "test"
-    event_hub_name          = data.azurerm_eventhub.eventhub.name
-    event_hub_namespace     = data.azurerm_eventhub.eventhub.namespace_name
+    event_hub_name          = azurerm_eventhub.eventhub.name
+    event_hub_namespace     = azurerm_eventhub.eventhub.namespace_name
     use_common_alert_schema = true
   }
 }
