@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "rg_actiongroup" {
 }
 
 resource "azurerm_monitor_action_group" "action_group" {
-  name                = action-group1
+  name                = "action-group1"
   resource_group_name = azurerm_resource_group.rg_actiongroup.name
   short_name          = "actiongroup1"
 
