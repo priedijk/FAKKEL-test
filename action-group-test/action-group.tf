@@ -28,7 +28,7 @@ resource "azurerm_monitor_action_group" "test-group" {
 }
 
 resource "azurerm_monitor_action_group" "action-group" {
-  name                = "action-group-rg-"
+  name                = "action-group-rg-testcase"
   resource_group_name = azurerm_resource_group.action-group-rg.name
   short_name          = "shortername"
 
