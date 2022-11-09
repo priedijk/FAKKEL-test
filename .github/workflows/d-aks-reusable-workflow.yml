@@ -80,8 +80,8 @@ jobs:
         id: init
         run: |
           terraform -chdir=${{inputs.terraform-directory}} init \
-            -backend-config="resource_group_name=tffakkeltest" \
-            -backend-config="storage_account_name=tffakkeltest"
+            -backend-config="resource_group_name=tfstatetestfakkel" \
+            -backend-config="storage_account_name=tfstatetestfakkel"
 
       - name: Terraform Validate
         id: validate

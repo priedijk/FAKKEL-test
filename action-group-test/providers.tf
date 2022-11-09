@@ -1,8 +1,8 @@
 terraform {
   backend "azurerm" {
-    resource_group_name  = "tffakkeltest"
-    storage_account_name = "tffakkeltest"
-    container_name       = "tfstate"
+    # resource_group_name  = "tfstatetestfakkel"
+    # storage_account_name = "tfstatetestfakkel"
+    container_name = "tfstate"
   }
   required_providers {
     azurerm = {
