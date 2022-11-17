@@ -1,43 +1,5 @@
-on:
-  workflow_dispatch:
-    inputs:
-      location:
-        description: "Hub Location (weu / frc)"
-        type: choice
-        required: true
-        options:
-          - 'weu'
-          - 'frc'
-        default: 'frc'
-      tenant:
-        description: "GitHub tenant to deploy to (ae / prod)"
-        type: choice
-        required: true
-        options:
-         - 'ae'
-         - 'prod'
-        default: 'ae'
-      terraform-action:
-        description: 'Terraform action'
-        type: choice
-        required: true
-        options:
-          - 'plan'
-          - 'plan+apply'
-          - 'destroy'
-        default: 'plan'
-      confirm-destroy:
-        description: "Confirm destroy"
-        type: boolean
-        default: false
-      IsNewDeployment:
-        description: "IsNewDeployment?"
-        type: boolean
-        default: false
-        required: true
-
 # on:
-#   workflow_call:
+#   workflow_dispatch:
 #     inputs:
 #       location:
 #         description: "Hub Location (weu / frc)"
@@ -46,7 +8,7 @@ on:
 #         options:
 #           - 'weu'
 #           - 'frc'
-#         default: 'weu'
+#         default: 'frc'
 #       tenant:
 #         description: "GitHub tenant to deploy to (ae / prod)"
 #         type: choice
@@ -74,17 +36,22 @@ on:
 #         default: false
 #         required: true
 
+on:
+  push:
+    branches:
+      - "main"
+
 name: Branch-Name
 
 jobs:
   Branch-test:
     uses: ./.github/workflows/reusable-workflow.yml
     with:
-      location: ${{ github.event.inputs.location }}
-      tenant: ${{ github.event.inputs.tenant }}
-      confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
-      IsNewDeployment: ${{ github.event.inputs.IsNewDeployment }}
-      terraform-action: ${{ github.event.inputs.terraform-action }}
+      location: 'weu'
+      tenant: 'ae'
+      confirm-destroy: false
+      IsNewDeployment: false
+      terraform-action: 'plan'
       terraform-directory: 'branch-test'
       terraform-init-args: '-backend-config="key=branchname.tfstate"'
       terraform-plan-args: ''
