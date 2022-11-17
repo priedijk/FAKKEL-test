@@ -41,18 +41,18 @@ on:
 #     branches:
 #       - "main"
 
-run-name: 'Branch-Name from ${{ github.ref_name }}'
+run-name: 'Branch-Name from ${{ github.ref_name }} to ${{ github.event.inputs.location }} ${{ github.event.inputs.tenant }}'
 
 name: Branch-Name
 jobs:
   Branch-test:
     uses: ./.github/workflows/reusable-workflow.yml
     with:
-      location: 'weu'
-      tenant: 'ae'
-      confirm-destroy: false
-      IsNewDeployment: false
-      terraform-action: 'plan'
+      location: ${{ github.event.inputs.location }}
+      tenant: ${{ github.event.inputs.tenant }}
+      confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
+      IsNewDeployment: ${{ github.event.inputs.IsNewDeployment }}
+      terraform-action: ${{ github.event.inputs.terraform-action }}
       terraform-directory: 'branch-test'
       terraform-init-args: '-backend-config="key=branchname.tfstate"'
       terraform-plan-args: ''
