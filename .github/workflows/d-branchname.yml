@@ -1,0 +1,92 @@
+on:
+  workflow_dispatch:
+    inputs:
+      location:
+        description: "Hub Location (weu / frc)"
+        type: choice
+        required: true
+        options:
+          - 'weu'
+          - 'frc'
+        default: 'weu'
+      tenant:
+        description: "GitHub tenant to deploy to (ae / prod)"
+        type: choice
+        required: true
+        options:
+         - 'ae'
+         - 'prod'
+        default: 'ae'
+      terraform-action:
+        description: 'Terraform action'
+        type: choice
+        required: true
+        options:
+          - 'plan'
+          - 'plan+apply'
+          - 'destroy'
+        default: 'plan'
+      confirm-destroy:
+        description: "Confirm destroy"
+        type: boolean
+        default: false
+      IsNewDeployment:
+        description: "IsNewDeployment?"
+        type: boolean
+        default: false
+        required: true
+
+# on:
+#   workflow_call:
+#     inputs:
+#       location:
+#         description: "Hub Location (weu / frc)"
+#         type: choice
+#         required: true
+#         options:
+#           - 'weu'
+#           - 'frc'
+#         default: 'weu'
+#       tenant:
+#         description: "GitHub tenant to deploy to (ae / prod)"
+#         type: choice
+#         required: true
+#         options:
+#          - 'ae'
+#          - 'prod'
+#         default: 'ae'
+#       terraform-action:
+#         description: 'Terraform action'
+#         type: choice
+#         required: true
+#         options:
+#           - 'plan'
+#           - 'plan+apply'
+#           - 'destroy'
+#         default: 'plan'
+#       confirm-destroy:
+#         description: "Confirm destroy"
+#         type: boolean
+#         default: false
+#       IsNewDeployment:
+#         description: "IsNewDeployment?"
+#         type: boolean
+#         default: false
+#         required: true
+
+name: Branch-Name
+
+jobs:
+  Branch-test:
+    uses: ./.github/workflows/reusable-workflow.yml
+    with:
+      location: ${{ github.event.inputs.location }}
+      tenant: ${{ github.event.inputs.tenant }}
+      confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
+      IsNewDeployment: ${{ github.event.inputs.IsNewDeployment }}
+      terraform-action: ${{ github.event.inputs.terraform-action }}
+      terraform-directory: 'branch-test'
+      terraform-init-args: '-backend-config="key=branchname.tfstate"'
+      terraform-plan-args: '-var-file=test.tfvars'
+      terraform-apply-args: '-var-file=test.tfvars'
+    secrets: inherit
