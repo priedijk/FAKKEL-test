@@ -87,6 +87,6 @@ jobs:
       terraform-action: ${{ github.event.inputs.terraform-action }}
       terraform-directory: 'branch-test'
       terraform-init-args: '-backend-config="key=branchname.tfstate"'
-      terraform-plan-args: '-var-file=test.tfvars'
-      terraform-apply-args: '-var-file=test.tfvars'
+      terraform-plan-args: ''
+      terraform-apply-args: ''
     secrets: inherit
