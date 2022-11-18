@@ -68,6 +68,8 @@ jobs:
       VPN_SECRET: ${{ inputs.Location == 'weu' && secrets.SECRET_KEY || secrets.SECRET_KEY2 }}
   
     steps:
+      - name: '${{ github.ref_name }} to ${{ github.event.inputs.location }} ${{ github.event.inputs.tenant }}'
+
       - name: Log inputs
         run: |
           echo "Running with the following input:"
