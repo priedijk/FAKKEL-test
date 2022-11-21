@@ -141,12 +141,12 @@ jobs:
         #   ARM_USE_OIDC: true
 
         run: |
-          terraform -chdir=${{ inputs.terraform-directory }} plan -input=false
+          terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -out=plan
 
       - name: Terraform Apply
         if: inputs.terraform-action == 'plan+apply'
         run: |
-          terraform -chdir=${{ inputs.terraform-directory }} apply -auto-approve -input=false
+          terraform -chdir=${{ inputs.terraform-directory }} apply "plan" -auto-approve -input=false -refresh=false
 
       - name: Terraform Destroy
         if: inputs.terraform-action == 'destroy' && inputs.confirm-destroy
