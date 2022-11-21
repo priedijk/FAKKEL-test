@@ -146,7 +146,8 @@ jobs:
       - name: Terraform Apply
         if: inputs.terraform-action == 'plan+apply'
         run: |
-          terraform -chdir=${{ inputs.terraform-directory }} apply "plan" -auto-approve -input=false -refresh=false
+          terraform -chdir=${{ inputs.terraform-directory }} apply "plan"
+          # -auto-approve -input=false
 
       - name: Terraform Destroy
         if: inputs.terraform-action == 'destroy' && inputs.confirm-destroy
