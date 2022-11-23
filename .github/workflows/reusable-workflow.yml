@@ -156,7 +156,7 @@ jobs:
           fi
           
       - name: Create Issue on Failed workflow
-        if: failure() && steps.plan.outcome == 'failure'
+        if: success() && steps.plan.outcome == 'failure'
         uses: dacbd/create-issue-action@main
         with:
           token: ${{ github.token }}
