@@ -143,8 +143,8 @@ jobs:
         #   ARM_USE_OIDC: true
 
         run: |
-          # terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -detailed-exitcode
-          terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -out=plan
+          terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -detailed-exitcode
+          # terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -out=plan
 
           if [ $? -eq 0 ]; then
               echo "No changes, not applying"
@@ -156,7 +156,7 @@ jobs:
           fi
           
       - name: Create Issue on Failed workflow
-        if: ${{ failure() }} && steps.plan.outcome == 'failure'
+        if: failure() && steps.plan.outcome == 'failure'
         uses: dacbd/create-issue-action@main
         with:
           token: ${{ github.token }}
