@@ -143,15 +143,10 @@ jobs:
         #   ARM_USE_OIDC: true
 
         run: |
-          terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -detailed-exitcode
-          # terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -out=plan
-          echo "-----------"
-          echo $?
-          echo "-----------"
+          # terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -detailed-exitcode
+          terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -out=plan
 
-          (terraform -chdir=${{ inputs.terraform-directory }} plan -detailed-exitcode
-          echo $?)
-                    if [ $? -eq 0 ]; then
+          if [ $? -eq 0 ]; then
               echo "No changes, not applying"
           elif [ $? -eq 1 ]; then
               echo "Terraform plan failed"
