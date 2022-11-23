@@ -141,7 +141,8 @@ jobs:
         #   ARM_USE_OIDC: true
 
         run: |
-          terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -out=plan
+          terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -detailed-exitcode
+          # terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -out=plan
 
       - name: Terraform Apply
         if: inputs.terraform-action == 'plan+apply'
