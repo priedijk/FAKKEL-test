@@ -1,6 +1,6 @@
 ---
-title: Someone just pushed
-labels: bug, enhancement
-assignees: priedijk
+title: Resource drift detected in hub-foundation
+labels: bug
+assignees: 
 ---
-Someone just pushed, oh no! Here's who did it:
+Run date {{ date | date('dddd, MMMM Do') }}
