@@ -156,19 +156,19 @@ jobs:
               echo "Terraform apply needed"
           fi
           
-      - name: Create Issue on Failed workflow
-        if: failure() && steps.plan.outcome == 'failure'
-        uses: dacbd/create-issue-action@main
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: Action workflow failed.
-          body: |
-            ### Context
-            [Failed Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
-            [Codebase](https://github.com/${{ github.repository }}/tree/${{ github.sha }})
-            Workflow name - `${{ github.workflow }}`
-            Job -           `${{ github.job }}`
-            status -        `${{ job.status }}`
+      # - name: Create Issue on Failed workflow
+      #   if: failure() && steps.plan.outcome == 'failure'
+      #   uses: dacbd/create-issue-action@main
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     title: Action workflow failed.
+      #     body: |
+      #       ### Context
+      #       [Failed Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+      #       [Codebase](https://github.com/${{ github.repository }}/tree/${{ github.sha }})
+      #       Workflow name - `${{ github.workflow }}`
+      #       Job -           `${{ github.job }}`
+      #       status -        `${{ job.status }}`
 
       - uses: JasonEtco/create-an-issue@v2
         if: failure() && steps.plan.outcome == 'failure'
