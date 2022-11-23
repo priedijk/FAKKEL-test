@@ -143,7 +143,9 @@ jobs:
         run: |
           terraform -chdir=${{ inputs.terraform-directory }} plan -detailed-exitcode
           # terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -out=plan
-          
+          echo "-----------"
+          echo $?
+          echo "-----------"
           if [ $? -eq 0 ]; then
               echo "No changes, not applying"
           elif [ $? -eq 1 ]; then
