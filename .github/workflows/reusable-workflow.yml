@@ -143,14 +143,14 @@ jobs:
         run: |
           terraform -chdir=${{ inputs.terraform-directory }} plan -detailed-exitcode
           # terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -out=plan
-          if [ $? -eq 0 ]; then
-          echo "No changes, not applying"
-          if [ $? -eq 1 ]; then
-              echo "Terraform plan failed"
-              exit 1
-          if [ $? -eq 2 ]; then
-              echo "Terraform apply needed"
-          fi
+          # if [ $? -eq 0 ]; then
+          # echo "No changes, not applying"
+          # if [ $? -eq 1 ]; then
+          #     echo "Terraform plan failed"
+          #     exit 1
+          # if [ $? -eq 2 ]; then
+          #     echo "Terraform apply needed"
+          # fi
 
       - name: Terraform Apply
         if: inputs.terraform-action == 'plan+apply'
