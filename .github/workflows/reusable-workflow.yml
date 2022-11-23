@@ -156,10 +156,10 @@ jobs:
           fi
           
       - name: Create Issue on Failed workflow
-        if: success() && steps.plan.outcome == 'failure'
+        if: failure() && steps.plan.outcome == 'failure'
         uses: dacbd/create-issue-action@main
         with:
-          token: ${{ github.token }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           title: Action workflow failed.
           body: |
             ### Context
@@ -169,6 +169,10 @@ jobs:
             Job -           `${{ github.job }}`
             status -        `${{ job.status }}`
 
+      - uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: Terraform Apply
         if: inputs.terraform-action == 'plan+apply'
         run: |
