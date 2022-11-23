@@ -30,7 +30,7 @@ resource "azurerm_monitor_action_group" "test-group" {
 resource "azurerm_monitor_action_group" "action-group" {
   name                = "action-group-rg-testcase"
   resource_group_name = azurerm_resource_group.action-group-rg.name
-  short_name          = "shortername-test"
+  short_name          = "test"
 
   dynamic "arm_role_receiver" {
     for_each = var.location_code == "frc" ? [] : [1]
