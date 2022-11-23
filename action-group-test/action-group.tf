@@ -14,6 +14,10 @@ locals {
 }
 
 
+resource "azurerm_resource_group" "test-group-rg" {
+  name     = "test-group-rg-resources"
+  location = var.resource_group_location
+}
 
 resource "azurerm_resource_group" "action-group-rg" {
   name     = "action-group-rg-resources"
