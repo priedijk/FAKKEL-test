@@ -5,7 +5,7 @@ assignees:
 ---
 Terraform resource drift detected in on date {{ date | date('dddd, MMMM Do YYYY, HH:mm') }}. Please check the detected changes in the [Workflow run](https://github.com/{{ repo.owner }}/{{ repo.repo }}/actions/runs/{{ env.RUN_ID }})
 
-
+### Actions to take
 * Check detected changes in the [Workflow run](https://github.com/{{ repo.owner }}/{{ repo.repo }}/actions/runs/{{ env.RUN_ID }})
 * Investigate who made the changes in [Azure](https://portal.azure.com/)
 * Communicate to Actor
