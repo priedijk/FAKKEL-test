@@ -4,8 +4,8 @@ labels: bug
 assignees: 
 ---
 Terraform resource drift detected in on date {{ date | date('dddd, MMMM Do') }}. Please check
-[Failed Run](https://github.com/{{ repo.repo }}/actions/runs/{{ env.RUN_ID }})
-[Codebase](https://github.com/{{ repo.repo }}/tree/{{ sha }})
+[Failed Run](https://github.com/{{ repo.owner}}/{{ repo.repo }}/actions/runs/{{ env.RUN_ID }})
+[Codebase](https://github.com/{{ repo.owner}}/{{ repo.repo }}/tree/{{ sha }})
 
 Workflow name - {{ workflow }}
 Job -           {{ ref }}
