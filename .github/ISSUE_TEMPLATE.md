@@ -4,7 +4,7 @@ labels: bug
 assignees: 
 ---
 Terraform resource drift detected in on date {{ date | date('dddd, MMMM Do') }}. Please check
-Terraform resource drift detected in on date {{ date | date('dddd, MMMM Do YYYY, h:mm:ss a')) }}. 
+Terraform resource drift detected in on date {{ date | date('dddd, MMMM Do YYYY, h:mm:ss a') }}. 
 
 [Failed Run](https://github.com/{{ repo.owner }}/{{ repo.repo }}/actions/runs/{{ env.RUN_ID }})
 [Codebase](https://github.com/{{ repo.owner }}/{{ repo.repo }}/tree/{{ sha }})
