@@ -174,6 +174,7 @@ jobs:
         if: failure() && steps.plan.outcome == 'failure'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.run_id }})
           
       - name: Terraform Apply
         if: inputs.terraform-action == 'plan+apply'
