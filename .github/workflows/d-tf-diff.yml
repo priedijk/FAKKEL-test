@@ -27,7 +27,8 @@ env:
 
 permissions:
   id-token: write
-  contents: read
+  # contents: read
+  contents: write
 
 jobs:
   create-report:
