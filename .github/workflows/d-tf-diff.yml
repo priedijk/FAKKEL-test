@@ -1,0 +1,131 @@
+name: report_terraform_diff
+
+on:
+  schedule:
+# remark: GIT runs in UTC
+#            ┌────────── minute (0 - 59)
+#            │ ┌────────── hour (0 - 23)
+#            │ │ ┌────────── day of the month (1 - 31)
+#            │ │ │ ┌────────── month (1 - 12)
+#            │ │ │ │ ┌────────── day of the week (0 - 6)
+#            │ │ │ │ │                                  
+#            │ │ │ │ │
+#            │ │ │ │ │
+#            * * * * *
+#     run only on working days
+    - cron: "0 2 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      tenant:
+        description: 'Tenant'
+        type: choice
+        options:
+          - 'ae'
+          - 'prod'
+env:
+  myFileName: "lz-tf-diff"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  create-report:
+    runs-on: ubuntu-latest
+    # runs-on: [ self-hosted , linux , ephemeral ]
+    environment: 'fakkel'
+    timeout-minutes: 360
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_USE_OIDC: true
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          allow-no-subscriptions: true
+
+
+      - name: Setup TF vars
+        shell: pwsh
+        run: |
+          if ("${{ github.event.inputs.tenant || 'prod' }}" -eq 'ae') {
+              $resourceGroupName = "tfstatetestfakkel" 
+          } else {
+              $resourceGroupName = "tfstatetestfakkel" 
+          }
+          # Determine state storage 
+          $tfStateStorage = az storage account list --query "[?starts_with(name,'tfstate')].name" --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }} -o tsv
+          if (-not $tfStateStorage) {
+              Write-Error "ERROR Could not determine storage account for Terraform state."
+              Exit 1
+          }
+          # Get storage account key to create SAS
+          $accountKey = az storage account keys list --resource-group $resourceGroupName --account-name $tfStateStorage --query '[0].value' --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }} -o tsv
+          if (-not $accountKey) {
+              Write-Error "ERROR Could not determine storage account key for Terraform state storage $($tfStateStorage)."
+              Exit 1
+          }
+          $expiry = (Get-Date).ToUniversalTime().AddHours(4).ToString('yyyy-MM-ddTHH:mmZ')
+          $sasToken = az storage container generate-sas -n tfstate --account-key $accountKey --account-name $tfStateStorage --https-only --permissions dlrw --expiry $expiry -o tsv
+          Write-Host "::add-mask::$($sasToken)"
+          "TF_STATE_RESOURCE_GROUP=$($resourceGroupName)" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+          "TF_STATE_STORAGE=$($tfStateStorage)" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+          "ARM_SAS_TOKEN=$($sasToken)" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+      - name: Create Landingzone Terraform diff overview
+        id: create-tf-diff
+        shell: pwsh
+        run: |
+          ./scripts/report_tf_diffs.ps1 `
+          
+              -tenant prod `
+              -hubSubscriptionId ${{ secrets.AZURE_SUBSCRIPTION_ID }} `
+              -ghWorkflow ${{ github.workflow }} `
+              -ghEvent ${{ github.event_name }} `
+              -ghRepository ${{ github.repository }} `
+              -fileName ${{ env.myFileName }}
+
+      -  name: Upload artifact
+         uses: actions/upload-artifact@v3
+         with:
+           name: ${{ env.myFileName }}
+           path: |
+             ./report/${{ env.myFileName }}.*
+             ./report/plan-output/*.tfplan
+
+  upload-report:
+    runs-on: ubuntu-latest
+    # runs-on: [ self-hosted , linux , ephemeral ]
+    environment: 'fakkel'
+    needs:
+      - create-report
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: '{"clientId": "${{ secrets.AZURE_CLIENT_ID }}", "clientSecret": "${{ secrets.AZURE_CLIENT_SECRET }}", "tenantId": "${{ secrets.AZURE_TENANT_ID }}", "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}"}'
+          allow-no-subscriptions: true
+
+      -  name: Download artifact
+         uses: actions/download-artifact@v3
+         with:
+           name: ${{ env.myFileName }}
+           path: ./
+
+      - name: Upload datafile
+        run: |
+          az storage blob upload --file ${{ env.myFileName }}.json --container-name reports --name "datasets/${{ env.myFileName }}.json" --overwrite --account-name tfstatetestfakkel --auth-mode login
+      - name: Upload metafile
+        run: |
+          az storage blob upload --file ${{ env.myFileName }}.txt --container-name reports --name "datasets/${{ env.myFileName }}.txt" --overwrite --account-name tfstatetestfakkel --auth-mode login
+      - name: Upload plan output
+        run: |
+          az storage blob upload-batch --content-type text/plain --source plan-output --destination-path datasets/plan-output  --destination reports --overwrite --account-name tfstatetestfakkel --auth-mode login
