@@ -30,9 +30,9 @@ az config set extension.use_dynamic_install=yes_without_prompt
 
 [System.Collections.ArrayList]$landingZones = @()
 # loop over all files in config directory
-mkdir report
+mkdir -p report
 Get-ChildItem report
-mkdir report/plan-output
+mkdir -p report/plan-output
 Get-ChildItem report/plan-output
 exit 0
 
