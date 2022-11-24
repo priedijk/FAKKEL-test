@@ -43,7 +43,7 @@ terraform -chdir=action-group-test init -lock=false `
     -backend-config="resource_group_name=$($Env:TF_STATE_RESOURCE_GROUP)" `
     -backend-config="storage_account_name=$($Env:TF_STATE_STORAGE)"
 
-terraform -chdir=action-group-test plan -no-color -input=false -lock=false -detailed-exitcode -out="report/plan-output/$($subscriptionName).tfplan" `
+terraform -chdir=action-group-test plan -no-color -input=false -lock=false -detailed-exitcode -out="report/plan-output/${subscriptionName}.tfplan" `
     # --var-file=environment-$($environment).tfvars `
     # --var-file=tenant-$($tenant.ToLower()).tfvars `
     # --var-file=../config/all/ip-lists/afkl-networks.tfvars `
