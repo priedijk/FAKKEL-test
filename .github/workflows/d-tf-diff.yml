@@ -85,7 +85,6 @@ jobs:
         shell: pwsh
         run: |
           ./scripts/report_tf_diffs.ps1 `
-          
               -tenant ${{ github.event.inputs.tenant }} `
               -hubSubscriptionId ${{ secrets.AZURE_SUBSCRIPTION_ID }} `
               -ghWorkflow ${{ github.workflow }} `
