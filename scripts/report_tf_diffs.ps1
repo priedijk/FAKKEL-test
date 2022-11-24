@@ -31,10 +31,9 @@ az config set extension.use_dynamic_install=yes_without_prompt
 [System.Collections.ArrayList]$landingZones = @()
 # loop over all files in config directory
 mkdir -p report/plan-output
-Get-ChildItem report
+# will not create child dir unless there is something in it
 mkdir -p report/plan-output/test
-Get-ChildItem report/plan-output
-exit 0
+
 
 $files = "action-group-test"
 $subscriptionName=$hubSubscriptionId
