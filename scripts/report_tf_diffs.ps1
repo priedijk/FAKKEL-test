@@ -35,12 +35,15 @@ $files = "action-group-test"
 $subscriptionName=$hubSubscriptionId
 
 Write-Output "-------"
-terraform -chdir=${files} init -lock=false `
+Write-Output "directory = ${pwd}"
+Write-Output "-------"
+
+terraform -chdir=./${files} init -lock=false `
     -backend-config="key=action-group.tfstate" `
     -backend-config="resource_group_name=$($Env:TF_STATE_RESOURCE_GROUP)" `
     -backend-config="storage_account_name=$($Env:TF_STATE_STORAGE)"
 
-terraform -chdir=${files} plan -no-color -input=false -lock=false -detailed-exitcode `
+terraform -chdir=./${files} plan -no-color -input=false -lock=false -detailed-exitcode `
     # --var-file=environment-$($environment).tfvars `
     # --var-file=tenant-$($tenant.ToLower()).tfvars `
     # --var-file=../config/all/ip-lists/afkl-networks.tfvars `
