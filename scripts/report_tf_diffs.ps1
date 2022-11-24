@@ -31,17 +31,17 @@ az config set extension.use_dynamic_install=yes_without_prompt
 [System.Collections.ArrayList]$landingZones = @()
 # loop over all files in config directory
 mkdir -p report/plan-output
+Get-ChildItem report
+mkdir -p report/plan-output/
+Get-ChildItem report/plan-output
+exit 0
+
 $files = "action-group-test"
 $subscriptionName=$hubSubscriptionId
-Write-Output "echo vars"
-$hubSubscriptionId
-$subscriptionName
 Write-Output "-------"
 Write-Output "directory = ${pwd}"
 Write-Output "-------"
-Get-ChildItem report
-Get-ChildItem report/plan-output
-exit 1
+
 
 terraform -chdir=action-group-test init -lock=false `
     -backend-config="key=action-group.tfstate" `
