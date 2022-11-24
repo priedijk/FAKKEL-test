@@ -43,7 +43,7 @@ terraform -chdir=action-group-test init -lock=false `
     -backend-config="resource_group_name=$($Env:TF_STATE_RESOURCE_GROUP)" `
     -backend-config="storage_account_name=$($Env:TF_STATE_STORAGE)"
 
-terraform -chdir=action-group-test plan -no-color -input=false -lock=false -detailed-exitcode -out="report/plan-output/${subscriptionName}.tfplan" `
+terraform -chdir=action-group-test plan -no-color -input=false -lock=false -detailed-exitcode -out="report/plan-output/foundation.tfplan" `
     # --var-file=environment-$($environment).tfvars `
     # --var-file=tenant-$($tenant.ToLower()).tfvars `
     # --var-file=../config/all/ip-lists/afkl-networks.tfvars `
@@ -73,7 +73,7 @@ switch ( $LASTEXITCODE ) {
     }
     2 {
         $changes = "YES"
-        $planOutput = (grep 'Plan:' "report/plan-output/$($subscriptionName).tfplan").Split(' ')
+        $planOutput = (grep 'Plan:' "report/plan-output/foundation.tfplan").Split(' ')
         $numberToAdd = $planOutput[1]
         $numberToChange = $planOutput[4]
         $numberToDestroy = $planOutput[7]
@@ -84,7 +84,7 @@ $landingZones.add(
     @(
         $subscriptionName,
         $environment, 
-        "<a href=`"../datasets/plan-output/$($subscriptionName).tfplan`">$($changes)</a>",
+        "<a href=`"../datasets/plan-output/foundation.tfplan`">$($changes)</a>",
         $numberToAdd,
         $numberToChange,
         $numberToDestroy
