@@ -33,16 +33,21 @@ az config set extension.use_dynamic_install=yes_without_prompt
 mkdir -p report/plan-output
 $files = "action-group-test"
 $subscriptionName=$hubSubscriptionId
-
+Write-Output "echo vars"
+$hubSubscriptionId
+$subscriptionName
 Write-Output "-------"
 Write-Output "directory = ${pwd}"
 Write-Output "-------"
+Get-ChildItem report
+Get-ChildItem report/plan-output
+exit 1
 
 terraform -chdir=action-group-test init -lock=false `
     -backend-config="key=action-group.tfstate" `
     -backend-config="resource_group_name=$($Env:TF_STATE_RESOURCE_GROUP)" `
     -backend-config="storage_account_name=$($Env:TF_STATE_STORAGE)"
-ls 
+
 terraform -chdir=action-group-test plan -no-color -input=false -lock=false -detailed-exitcode -out="report/plan-output/test.tfplan" `
     # --var-file=environment-$($environment).tfvars `
     # --var-file=tenant-$($tenant.ToLower()).tfvars `
