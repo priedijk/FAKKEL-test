@@ -41,7 +41,7 @@ on:
 #     branches:
 #       - "main"
 
-run-name: 'Branch-Name | ${{ github.ref_name }} | ${{ github.event.inputs.location }} | ${{ github.event.inputs.tenant }}'
+run-name: 'Branch-Name | ${{ github.ref_name }} | ${{ github.event.inputs.location.uppercase }} | ${{ github.event.inputs.tenant }}'
 
 name: Branch-Name
 jobs:

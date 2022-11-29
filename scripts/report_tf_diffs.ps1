@@ -33,7 +33,7 @@ az config set extension.use_dynamic_install=yes_without_prompt
 mkdir -p report/plan-output
 # will not create child dir unless there is something in it
 mkdir -p report/plan-output/test.tfplan
-type nul >> "report/plan-output/test.tfplan"
+chmod 777 "report/plan-output"
 
 
 $files = "action-group-test"
