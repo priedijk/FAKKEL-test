@@ -42,7 +42,7 @@ on:
 #       - "main"
 
 # run-name: 'Branch-Name | ${{ github.ref_name }} | ${{ github.event.inputs.location }} | ${{ github.event.inputs.tenant }}'
-run-name: Branch-Name | ${{ github.ref_name }} | (${{ github.event.inputs.location }} == 'weu' && 'WEU') || 'FRC' | ${{ github.event.inputs.tenant }}
+run-name: Branch-Name | ${{ github.ref_name }} | ${{ github.event.inputs.tenant == 'AE' && github.event.inputs.runner == 'self-hosted' && '["self-hosted","linux","ae","infra"]' || (github.event.inputs.runner == 'self-hosted' && '["self-hosted","linux","ephemeral"]' || '["ubuntu-latest"]') }} || 'FRC' | ${{ github.event.inputs.tenant }}
 
 name: Branch-Name
 jobs:
