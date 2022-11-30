@@ -170,11 +170,11 @@ jobs:
       #       Job -           `${{ github.job }}`
       #       status -        `${{ job.status }}`
 
-      - uses: JasonEtco/create-an-issue@v2
-        if: failure() && steps.plan.outcome == 'failure'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RUN_ID: ${{ github.run_id }})
+      # - uses: JasonEtco/create-an-issue@v2
+      #   if: failure() && steps.plan.outcome == 'failure'
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     RUN_ID: ${{ github.run_id }})
           
       - name: Terraform Apply
         if: inputs.terraform-action == 'plan+apply'
