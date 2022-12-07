@@ -42,8 +42,9 @@ on:
 #       - "main"
 
 # run-name: 'Branch-Name | ${{ github.ref_name }} | ${{ github.event.inputs.location }} | ${{ github.event.inputs.tenant }}'
-run-name: Deploy Workflow name | ${{ github.event.inputs.tenant }} | ${{ github.event.inputs.location == 'frc' && 'FRC' || (github.event.inputs.location == 'weu' && 'WEU') }} | ${{ github.ref_name }}
-
+# run-name: Deploy Workflow name | ${{ github.event.inputs.tenant }} | ${{ github.event.inputs.location == 'frc' && 'FRC' || (github.event.inputs.location == 'weu' && 'WEU') }} | ${{ github.ref_name }}
+run-name: Deploy Workflow name | ${{ github.event.inputs.terraform-action == 'plan+apply' && 'apply' || github.event.inputs.terraform-action }}
+# runner-labels: ${{ github.event.inputs.tenant == 'AE' && github.event.inputs.runner == 'self-hosted' && '["self-hosted","linux","ae","infra"]' || (github.event.inputs.runner == 'self-hosted' && '["self-hosted","linux","ephemeral"]' || '["ubuntu-latest"]') }}
 name: Deploy Workflow name
 jobs:
   Branch-test:
