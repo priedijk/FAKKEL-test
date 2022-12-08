@@ -49,7 +49,7 @@ terraform -chdir=action-group-test init -lock=false `
     -backend-config="storage_account_name=$($Env:TF_STATE_STORAGE)"
 
 terraform -chdir=action-group-test plan -no-color -input=false -lock=false -detailed-exitcode `
-    --var="location=westeurope" | Out-File "report/plan-output/$($subscriptionName).tfplan"
+    --var="resource_group_location=westeurope" | Out-File "report/plan-output/$($subscriptionName).tfplan"
 
 switch ( $LASTEXITCODE ) {
     0 {
