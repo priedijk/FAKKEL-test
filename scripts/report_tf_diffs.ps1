@@ -48,7 +48,7 @@ terraform -chdir=action-group-test init -lock=false `
     -backend-config="resource_group_name=$($Env:TF_STATE_RESOURCE_GROUP)" `
     -backend-config="storage_account_name=$($Env:TF_STATE_STORAGE)"
 
-terraform -chdir="Templates/1.Foundation/code" plan -no-color -input=false -lock=false -detailed-exitcode `
+terraform -chdir=action-group-test plan -no-color -input=false -lock=false -detailed-exitcode `
     --var="location=westeurope" | Out-File "report/plan-output/$($subscriptionName).tfplan"
 
 switch ( $LASTEXITCODE ) {
