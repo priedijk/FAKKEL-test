@@ -51,7 +51,7 @@ jobs:
   terraform-deploy:
     strategy:
         matrix:
-          version: [weu, frc]
+          location: [weu, frc]
           
     runs-on: ubuntu-latest
     environment: 'fakkel'
