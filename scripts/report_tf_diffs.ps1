@@ -38,6 +38,7 @@ mkdir -p report/plan-output
 
 $files = "action-group-test"
 $subscriptionName=$hubSubscriptionId
+$planName="hub-foundation"
 Write-Output "-------"
 Write-Output "directory = ${pwd}"
 Write-Output "-------"
@@ -49,7 +50,7 @@ terraform -chdir=action-group-test init -lock=false `
     -backend-config="storage_account_name=$($Env:TF_STATE_STORAGE)"
 
 terraform -chdir=action-group-test plan -no-color -input=false -lock=false -detailed-exitcode `
-    --var="resource_group_location=westeurope" | Out-File "report/plan-output/$($subscriptionName).tfplan"
+    --var="resource_group_location=westeurope" | Out-File "report/plan-output/$($planName).tfplan"
 
 switch ( $LASTEXITCODE ) {
     0 {
@@ -77,7 +78,7 @@ $landingZones.add(
     @(
         $subscriptionName,
         $environment, 
-        "<a href=`"../datasets/plan-output/$($subscriptionName).tfplan`">$($changes)</a>",
+        "<a href=`"../datasets/plan-output/$($planName).tfplan`">$($changes)</a>",
         $numberToAdd,
         $numberToChange,
         $numberToDestroy

@@ -120,6 +120,12 @@ jobs:
            name: ${{ env.myFileName }}
            path: ./
 
+      -  name: Download tfplan
+         uses: actions/download-artifact@v3
+         with:
+           name: "hub-foundation.tfplan"
+           path: ./
+
       - name: Upload datafile
         run: |
           az storage blob upload --file ${{ env.myFileName }}.json --container-name reports --name "datasets/${{ env.myFileName }}.json" --overwrite --account-name tfstatetestfakkel --auth-mode login
