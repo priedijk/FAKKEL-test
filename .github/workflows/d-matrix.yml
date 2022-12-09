@@ -1,0 +1,51 @@
+on:
+  workflow_dispatch:
+    inputs:
+      location:
+        description: "Hub Location (weu / frc)"
+        type: choice
+        required: true
+        options:
+          - 'weu'
+          - 'frc'
+      tenant:
+        description: "GitHub tenant to deploy to (ae / prod)"
+        type: choice
+        required: true
+        options:
+         - 'ae'
+         - 'prod'
+      terraform-action:
+        description: 'Terraform action'
+        type: choice
+        required: true
+        options:
+          - 'plan'
+          - 'plan+apply'
+          - 'destroy'
+      confirm-destroy:
+        description: "Confirm destroy"
+        type: boolean
+        default: false
+      IsNewDeployment:
+        description: "IsNewDeployment?"
+        type: boolean
+        default: false
+        required: true
+
+name: Action-group test
+
+jobs:
+  Action-group-test:
+    uses: ./.github/workflows/reusable-matrix-workflow.yml
+    with:
+      location: ${{ github.event.inputs.location }}
+      tenant: ${{ github.event.inputs.tenant }}
+      confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
+      IsNewDeployment: ${{ github.event.inputs.IsNewDeployment }}
+      terraform-action: ${{ github.event.inputs.terraform-action }}
+      terraform-directory: 'action-group-test'
+      terraform-init-args: '-backend-config="key=action-group.tfstate"'
+      terraform-plan-args: ''
+      terraform-apply-args: ''
+    secrets: inherit
