@@ -33,7 +33,7 @@ on:
         default: false
         required: true
 
-name: Action-group test
+name: Matrix test
 
 jobs:
   Action-group-test:
