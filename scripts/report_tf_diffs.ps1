@@ -32,8 +32,8 @@ az config set extension.use_dynamic_install=yes_without_prompt
 # loop over all files in config directory
 mkdir -p report/plan-output
 # will not create child dir unless there is something in it
-mkdir -p report/plan-output/test.tfplan
-chmod 777 "report/plan-output"
+# mkdir -p report/plan-output/test.tfplan
+# chmod 777 "report/plan-output"
 
 
 $files = "action-group-test"
@@ -67,7 +67,7 @@ switch ( $LASTEXITCODE ) {
     }
     2 {
         $changes = "YES"
-        $planOutput = (grep 'Plan:' "report/plan-output/$($subscriptionName).tfplan").Split(' ')
+        $planOutput = (grep 'Plan:' "report/plan-output/$($planName).tfplan").Split(' ')
         $numberToAdd = $planOutput[1]
         $numberToChange = $planOutput[4]
         $numberToDestroy = $planOutput[7]
