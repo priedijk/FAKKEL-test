@@ -1,5 +1,6 @@
 
 data "azurerm_firewall_policy" "example" {
+  count               = var.initial_foundation_deployment == true ? 0 : 1
   name                = "firewall-policy"
   resource_group_name = "firewall-policy-test"
 }
@@ -37,7 +38,7 @@ resource "azurerm_firewall" "example" {
   resource_group_name = azurerm_resource_group.example.name
   sku_name            = "AZFW_VNet"
   sku_tier            = "Standard"
-  firewall_policy_id  = data.azurerm_firewall_policy.example.id
+  firewall_policy_id  = var.initial_foundation_deployment == true ? null : data.azurerm_firewall_policy.example[0].id
   # firewall_policy_id  = azurerm_firewall_policy.example.id
 
   ip_configuration {
