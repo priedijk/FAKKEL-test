@@ -36,7 +36,7 @@ on:
 name: firewall test
 
 jobs:
-  Action-group-test:
+  Firewall-policy-test:
     uses: ./.github/workflows/reusable-workflow.yml
     with:
       location: ${{ github.event.inputs.location }}
