@@ -74,7 +74,7 @@ jobs:
       VPN_SECRET: ${{ matrix.location == 'weu' && secrets.SECRET_KEY || secrets.SECRET_KEY2 }}
   
     steps:
-      - name: '${{ github.ref_name }} to ${{ matrix.location }} ${{ matrix.tenant }}'
+      - name: '${{ github.ref_name }} to ${{ matrix.location }} ${{ matrix.environment }}'
         run: echo ""
         
       - name: Log inputs
@@ -97,15 +97,15 @@ jobs:
         run: |
           echo "date=$(date +'%d-%m-%Y')" >> $GITHUB_ENV  
 
-      - name: GIthub Issue API call
-        run: |
-          curl \
-          -X POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          https://api.github.com/repos/priedijk/FAKKEL-test/issues \
-          -d '{"title":"Terraform drift detected (${{ env.date }})","body":"I'\''m having a problem. Terraform drift detected: \n branch ${{ github.ref_name }} in ${{ matrix.tenant }}-${{ matrix.location }}  run number ${{ github.run_id }} \n [Failed Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) \n [Codebase](https://github.com/${{ github.repository }}/tree/${{ github.sha }}).","assignees":["priedijk"],"labels":["bug"]}'
+      # - name: GIthub Issue API call
+      #   run: |
+      #     curl \
+      #     -X POST \
+      #     -H "Accept: application/vnd.github+json" \
+      #     -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
+      #     -H "X-GitHub-Api-Version: 2022-11-28" \
+      #     https://api.github.com/repos/priedijk/FAKKEL-test/issues \
+      #     -d '{"title":"Terraform drift detected (${{ env.date }})","body":"I'\''m having a problem. Terraform drift detected: \n branch ${{ github.ref_name }} in ${{ matrix.environment }}-${{ matrix.location }}  run number ${{ github.run_id }} \n [Failed Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) \n [Codebase](https://github.com/${{ github.repository }}/tree/${{ github.sha }}).","assignees":["priedijk"],"labels":["bug"]}'
 
       # - name: 'Az CLI login'
       #   uses: azure/login@v1
@@ -120,7 +120,7 @@ jobs:
       #     creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Set workflow environment variables
-        run: ./scripts/set-workflow-env-variables.sh ${{ matrix.tenant }} ${{ matrix.location }} ${{ inputs.IsNewDeployment }}
+        run: ./scripts/set-workflow-env-variables.sh ${{ matrix.environment }} ${{ matrix.location }} ${{ inputs.IsNewDeployment }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2

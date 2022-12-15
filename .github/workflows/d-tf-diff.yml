@@ -128,4 +128,4 @@ jobs:
           az storage blob upload --file ${{ env.myFileName }}.txt --container-name reports --name "datasets/${{ env.myFileName }}.txt" --overwrite --account-name tfstatetestfakkel --auth-mode login
       - name: Upload plan output
         run: |
-          az storage blob upload-batch --content-type text/plain --source plan-output --destination-path datasets/plan-output  --destination reports --overwrite --account-name tfstatetestfakkel --auth-mode login
+          az storage blob upload-batch --content-type text/plain --source plan-output --destination-path datasets/test-container --destination test-container --overwrite --account-name tfstatetestfakkel --auth-mode login
