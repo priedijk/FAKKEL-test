@@ -31,7 +31,7 @@ resource "azurerm_firewall" "example" {
   resource_group_name = azurerm_resource_group.example.name
   sku_name            = "AZFW_VNet"
   sku_tier            = "Standard"
-  firewall_policy_id  = azurerm_firewall_policy.example.id
+  # firewall_policy_id  = azurerm_firewall_policy.example.id
 
   ip_configuration {
     name                 = "configuration"
@@ -44,5 +44,5 @@ resource "azurerm_firewall_policy" "example" {
   name                = "firewall-policy"
   resource_group_name = azurerm_resource_group.example.name
   location            = azurerm_resource_group.example.location
-  sku                 = "Standard"
+  sku                 = "Basic"
 }
