@@ -1,10 +1,10 @@
 resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
+  name     = "firewall-policy-test"
   location = "West Europe"
 }
 
 resource "azurerm_virtual_network" "example" {
-  name                = "testvnet"
+  name                = "firewallvnet"
   address_space       = ["10.220.0.0/16"]
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
@@ -18,7 +18,7 @@ resource "azurerm_subnet" "example" {
 }
 
 resource "azurerm_public_ip" "example" {
-  name                = "testpip"
+  name                = "firewallpip"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
   allocation_method   = "Static"
@@ -41,7 +41,8 @@ resource "azurerm_firewall" "example" {
 }
 
 resource "azurerm_firewall_policy" "example" {
-  name                = "example-policy"
+  name                = "firewall-policy"
   resource_group_name = azurerm_resource_group.example.name
   location            = azurerm_resource_group.example.location
+  sku                 = Basic
 }
