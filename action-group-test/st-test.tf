@@ -2,7 +2,7 @@ resource "azurerm_storage_account" "test" {
   count                           = var.location_code == "weu" ? 1 : 0
   name                            = "stttstest028318"
   resource_group_name             = azurerm_resource_group.action-group-rg.name
-  location                        = var.location
+  location                        = "westeurope"
   account_tier                    = "Standard"
   account_replication_type        = "GRS"
   allow_nested_items_to_be_public = false
