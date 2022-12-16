@@ -61,7 +61,6 @@ jobs:
       TF_VAR_location_code: ${{ inputs.location }}
       TF_VAR_new_deployment: ${{ inputs.IsNewDeployment }}
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      # ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID_NEW }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
@@ -87,6 +86,7 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
      
+     # API call to create ISSUE, requires Token in github
       # - name: Get current date
       #   id: date
       #   run: |
@@ -140,11 +140,6 @@ jobs:
       - name: Terraform Plan
         id: plan
         if: inputs.terraform-action != 'import'
-        # env:
-        #   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        #   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        #   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-        #   ARM_USE_OIDC: true
 
         run: |
           # terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -detailed-exitcode
@@ -158,27 +153,7 @@ jobs:
           elif [ $? -eq 2 ]; then
               echo "Terraform apply needed"
           fi
-          
-      # - name: Create Issue on Failed workflow
-      #   if: failure() && steps.plan.outcome == 'failure'
-      #   uses: dacbd/create-issue-action@main
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     title: Action workflow failed.
-      #     body: |
-      #       ### Context
-      #       [Failed Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
-      #       [Codebase](https://github.com/${{ github.repository }}/tree/${{ github.sha }})
-      #       Workflow name - `${{ github.workflow }}`
-      #       Job -           `${{ github.job }}`
-      #       status -        `${{ job.status }}`
-
-      # - uses: JasonEtco/create-an-issue@v2
-      #   if: failure() && steps.plan.outcome == 'failure'
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     RUN_ID: ${{ github.run_id }})
-          
+                    
       - name: Terraform Apply
         if: inputs.terraform-action == 'plan+apply'
         run: |
