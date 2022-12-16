@@ -3,6 +3,9 @@ data "azurerm_firewall_policy" "example" {
   count               = var.initial_foundation_deployment == true ? 0 : 1
   name                = "firewall-policy"
   resource_group_name = "firewall-policy-test"
+  depends_on = [
+    azurerm_firewall_policy.example
+  ]
 }
 
 resource "azurerm_resource_group" "example" {
