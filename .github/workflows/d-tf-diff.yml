@@ -81,6 +81,14 @@ jobs:
           "TF_STATE_STORAGE=$($tfStateStorage)" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           "ARM_SAS_TOKEN=$($sasToken)" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
+          echo "----------------------------"
+          echo "sas token = ${sasToken}"
+          $sasToken
+          ${{ env.TF_STATE_RESOURCE_GROUP }}
+          ${{ env.TF_STATE_STORAGE }}
+          ${{ env.ARM_SAS_TOKEN }}
+          echo "----------------------------"
+
       - name: Create Landingzone Terraform diff overview
         id: create-tf-diff
         shell: pwsh
