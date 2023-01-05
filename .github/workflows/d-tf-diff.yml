@@ -89,13 +89,13 @@ jobs:
           echo "----------------------------"
           echo "sas token = ${sasToken}"
           $sasToken
-          ${{ env.TF_STATE_RESOURCE_GROUP }}
-          ${{ env.TF_STATE_STORAGE }}
-          ${{ env.ARM_SAS_TOKEN }}
+          "${{ env.TF_STATE_RESOURCE_GROUP }}"
+          "${{ env.TF_STATE_STORAGE }}"
+          "${{ env.ARM_SAS_TOKEN }}"
           
-          ${{ env.TF_STATE_RESOURCE_GROUP1 }}
-          ${{ env.TF_STATE_STORAGE1 }}
-          ${{ env.ARM_SAS_TOKEN1 }}
+          "${{ env.TF_STATE_RESOURCE_GROUP1 }}"
+          "${{ env.TF_STATE_STORAGE1 }}"
+          "${{ env.ARM_SAS_TOKEN1 }}"
           echo "----------------------------"
 
       - name: Create Landingzone Terraform diff overview
@@ -139,9 +139,9 @@ jobs:
 
       - name: Upload datafile
         run: |
-          echo ${{ env.TF_STATE_RESOURCE_GROUP }}
-          echo ${{ env.TF_STATE_STORAGE }}
-          echo ${{ env.ARM_SAS_TOKEN }}
+          echo "${{ env.TF_STATE_RESOURCE_GROUP }}"
+          echo "${{ env.TF_STATE_STORAGE }}"
+          echo "${{ env.ARM_SAS_TOKEN }}"
           
           az storage blob upload --file ${{ env.myFileName }}.json --container-name reports --name "datasets/${{ env.myFileName }}.json" --overwrite --account-name tfstatetestfakkel --auth-mode login
       # - name: Upload metafile
