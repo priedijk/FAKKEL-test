@@ -76,10 +76,15 @@ jobs:
           }
           $expiry = (Get-Date).ToUniversalTime().AddHours(4).ToString('yyyy-MM-ddTHH:mmZ')
           $sasToken = az storage container generate-sas -n tfstate --account-key $accountKey --account-name $tfStateStorage --https-only --permissions dlrw --expiry $expiry -o tsv
-          Write-Host "::add-mask::$($sasToken)"
+          # Write-Host "::add-mask::$($sasToken)"
           "TF_STATE_RESOURCE_GROUP=$($resourceGroupName)" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           "TF_STATE_STORAGE=$($tfStateStorage)" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           "ARM_SAS_TOKEN=$($sasToken)" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+
+          echo "TF_STATE_RESOURCE_GROUP1=$($resourceGroupName)" >> $GITHUB_ENV
+          echo "TF_STATE_STORAGE1=$($tfStateStorage)"  >> $GITHUB_ENV
+          echo "ARM_SAS_TOKEN1=$($sasToken)" >> $GITHUB_ENV
 
           echo "----------------------------"
           echo "sas token = ${sasToken}"
@@ -87,6 +92,10 @@ jobs:
           ${{ env.TF_STATE_RESOURCE_GROUP }}
           ${{ env.TF_STATE_STORAGE }}
           ${{ env.ARM_SAS_TOKEN }}
+          
+          ${{ env.TF_STATE_RESOURCE_GROUP1 }}
+          ${{ env.TF_STATE_STORAGE1 }}
+          ${{ env.ARM_SAS_TOKEN1 }}
           echo "----------------------------"
 
       - name: Create Landingzone Terraform diff overview
