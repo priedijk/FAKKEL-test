@@ -15,6 +15,8 @@ param(
     [String] $fileName      # base name of the output files
 )
 
+Write-Output "Key successfully rotated" -ForegroundColor "red"
+
 # fill fields if not filled by Github Action
 if (!$ghWorkflow) { $ghWorkflow = "manual" }
 if (!$ghEvent) { $ghEvent = "manual start - not scheduled" }
