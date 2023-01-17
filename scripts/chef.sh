@@ -7,7 +7,9 @@ export AZURE_CLIENT_SECRET=$INPUT_CLIENTSECRET
 # install the Chef Inspec
 curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec 
 
-# execute the compliance tests from the profile, if available. 
-# Otherwise, execute the sample available as part of the action
 
+# execute basic test
 inspec exec inspec/test/ -t azure:// --chef-license accept-silent 
+
+# execute keyvault test
+inspec exec inspec/access/ --input=URL="kv-test-weu-50e2b310.vault.azure.net" -t azure:// --chef-license accept-silent  
