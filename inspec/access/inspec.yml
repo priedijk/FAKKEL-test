@@ -1,5 +1,5 @@
-name: access
-title: access
+name: Keyvault
+title: keyvault access test
 summary: Checks whether the resource can be accessed
 version: 1.0.0
 supports:
