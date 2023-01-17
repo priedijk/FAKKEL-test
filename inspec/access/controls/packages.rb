@@ -32,5 +32,9 @@ describe command('dig '+input('URL')) do
  end
 
  describe command('dig '+input('URL')) do
+    its('stdout') { should match *privatelink.vaultcore.azure.net }
+ end
+
+ describe command('dig '+input('URL')) do
     its('stdout') { should match 'privatelink.vaultcore.azure.net' }
  end
