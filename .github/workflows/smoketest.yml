@@ -49,7 +49,8 @@ jobs:
         run: |
           # export KEYVAULTURL=$(terraform output -raw vault_uri)
           export KEYVAULTURL="kv-test-weu-50e2b310.vault.azure.net/"
-          inspec exec --chef-license=accept-silent --input=URL=${KEYVAULTURL}  --reporter cli html:test.html -- inspec/profiles/access
+          # inspec exec --chef-license=accept-silent --input=URL=${KEYVAULTURL}  --reporter cli html:test.html -- inspec/profiles/access
+          inspec exec --chef-license=accept-silent --input=URL=${KEYVAULTURL}  --reporter cli html:test.html inspec/profiles/access
       
       - name: 'upload test results'
         uses: actions/upload-artifact@v3
