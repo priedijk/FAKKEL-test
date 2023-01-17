@@ -1,4 +1,4 @@
-name: 'Smoketest-in-progress'
+name: 'Smoketest-ted'
 
 on: workflow_dispatch
 
@@ -36,14 +36,22 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      - name: 'download inspec'
+        run: |
+          wget -q https://packages.chef.io/files/stable/inspec/5.18.14/ubuntu/20.04/inspec_5.18.14-1_amd64.deb
+          echo b4e8b11478cd2c930b24edcf5c24ef49fe83452f08f6cedc13deae5ce7b0c757 inspec_5.18.14-1_amd64.deb|sha256sum -c
+      
       - name: 'install inspec'
         run: |
-          curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec 
+          sudo dpkg -i inspec_5.18.14-1_amd64.deb
       
       - name: 'perform test'
         run: |
-          inspec exec inspec/test -t azure:// --chef-license accept-silent
-          
+          # export KEYVAULTURL=$(terraform output -raw vault_uri)
+          export KEYVAULTURL="kv-test-weu-50e2b310.vault.azure.net/"
+          # inspec exec --chef-license=accept-silent --input=URL=${KEYVAULTURL}  --reporter cli html:test.html -- inspec/profiles/access
+          inspec exec --chef-license=accept-silent --input=URL=${KEYVAULTURL}  --reporter cli html:test.html inspec/profiles/access
+      
       - name: 'upload test results'
         uses: actions/upload-artifact@v3
         if: always()
