@@ -32,11 +32,11 @@ jobs:
       - run: ./scripts/chef.sh  
         shell: bash
         env:
-          INPUT_SUBSCRIPTIONID: ${{ inputs.subscriptionId }}
-          INPUT_CLIENTID: ${{ inputs.clientId }}
-          INPUT_TENANTID: ${{ inputs.tenantId }}
-          INPUT_CLIENTSECRET: ${{ inputs.clientSecret }}
-          INPUT_COMPLIANCE_TEST_PROFILE_URL: ${{ inputs.compliance_test_profile_url }}
+          INPUT_SUBSCRIPTIONID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          INPUT_CLIENTID: ${{ secrets.AZURE_CLIENT_ID }}
+          INPUT_TENANTID: ${{ secrets.AZURE_TENANT_ID }}
+          INPUT_CLIENTSECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          INPUT_COMPLIANCE_TEST_PROFILE_URL: 'niks'
 
       - name: 'install inspec'
         run: |
