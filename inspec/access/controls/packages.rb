@@ -10,3 +10,11 @@ describe host(input('URL'), port: 443, protocol: 'tcp') do
 describe command('dig '+input('URL')) do
     its('stdout') { should match 'IN A 20.61' }
  end
+
+ describe command('dig '+input('URL')) do
+    its('stdout') { should match 'IN A 10.61' }
+ end
+
+ describe command('dig '+input('URL')) do
+    its('stdout') { should match 'IN A 80.61' }
+ end

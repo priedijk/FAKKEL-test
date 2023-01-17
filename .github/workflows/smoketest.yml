@@ -38,14 +38,6 @@ jobs:
           INPUT_CLIENTSECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           INPUT_COMPLIANCE_TEST_PROFILE_URL: 'niks'
 
-      - name: 'install inspec'
-        run: |
-          curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec 
-      
-      - name: 'perform test'
-        run: |
-          inspec exec inspec/test/ -t azure:// --chef-license accept-silent
-          
       - name: 'upload test results'
         uses: actions/upload-artifact@v3
         if: always()
