@@ -10,12 +10,4 @@ curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 # execute the compliance tests from the profile, if available. 
 # Otherwise, execute the sample available as part of the action
 
-ls
-
-
-if [ ! -z "$INPUT_COMPLIANCE_TEST_PROFILE_URL" ]
-then    
-    inspec exec $INPUT_COMPLIANCE_TEST_PROFILE_URL -t azure:// --chef-license accept-silent
-else
-    inspec exec inspec/test/ -t azure:// --chef-license accept-silent 
-fi
+inspec exec inspec/test/ -t azure:// --chef-license accept-silent 
