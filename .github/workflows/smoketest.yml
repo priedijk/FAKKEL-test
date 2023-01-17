@@ -42,7 +42,7 @@ jobs:
       
       - name: 'perform test'
         run: |
-          inspec exec inspec/test -t azure:// --chef-license accept-silent
+          inspec exec inspec/test/ -t azure:// --chef-license accept-silent
           
       - name: 'upload test results'
         uses: actions/upload-artifact@v3
