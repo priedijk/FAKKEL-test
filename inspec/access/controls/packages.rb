@@ -12,9 +12,9 @@ describe command('dig '+input('URL')) do
  end
 
  describe command('dig '+input('URL')) do
-    its('stdout') { should match 'IN A 10.61' }
+    its('stdout') { should match 'IN CNAME .privatelink.vaultcore.azure.net' }
  end
 
  describe command('dig '+input('URL')) do
-    its('stdout') { should match 'IN A 80.61' }
+    its('stdout') { should match 'IN CNAME *.privatelink.vaultcore.azure.net' }
  end
