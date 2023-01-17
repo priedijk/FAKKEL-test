@@ -37,6 +37,7 @@ jobs:
           INPUT_TENANTID: ${{ secrets.AZURE_TENANT_ID }}
           INPUT_CLIENTSECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           INPUT_COMPLIANCE_TEST_PROFILE_URL: 'niks'
+          KEYVAULT: 'kv-test-weu-50e2b310'
 
       - name: 'upload test results'
         uses: actions/upload-artifact@v3
