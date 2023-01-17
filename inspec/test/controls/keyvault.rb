@@ -7,6 +7,14 @@ describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) 
   end     
 
 describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) do
+    its('properties.privateEndpointConnections.provisioningState') { should eq 'Succeeded' }
+  end   
+
+describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) do
+    its('properties.privateEndpointConnections.privateLinkServiceConnectionState.status') { should eq 'Approved' }
+  end       
+
+describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) do
     its('properties.privateEndpointConnections[0].provisioningState') { should eq 'Succeeded' }
   end   
 
