@@ -1,0 +1,7 @@
+name: access
+title: access
+summary: Checks whether the resource can be accessed
+version: 1.0.0
+supports:
+  - os-family: unix
+  - inspec: '~> 1.0'
