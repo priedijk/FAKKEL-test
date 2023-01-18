@@ -43,5 +43,5 @@ jobs:
         uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: test-result-${{ github.run_number }}
-          path: test.html
+          name: inspec-test-result-${{ github.run_number }}
+          path: '**_test.html'
