@@ -1,3 +1,7 @@
+control 'azure_key_vault_separate' do 
+   title "Check Azure Keyvault separate URL" 
+ 
+
 describe http('https://'+input('URL'), ssl_verify: true) do
     its('status') { should cmp 403 }
  end
@@ -46,3 +50,4 @@ describe command('dig '+input('URL')) do
  describe command('dig '+input('URL')) do
     its('stdout') { should match +input('KEYVAULT') }
  end
+end

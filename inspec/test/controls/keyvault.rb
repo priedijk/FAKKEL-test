@@ -15,13 +15,13 @@ describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) 
   
   privateEndpointConnections.each do |endpoints|
     describe endpoints do
-      its('provisioningState') { should eq 'Succeeded' }
+      its('properties.provisioningState') { should eq 'Succeeded' }
     end
   end
 
   privateEndpointConnections.each do |privateLink|
     describe privateLink do
-      its('privateLinkServiceConnectionState.status') { should eq 'Approved' }
+      its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
     end
   end
 
