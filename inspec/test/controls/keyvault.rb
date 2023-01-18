@@ -9,20 +9,23 @@ describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) 
     its('properties.enabledForDiskEncryption') { should be_truthy }  
   end   
 
+
+
   privateEndpointConnections = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')).properties.privateEndpointConnections
+  
   privateEndpointConnections.each do |endpoints|
     describe endpoints do
       its('provisioningState') { should eq 'Succeeded' }
+    end
+  end
 
   privateEndpointConnections.each do |privateLink|
     describe privateLink do
       its('privateLinkServiceConnectionState.status') { should eq 'Approved' }
+    end
+  end
 
-  # nsg_securityRules = azurerm_network_security_group(resource_group: 'asdf', name: 'asdf').properties.securityRules
-  # nsg_securityRules.each do |securityRules|
-  #   describe securityRules do
-  #     its('name') { should cmp 'BASTION' }
-  #   end
+
 
 
 describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) do
