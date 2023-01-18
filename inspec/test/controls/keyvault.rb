@@ -16,7 +16,7 @@ describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) 
   privateEndpointConnections.each do |endpoints|
     describe endpoints do
       its('properties.provisioningState') { should eq 'Succeeded' }
-    end
+    end 
   end
 
   privateEndpointConnections.each do |privateLink|
