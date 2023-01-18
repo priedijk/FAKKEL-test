@@ -2,14 +2,6 @@
 #     it { should exist }  
 #   end  
 
-keyvaultProperties = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT'))
-privateEndpointConnections = keyvaultProperties["privateEndpointConnections"]
-privateEndpointConnectionsToo = keyvaultProperties["privateEndpointConnections[0]"]
-privateEndpointConnectionsThree = keyvaultProperties["properties.privateEndpointConnections"]
-privateEndpointConnectionsFour = keyvaultProperties["properties.privateEndpointConnections[0]"]
-enabledForDiskEncryption = keyvaultProperties["enabledForDiskEncryption"]
-enabledForDiskEncryptionTwo = keyvaultProperties["properties.enabledForDiskEncryption"]
-
 control 'azure_key_vault' do 
   title "Check Azure Keyvault" 
 
@@ -17,13 +9,20 @@ describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) 
     its('properties.enabledForDiskEncryption') { should be_truthy }  
   end   
 
-describe enabledForDiskEncryption do
-    it { should be_truthy }  
-  end     
-  
-describe enabledForDiskEncryptionTwo do
-    it { should be_truthy }  
-  end     
+  privateEndpointConnections = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')).properties.privateEndpointConnections
+  privateEndpointConnections.each do |endpoints|
+    describe endpoints do
+      its('provisioningState') { should eq 'Succeeded' }
+
+  privateEndpointConnections.each do |privateLink|
+    describe privateLink do
+      its('privateLinkServiceConnectionState.status') { should eq 'Approved' }
+
+  # nsg_securityRules = azurerm_network_security_group(resource_group: 'asdf', name: 'asdf').properties.securityRules
+  # nsg_securityRules.each do |securityRules|
+  #   describe securityRules do
+  #     its('name') { should cmp 'BASTION' }
+  #   end
 
 
 describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) do
@@ -32,45 +31,5 @@ describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) 
 
 describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) do
     its('properties.privateEndpointConnections.privateLinkServiceConnectionState.status') { should eq 'Approved' }
-  end       
-
-describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) do
-    its('properties.privateEndpointConnections[0].provisioningState') { should eq 'Succeeded' }
-  end   
-
-describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) do
-    its('properties.privateEndpointConnections[0].privateLinkServiceConnectionState.status') { should eq 'Approved' }
-  end  
-
-describe privateEndpointConnections do
-  its('properties.provisioningState') { should eq 'Succeeded' }   
-  end        
-
-describe privateEndpointConnectionsToo do
-  its('properties.provisioningState') { should eq 'Succeeded' }   
-  end        
-
-describe privateEndpointConnections do
-  its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }   
-  end        
-
-describe privateEndpointConnectionsToo do
-  its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }   
-  end        
-
-describe privateEndpointConnectionsThree do
-  its('properties.provisioningState') { should eq 'Succeeded' }   
-  end        
-
-describe privateEndpointConnectionsFour do
-  its('properties.provisioningState') { should eq 'Succeeded' }   
-  end        
-
-describe privateEndpointConnectionsThree do
-  its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }   
-  end        
-
-describe privateEndpointConnectionsFour do
-  its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }   
-  end        
+  end            
 end
