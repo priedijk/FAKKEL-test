@@ -7,13 +7,24 @@ privateEndpointConnections = keyvaultProperties["privateEndpointConnections"]
 privateEndpointConnectionsToo = keyvaultProperties["privateEndpointConnections[0]"]
 privateEndpointConnectionsThree = keyvaultProperties["properties.privateEndpointConnections"]
 privateEndpointConnectionsFour = keyvaultProperties["properties.privateEndpointConnections[0]"]
+enabledForDiskEncryption = keyvaultProperties["enabledForDiskEncryption"]
+enabledForDiskEncryptionTwo = keyvaultProperties["properties.enabledForDiskEncryption"]
 
 control 'azure_key_vault' do 
   title "Check Azure Keyvault" 
 
 describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) do
     its('properties.enabledForDiskEncryption') { should be_truthy }  
+  end   
+
+describe enabledForDiskEncryption do
+    it { should be_truthy }  
   end     
+  
+describe enabledForDiskEncryptionTwo do
+    it { should be_truthy }  
+  end     
+
 
 describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) do
     its('properties.privateEndpointConnections.provisioningState') { should eq 'Succeeded' }
