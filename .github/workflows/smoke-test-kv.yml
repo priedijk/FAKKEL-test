@@ -154,6 +154,14 @@ jobs:
           terraform -chdir=${{ inputs.terraform-directory }} apply "plan"
           # -auto-approve -input=false
 
+      - name: Terraform Output
+        if: inputs.terraform-action == 'plan+apply'
+        run: |
+          terraform -chdir=${{ inputs.terraform-directory }} output -raw kv_name
+          export KEYVAULT=$(terraform output -raw kv_name)
+          echo $KEYVAULT
+
+
       - name: Terraform Destroy
         if: inputs.terraform-action == 'destroy' && inputs.confirm-destroy
         run: |
