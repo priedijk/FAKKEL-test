@@ -18,8 +18,8 @@ jobs:
       terraform-action: ${{ github.event.inputs.terraform-action }}
       terraform-directory: 'kv-test'
       terraform-init-args: '-backend-config="key=kv.tfstate"'
-      terraform-plan-args: '-var-file="test.tfvars"'
-      terraform-apply-args: '-var-file="test.tfvars"'
+      terraform-plan-args: ''
+      terraform-apply-args: ''
       terraform-import-file: ${{ inputs.terraform-import-file }}
     secrets: inherit
 
