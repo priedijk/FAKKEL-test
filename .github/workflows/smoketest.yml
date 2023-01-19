@@ -53,7 +53,7 @@ jobs:
       terraform-import-file: ${{ inputs.terraform-import-file }}
     secrets: inherit
 
-  build-and-deploy:
+  Inspec-tests:
     needs: kv-terraform
     runs-on: ubuntu-latest
     environment: 'fakkel'
@@ -96,7 +96,7 @@ jobs:
             -backend-config="resource_group_name=tfstatetestfakkel" \
             -backend-config="storage_account_name=tfstatetestfakkel"
 
-      - name: TF output
+      - name: Gather TF output
         run: ./scripts/output.sh 
         shell: bash
         env:

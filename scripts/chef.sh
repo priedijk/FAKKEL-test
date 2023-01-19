@@ -10,6 +10,10 @@ export KEYVAULT_NAME3=$KEYVAULT3
 echo "Keyvault name is $KEYVAULT_NAME"
 echo "Keyvault name is $KEYVAULT_NAME2"
 echo "Keyvault name is $KEYVAULT_NAME3"
+
+echo "Keyvault name is $KEYVAULT"
+echo "Keyvault name is $KEYVAULT2"
+echo "Keyvault name is $KEYVAULT3"
 exit 0
 
 # install the Chef Inspec
