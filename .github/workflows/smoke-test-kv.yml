@@ -155,7 +155,6 @@ jobs:
           # -auto-approve -input=false
 
       - name: Terraform Output
-        if: inputs.terraform-action == 'plan+apply'
         run: |
           terraform -chdir=${{ inputs.terraform-directory }} output -raw kv_name
           echo "after command 1"
