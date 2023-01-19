@@ -10,7 +10,7 @@ on:
         options:
           - 'weu'
           - 'frc'
-        default: 'frc'
+        default: 'weu'
       tenant:
         description: "GitHub tenant to deploy to (ae / prod)"
         type: choice
