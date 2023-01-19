@@ -6,12 +6,10 @@ export AZURE_CLIENT_SECRET=$INPUT_CLIENTSECRET
 export KEYVAULT_NAME=$KEYVAULT
 export KEYVAULT_NAME2=$KEYVAULT2
 export KEYVAULT_NAME3=$KEYVAULT3
-export KEYVAULT_NAME4=$KEYVAULT4
 
 echo "Keyvault name is $KEYVAULT_NAME"
 echo "Keyvault name is $KEYVAULT_NAME2"
 echo "Keyvault name is $KEYVAULT_NAME3"
-echo "Keyvault name is $KEYVAULT_NAME4"
 exit 0
 
 # install the Chef Inspec

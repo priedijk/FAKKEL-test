@@ -18,7 +18,5 @@ export KEYVAULT=$(terraform -chdir=$TERRAFORM_DIR output -raw kv_name)
 echo "KEYVAULT=$(echo $KEYVAULT)" >> $GITHUB_ENV
 echo "KEYVAULT2=$(terraform -chdir=$TERRAFORM_DIR output -raw kv_name)" >> $GITHUB_ENV
 echo "KEYVAULT3=${KEYVAULT}" >> $GITHUB_ENV
-echo "Keyvault name is $KEYVAULT"
-echo "Keyvault name is $KEYVAULT2"
-echo "Keyvault name is $KEYVAULT3"
+
 exit 0
