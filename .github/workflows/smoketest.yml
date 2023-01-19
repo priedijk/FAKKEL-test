@@ -96,6 +96,12 @@ jobs:
             -backend-config="resource_group_name=tfstatetestfakkel" \
             -backend-config="storage_account_name=tfstatetestfakkel"
 
+      - name: TF output
+        run: ./scripts/output.sh 
+        shell: bash
+        env:
+          TERRAFORM_DIRECTORY: ${{ env.terraform-directory }}
+
       - name: Terraform Output
         run: |
           terraform -chdir=${{ env.terraform-directory }} output -raw kv_name
@@ -112,7 +118,8 @@ jobs:
           echo "KEYVAULT2=$(terraform -chdir='${{ env.terraform-directory }}' output -raw kv_name)" >> $GITHUB_ENV
           echo "KEYVAULT3=${KEYVAULT}" >> $GITHUB_ENV
           
-      - run: ./scripts/chef.sh  
+      - name: Inspec tests
+        run: ./scripts/chef.sh  
         shell: bash
         env:
           INPUT_SUBSCRIPTIONID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
