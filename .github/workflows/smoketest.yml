@@ -8,7 +8,7 @@ permissions:
 
 
 jobs:
-  Vnet-test:
+  kv-terraform:
     uses: ./.github/workflows/smoke-test-kv.yml
     with:
       location: ${{ github.event.inputs.location }}
