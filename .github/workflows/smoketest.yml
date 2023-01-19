@@ -92,8 +92,11 @@ jobs:
       - name: Terraform Output
         run: |
           terraform -chdir=${{ env.terraform-directory }} output -raw kv_name
+          echo "after command 1"
           export KEYVAULT=$(terraform -chdir=${{ '${{ env.terraform-directory }}' }} output -raw kv_name)
+          echo "after command 2"
           echo $KEYVAULT
+          echo "after command 3"
           
       - run: ./scripts/chef.sh  
         shell: bash
