@@ -1,6 +1,37 @@
 name: 'Smoketest-in-progress'
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+    inputs:
+      location:
+        description: "Hub Location (weu / frc)"
+        type: choice
+        required: true
+        options:
+          - 'weu'
+          - 'frc'
+        default: 'frc'
+      tenant:
+        description: "GitHub tenant to deploy to (ae / prod)"
+        type: choice
+        required: true
+        options:
+         - 'ae'
+         - 'prod'
+        default: 'ae'
+      terraform-action:
+        description: 'Terraform action'
+        type: choice
+        required: true
+        options:
+          - 'plan'
+          - 'plan+apply'
+          - 'destroy'
+        default: 'plan'
+      confirm-destroy:
+        description: "Confirm destroy"
+        type: boolean
+        default: false
 
 permissions:
   id-token: write
