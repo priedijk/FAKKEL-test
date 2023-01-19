@@ -158,10 +158,16 @@ jobs:
         run: |
           terraform -chdir=${{ inputs.terraform-directory }} output -raw kv_name
           echo "after command 1"
-          export KEYVAULT=$(terraform -chdir=inputs.terraform-directory output -raw kv_name)
+          export KEYVAULT=$(terraform -chdir='${{inputs.terraform-directory}}' output -raw kv_name)
+          echo $KEYVAULT
           echo "after command 2"
+          export KEYVAULT=$(terraform -chdir=${{inputs.terraform-directory}} output -raw kv_name)
           echo $KEYVAULT
           echo "after command 3"
+          export KEYVAULT=$(terraform -chdir="${{inputs.terraform-directory}}" output -raw kv_name)
+          echo $KEYVAULT
+          echo "after command 4"
+
 
 
       - name: Terraform Destroy
