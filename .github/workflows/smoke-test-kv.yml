@@ -37,10 +37,6 @@ on:
         description: "Name of the terraform import file. Use the statefile name without location (<statefileName>.ps1)"
         type: string
         default: ''
-      IsNewDeployment:
-        description: "Initial foundation deployment ...... (should be true during the initial deployment of both hubs (weu & frc). A second deployment is needed after the initial deployment has been done for each hub)"
-        type: string
-        default: 'false'
 
 permissions:
   id-token: write
@@ -58,7 +54,6 @@ jobs:
       TF_CLI_ARGS_destroy: ${{ inputs.terraform-apply-args }}
       TF_VAR_environment: ${{ inputs.environment }}
       TF_VAR_location_code: ${{ inputs.location }}
-      TF_VAR_new_deployment: ${{ inputs.IsNewDeployment }}
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}

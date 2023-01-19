@@ -34,7 +34,6 @@ jobs:
       TF_CLI_ARGS_destroy: ${{ inputs.terraform-apply-args }}
       TF_VAR_environment: ${{ inputs.environment }}
       TF_VAR_location_code: ${{ inputs.location }}
-      TF_VAR_new_deployment: ${{ inputs.IsNewDeployment }}
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}

@@ -1,9 +1,3 @@
-variable "new_deployment" {
-  description = "new deployment tick"
-  type        = bool
-  default     = false
-}
-
 variable "location_code" {
   description = "Location code identifier"
   type        = string
