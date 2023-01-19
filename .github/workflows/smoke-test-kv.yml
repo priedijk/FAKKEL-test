@@ -158,7 +158,7 @@ jobs:
         run: |
           terraform -chdir=${{ inputs.terraform-directory }} output -raw kv_name
           echo "after command 1"
-          export KEYVAULT=$(terraform output -chdir="${{ inputs.terraform-directory }}" -raw kv_name)
+          export KEYVAULT=$(terraform -chdir=${{ '${{ inputs.terraform-directory }}' }} output -raw kv_name)
           echo "after command 2"
           echo $KEYVAULT
           echo "after command 3"
