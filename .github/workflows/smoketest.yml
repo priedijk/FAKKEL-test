@@ -92,6 +92,7 @@ jobs:
         id: init
         run: |
           terraform -chdir=${{ env.terraform-directory }} init \
+            -backend-config="key=kv.tfstate" \
             -backend-config="resource_group_name=tfstatetestfakkel" \
             -backend-config="storage_account_name=tfstatetestfakkel"
 
