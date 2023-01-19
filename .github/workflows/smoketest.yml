@@ -11,7 +11,7 @@ jobs:
   kv-terraform:
     uses: ./.github/workflows/smoke-test-kv.yml
     with:
-      location: ${{ github.event.inputs.location }}
+      location: 'weu'
       tenant: ${{ github.event.inputs.tenant }}
       confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
       terraform-action: ${{ github.event.inputs.terraform-action }}
