@@ -6,7 +6,23 @@ permissions:
   id-token: write
   contents: read
 
-jobs: 
+
+jobs:
+  Vnet-test:
+    uses: ./.github/workflows/smoke-test-kv.yml
+    with:
+      location: ${{ github.event.inputs.location }}
+      tenant: ${{ github.event.inputs.tenant }}
+      confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
+      IsNewDeployment: ${{ github.event.inputs.IsNewDeployment }}
+      terraform-action: ${{ github.event.inputs.terraform-action }}
+      terraform-directory: 'kv-test'
+      terraform-init-args: '-backend-config="key=kv.tfstate"'
+      terraform-plan-args: '-var-file="test.tfvars"'
+      terraform-apply-args: '-var-file="test.tfvars"'
+      terraform-import-file: ${{ inputs.terraform-import-file }}
+    secrets: inherit
+
   build-and-deploy:
     runs-on: ubuntu-latest
     environment: 'fakkel'
@@ -38,6 +54,7 @@ jobs:
           INPUT_CLIENTSECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           INPUT_COMPLIANCE_TEST_PROFILE_URL: 'niks'
           KEYVAULT: 'kv-test-weu-50e2b310'
+          KEYVAULT2: $(terraform output -raw kv_name)
 
       - name: 'upload test results'
         uses: actions/upload-artifact@v3

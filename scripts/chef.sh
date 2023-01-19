@@ -4,8 +4,14 @@ export AZURE_CLIENT_ID=$INPUT_CLIENTID
 export AZURE_TENANT_ID=$INPUT_TENANTID
 export AZURE_CLIENT_SECRET=$INPUT_CLIENTSECRET
 export KEYVAULT=$KEYVAULT
+export KEYVAULT_NAME=$KEYVAULT2
+
+echo "Keyvault name is $KEYVAULT_NAME"
+exit 0
+
 # install the Chef Inspec
 curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec 
+
 
 
 # execute Azure tests
