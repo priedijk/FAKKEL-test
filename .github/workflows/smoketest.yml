@@ -107,7 +107,10 @@ jobs:
           echo $KEYVAULT
           echo "after command 3"
           export KEYVAULT=$(terraform -chdir='${{ env.terraform-directory }}' output -raw kv_name)
-          echo $KEYVAULT
+          
+          echo "KEYVAULT=$(echo $KEYVAULT)" >> $GITHUB_ENV
+          echo "KEYVAULT2=$(terraform -chdir='${{ env.terraform-directory }}' output -raw kv_name)" >> $GITHUB_ENV
+          echo "KEYVAULT3=${KEYVAULT}" >> $GITHUB_ENV
           
       - run: ./scripts/chef.sh  
         shell: bash
@@ -118,7 +121,7 @@ jobs:
           INPUT_CLIENTSECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           INPUT_COMPLIANCE_TEST_PROFILE_URL: 'niks'
           # KEYVAULT: 'kv-test-weu-50e2b310'
-          KEYVAULT2: ${KEYVAULT}
+          # KEYVAULT2: ${KEYVAULT}
 
       - name: 'upload test results'
         uses: actions/upload-artifact@v3
