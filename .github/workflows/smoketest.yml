@@ -24,6 +24,7 @@ jobs:
     secrets: inherit
 
   build-and-deploy:
+    needs: kv-terraform
     runs-on: ubuntu-latest
     environment: 'fakkel'
 
