@@ -14,7 +14,7 @@ echo "Keyvault name is $KEYVAULT_NAME3"
 echo "Keyvault name is $KEYVAULT"
 echo "Keyvault name is $KEYVAULT2"
 echo "Keyvault name is $KEYVAULT3"
-exit 0
+# exit 0
 
 # install the Chef Inspec
 curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec 
