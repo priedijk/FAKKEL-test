@@ -122,14 +122,11 @@ jobs:
         run: ./scripts/chef.sh  
         shell: bash
         env:
-          INPUT_SUBSCRIPTIONID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          INPUT_CLIENTID: ${{ secrets.AZURE_CLIENT_ID }}
-          INPUT_TENANTID: ${{ secrets.AZURE_TENANT_ID }}
-          INPUT_CLIENTSECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          INPUT_COMPLIANCE_TEST_PROFILE_URL: 'niks'
-          # KEYVAULT: 'kv-test-weu-50e2b310'
-          # KEYVAULT2: ${KEYVAULT}
-
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          
       - name: 'upload test results'
         uses: actions/upload-artifact@v3
         if: always()
