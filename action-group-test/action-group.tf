@@ -13,6 +13,7 @@ locals {
   local1 = "peanut"
   local2 = "peanut"
   local3 = "peanut"
+  local4 = "peanut"
 }
 
 
