@@ -11,6 +11,7 @@ locals {
     { name = "test2", email_address = "456@test.nl", use_common_alert_schema = true }
   ]
   local1 = "peanut"
+  local2 = "peanut"
 }
 
 
