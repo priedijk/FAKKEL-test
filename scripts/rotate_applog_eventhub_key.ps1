@@ -148,11 +148,13 @@ if ($eventhubKeyAction -eq "distribute" ) {
 
     # Get eventhub authorization rule key
     $eventhubSendKeyValue = (az eventhubs eventhub authorization-rule keys list --resource-group $resourceGroupName --namespace-name $eventhubNamespace --eventhub-name $eventhubName --name $authorizationRule --query $connectionString)
-    
+    $eventhubSendKeyValue
     # Query all product team keyvaults based on input of environment and update the Eventhub authorization rule connection string secret.
     az config set extension.use_dynamic_install=yes_without_prompt
     $keyvaults = (az graph query -q "where type =~ 'microsoft.keyvault/vaults' | where tags.logicalname =~ 'keyvault-app' and tags.environment == '$($environment)'" --first 1000 | ConvertFrom-Json).data
     Write-Host "---------------------------"
+
+    $keyvaults 
     foreach ($keyvault in $keyvaults) {
         Write-Host "INFO processing keyvault $($keyvault.name)"
 
