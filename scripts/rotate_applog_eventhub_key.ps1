@@ -173,12 +173,8 @@ if ($eventhubKeyAction -eq "distribute" ) {
     $keyvaults = (az graph query -q "where type =~ 'microsoft.keyvault/vaults' | where tags.logicalname =~ 'keyvault-app' and tags.environment == '$($environment)'" --first 1000 | ConvertFrom-Json).data
     Write-Host ""
     Write-Host "----------------------------------------"
-    Write-Host "Distributing ${activeSendKey}"
+    Write-Host "Distributing ${activeSendKey} to:"
     Write-Host "----------------------------------------"
-    Write-Host ""
-    Write-Host ""
-    Write-Host "----------------------------------------"
-    Write-Host "Distributing key to"
     ${keyvaults}.name
     Write-Host "----------------------------------------"
     Write-Host ""
