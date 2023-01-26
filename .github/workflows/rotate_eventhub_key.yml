@@ -1,0 +1,87 @@
+on:
+  workflow_dispatch:
+    inputs:
+      location:
+        description: "Location (weu / frc)"
+        type: choice
+        options:
+          - 'weu'
+          - 'frc'
+      tenant:
+        description: 'Tenant'
+        type: choice
+        options:
+          - 'AE'
+          - 'PRD'
+      environment:
+        description: 'Tenant'
+        type: choice
+        options:
+          - 'nonprod'
+          - 'prod'
+      eventhub-key-action:
+        description: 'Eventhub key action'
+        type: choice
+        options:
+          - 'rotate'
+          - 'renew'
+      confirm-key-action:
+        description: 'Confirm Key rotation/renewal'
+        type: boolean
+        default: false
+      runner:
+        description: 'Runner type'
+        type: choice
+        options:
+          - 'self-hosted'
+          - 'public'
+
+name: Eventhub key | ${{ github.event.inputs.eventhub-key-action }}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  Rotate_key:
+    runs-on: ubuntu-latest
+    environment: 'fakkel'
+    timeout-minutes: 360
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_USE_OIDC: true
+
+    steps:
+      - name: Log inputs
+        run: |
+          echo "Running with the following input:"
+          echo "${{ toJSON(inputs) }}"
+          if [ "${{ inputs.confirm-key-action }}" == "false" ]; then
+            echo "Key rotation/renewal has not been confirmed but (Confirm Key rotation/renewal=false). Aborting workflow."
+            exit 1
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Rotate Eventhub authorization rule key
+        id: rotate-key
+        shell: pwsh
+        run: |
+          ./foundation/landingzone/powershell/rotate_applog_eventhub_key.ps1 `
+              -hubSubscriptionId ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+              -location {{ inputs.location }} `
+              -tenant {{ inputs.tenant }} `
+              -location {{ inputs.environment }} `
+              -eventhubKeyAction {{ inputs.eventhub-key-action }} `
+
+
