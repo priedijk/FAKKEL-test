@@ -25,6 +25,7 @@ on:
         options:
           - 'rotate'
           - 'renew'
+          - 'distribute'
       confirm-key-action:
         description: 'Confirm Key rotation/renewal'
         type: boolean
