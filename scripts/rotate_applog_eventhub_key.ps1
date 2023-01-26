@@ -179,7 +179,6 @@ if ($eventhubKeyAction -eq "distribute" ) {
     Write-Host "----------------------------------------"
     Write-Host ""
 
-    $keyvaults 
     foreach ($keyvault in $keyvaults) {
         Write-Host "INFO processing keyvault $($keyvault.name)"
 
