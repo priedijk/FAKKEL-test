@@ -36,7 +36,7 @@ on:
           - 'self-hosted'
           - 'public'
 
-name: Eventhub key | ${{ github.event.inputs.eventhub-key-action }}
+name: Eventhub key | ${{ inputs.eventhub-key-action }} 
 
 permissions:
   id-token: write
@@ -78,10 +78,10 @@ jobs:
         shell: pwsh
         run: |
           ./scripts/rotate_applog_eventhub_key.ps1 `
-              -hubSubscriptionId ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-              -location {{ inputs.location }} `
-              -tenant {{ inputs.tenant }} `
-              -location {{ inputs.environment }} `
-              -eventhubKeyAction {{ inputs.eventhub-key-action }} `
+              -hubSubscriptionId ${{ secrets.AZURE_SUBSCRIPTION_ID }} `
+              -location ${{ inputs.location }} `
+              -tenant ${{ inputs.tenant }} `
+              -location ${{ inputs.environment }} `
+              -eventhubKeyAction ${{ inputs.eventhub-key-action }} `
 
 
