@@ -55,14 +55,18 @@ if ($eventhubKeyAction -eq "renew") {
         # --output none
 
     if($?) {
+        Write-Host ""
         Write-Host "---------------------------"
         Write-Output "Key successfuly rotated"
         Write-Host "---------------------------"
+        Write-Host ""
     }
     else {
+        Write-Host ""
         Write-Host "---------------------------"
         Write-Output "Key rotation was not successful"
         Write-Host "---------------------------"
+        Write-Host ""
         $successful = $false
     }
 }
@@ -93,15 +97,19 @@ if ($eventhubKeyAction -eq "rotate" ) {
     --tags active_send_key=$newActiveSendKey
 
     if($?) {
+        Write-Host ""
         Write-Host "---------------------------"
         Write-Output "active_send_key tag successfully updated"
         Write-Host "---------------------------"
+        Write-Host ""
         
     }
     else {
+        Write-Host ""
         Write-Host "---------------------------"
         Write-Output "Updating the active_send_key tag was not successful"
         Write-Host "---------------------------"
+        Write-Host ""
         $successful = $false
     }
     
@@ -120,14 +128,18 @@ if ($eventhubKeyAction -eq "rotate" ) {
         # --output none
 
         if($?) {
+            Write-Host ""
             Write-Host "---------------------------"
             Write-Output "Secret successfully updated"
             Write-Host "---------------------------"
+            Write-Host ""
             }
         else {
+            Write-Host ""
             Write-Host "---------------------------"
             Write-Output "Updating the secret was not successful"
             Write-Host "---------------------------"
+            Write-Host ""
             $successful = $false
         }
     }
@@ -152,6 +164,7 @@ if ($eventhubKeyAction -eq "distribute" ) {
     # Query all product team keyvaults based on input of environment and update the Eventhub authorization rule connection string secret.
     az config set extension.use_dynamic_install=yes_without_prompt
     $keyvaults = (az graph query -q "where type =~ 'microsoft.keyvault/vaults' | where tags.logicalname =~ 'keyvault-app' and tags.environment == '$($environment)'" --first 1000 | ConvertFrom-Json).data
+    Write-Host ""
     Write-Host "---------------------------"
 
     $keyvaults 
@@ -166,14 +179,18 @@ if ($eventhubKeyAction -eq "distribute" ) {
         # --output none
         
         if($?) {
+            Write-Host ""
             Write-Host "---------------------------"
             Write-Output "Secret successfully updated"
             Write-Host "---------------------------"
+            Write-Host ""
             }
         else {
+            Write-Host ""
             Write-Host "---------------------------"
             Write-Output "Updating the secret was not successful"
             Write-Host "---------------------------"
+            Write-Host ""
             $successful = $false
         }
     }
