@@ -52,7 +52,7 @@ if ($eventhubKeyAction -eq "renew") {
         --eventhub-name $eventhubName `
         --name $authorizationRule `
         --key $keyToRenew `
-        --output none
+        # --output none
 
     if($?) {
         Write-Host "---------------------------"
@@ -117,7 +117,7 @@ if ($eventhubKeyAction -eq "rotate" ) {
         --name $eventhubSendKeyName `
         --value $eventhubSendKeyValue `
         --tags "eventhub=$($eventhubName)" "namespace=$($eventhubNamespace)" "key=$($newActiveSendKey)" `
-        --output none
+        # --output none
 
         if($?) {
             Write-Host "---------------------------"
@@ -161,7 +161,7 @@ if ($eventhubKeyAction -eq "distribute" ) {
         --name $eventhubSendKeyName `
         --value $eventhubSendKeyValue `
         --tags "eventhub=$($eventhubName)" "namespace=$($eventhubNamespace)" "key=$($newActiveSendKey)" `
-        --output none
+        # --output none
         
         if($?) {
             Write-Host "---------------------------"
