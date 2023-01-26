@@ -77,7 +77,7 @@ jobs:
         id: rotate-key
         shell: pwsh
         run: |
-          ./foundation/landingzone/powershell/rotate_applog_eventhub_key.ps1 `
+          ./scripts/rotate_applog_eventhub_key.ps1 `
               -hubSubscriptionId ${{ secrets.AZURE_SUBSCRIPTION_ID }}
               -location {{ inputs.location }} `
               -tenant {{ inputs.tenant }} `
