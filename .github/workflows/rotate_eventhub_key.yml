@@ -38,7 +38,7 @@ on:
           - 'public'
 
 name: Eventhub key rotation/renewal
-run-name: Eventhub key ${{ github.event.inputs.eventhub-key-action }}
+run-name: Eventhub key | | ${{ github.event.inputs.eventhub-key-action }} | ${{ github.event.inputs.tenant }} | ${{ github.event.inputs.location }} | ${{ github.event.inputs.environment }}
 
 permissions:
   id-token: write
