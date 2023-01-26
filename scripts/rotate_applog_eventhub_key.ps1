@@ -91,6 +91,12 @@ if ($eventhubKeyAction -eq "rotate" ) {
     $eventhubSendKeyValue = (az eventhubs eventhub authorization-rule keys list --resource-group $resourceGroupName --namespace-name $eventhubNamespace --eventhub-name $eventhubName --name $authorizationRule --query $connectionStringToRotate)
         
     # Set new active_send_key tag value
+    Write-Host ""
+    Write-Host "---------------------------"
+    Write-Output "Updating active_key_tag"
+    Write-Host "---------------------------"
+    Write-Host ""
+    
     az eventhubs namespace update `
     --resource-group $resourceGroupName `
     --name $eventhubNamespace `
