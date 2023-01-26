@@ -176,6 +176,11 @@ if ($eventhubKeyAction -eq "distribute" ) {
     Write-Host "Distributing ${activeSendKey}"
     Write-Host "----------------------------------------"
     Write-Host ""
+    Write-Host ""
+    Write-Host "----------------------------------------"
+    Write-Host "Distributing key to $keyvaults.name"
+    Write-Host "----------------------------------------"
+    Write-Host ""
 
     $keyvaults 
     foreach ($keyvault in $keyvaults) {
