@@ -83,7 +83,7 @@ jobs:
               -hubSubscriptionId ${{ secrets.AZURE_SUBSCRIPTION_ID }} `
               -location ${{ inputs.location }} `
               -tenant ${{ inputs.tenant }} `
-              -location ${{ inputs.environment }} `
+              -environment ${{ inputs.environment }} `
               -eventhubKeyAction ${{ inputs.eventhub-key-action }} `
 
 
