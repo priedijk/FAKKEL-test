@@ -36,7 +36,8 @@ on:
           - 'self-hosted'
           - 'public'
 
-name: Eventhub key | ${{ inputs.eventhub-key-action }} 
+name: Eventhub key rotation/renewal
+run-name: Eventhub key ${{ github.event.inputs.eventhub-key-action }}
 
 permissions:
   id-token: write
