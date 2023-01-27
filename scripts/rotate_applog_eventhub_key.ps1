@@ -17,12 +17,10 @@ write-host "INFO Hubscription set to ${hubSubscriptionId}"
 
 # Define variables
 
-$eventhubNamespace = "evhns-001-test"
-
-
-$resourceGroupName = "rg-evhns-001"
-$eventhubName ="acceptanceTestEventHub"
-$authorizationRule ="navi"
+$resourceGroupName = "rg-evhns-rotation-001"
+$eventhubNamespace = "evhns-rotation-001"
+$eventhubName ="evh-rotation-001"
+$authorizationRule ="sendonly"
 # secret name for the eventhub authorization rule key
 $eventhubSendKeyName = "send-key"
 
