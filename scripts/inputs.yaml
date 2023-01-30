@@ -1,3 +1,2 @@
 KEYVAULT: ${KEYVAULT}
-keyvault: ${KEYVAULT}
-keyvault_name: ${KEYVAULT_NAME}
+RG: ${RG}

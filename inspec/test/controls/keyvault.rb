@@ -5,7 +5,7 @@
 control 'azure_key_vault' do 
   title "Check Azure Keyvault" 
 
-describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) do
+describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT')) do
     its('properties.enabledForDiskEncryption') { should be_truthy }  
   end   
 
