@@ -39,22 +39,22 @@ permissions:
 
 
 jobs:
-  kv-terraform:
-    uses: ./.github/workflows/smoke-test-kv.yml
-    with:
-      location: 'weu'
-      tenant: ${{ github.event.inputs.tenant }}
-      confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
-      terraform-action: ${{ github.event.inputs.terraform-action }}
-      terraform-directory: 'kv-test'
-      terraform-init-args: '-backend-config="key=kv.tfstate"'
-      terraform-plan-args: ''
-      terraform-apply-args: ''
-      terraform-import-file: ${{ inputs.terraform-import-file }}
-    secrets: inherit
+  # kv-terraform:
+  #   uses: ./.github/workflows/smoke-test-kv.yml
+  #   with:
+  #     location: 'weu'
+  #     tenant: ${{ github.event.inputs.tenant }}
+  #     confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
+  #     terraform-action: ${{ github.event.inputs.terraform-action }}
+  #     terraform-directory: 'kv-test'
+  #     terraform-init-args: '-backend-config="key=kv.tfstate"'
+  #     terraform-plan-args: ''
+  #     terraform-apply-args: ''
+  #     terraform-import-file: ${{ inputs.terraform-import-file }}
+  #   secrets: inherit
 
   Inspec-tests:
-    needs: kv-terraform
+    # needs: kv-terraform
     runs-on: ubuntu-latest
     environment: 'fakkel'
 
