@@ -22,11 +22,11 @@ curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 # execute Azure tests
 # inspec exec inspec/test/ --input=URL="kv-test-weu-50e2b310.vault.azure.net" KEYVAULT=$KEYVAULT -t azure:// --chef-license accept-silent --reporter cli html:azure_test.html 
 
-cat scripts/inputs.yaml
-envsubst < scripts/inputs.yaml
-(cat scripts/inputs.yaml | envsubst) >> scripts/inputs-sub.yaml
+cat inspec/test/inputs.yaml
+envsubst < inspec/test/inputs.yaml
+(cat inspec/test/inputs.yaml | envsubst) >> inspec/test/inputs-sub.yaml
 
-inspec exec inspec/test/ --input-file scripts/inputs-sub.yaml -t azure:// --chef-license accept-silent --reporter cli html:azure_test.html 
+inspec exec inspec/test/ --input-file inspec/test/inputs-sub.yaml -t azure:// --chef-license accept-silent --reporter cli html:azure_test.html 
 
 # execute keyvault test
 # inspec exec inspec/access/ --input=URL="kv-test-weu-50e2b310.vault.azure.net" KEYVAULT=$KEYVAULT --chef-license accept-silent --reporter cli html:keyvault_test.html 
