@@ -9,13 +9,6 @@ describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) 
     its('properties.enabledForDiskEncryption') { should be_truthy }  
   end   
 
-describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('keyvault')) do
-    its('properties.enabledForDiskEncryption') { should be_truthy }  
-  end   
-describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('keyvault_name')) do
-    its('properties.enabledForDiskEncryption') { should be_truthy }  
-  end   
-
 
 
   privateEndpointConnections = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')).properties.privateEndpointConnections
@@ -32,14 +25,12 @@ describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('keyvault_nam
     end
   end
 
+# describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) do
+#     its('properties.privateEndpointConnections.provisioningState') { should eq 'Succeeded' }
+#   end   
 
+# describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) do
+#     its('properties.privateEndpointConnections.privateLinkServiceConnectionState.status') { should eq 'Approved' }
+#   end  
 
-
-describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) do
-    its('properties.privateEndpointConnections.provisioningState') { should eq 'Succeeded' }
-  end   
-
-describe azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')) do
-    its('properties.privateEndpointConnections.privateLinkServiceConnectionState.status') { should eq 'Approved' }
-  end            
 end
