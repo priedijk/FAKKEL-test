@@ -26,6 +26,8 @@ cat scripts/inputs.yaml
 envsubst < scripts/inputs.yaml
 envsubst < scripts/inputs.yaml > scripts/inputs-sub.yaml
 
+inspec exec inspec/test/ --input-file scripts/inputs.yaml -t azure:// --chef-license accept-silent --reporter cli html:azure_test.html 
+
 inspec exec inspec/test/ --input-file scripts/inputs-sub.yaml -t azure:// --chef-license accept-silent --reporter cli html:azure_test.html 
 
 # execute keyvault test
