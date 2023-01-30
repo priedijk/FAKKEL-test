@@ -80,22 +80,6 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
      
-     # API call to create ISSUE, requires Token in github
-      # - name: Get current date
-      #   id: date
-      #   run: |
-      #     echo "date=$(date +'%d-%m-%Y')" >> $GITHUB_ENV  
-
-      # - name: GIthub Issue API call
-      #   run: |
-      #     curl \
-      #     -X POST \
-      #     -H "Accept: application/vnd.github+json" \
-      #     -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
-      #     -H "X-GitHub-Api-Version: 2022-11-28" \
-      #     https://api.github.com/repos/priedijk/FAKKEL-test/issues \
-      #     -d '{"title":"Terraform drift detected (${{ env.date }})","body":"I'\''m having a problem. Terraform drift detected: \n branch ${{ github.ref_name }} in ${{ github.event.inputs.tenant }}-${{ github.event.inputs.location }}  run number ${{ github.run_id }} \n [Failed Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) \n [Codebase](https://github.com/${{ github.repository }}/tree/${{ github.sha }}).","assignees":["priedijk"],"labels":["bug"]}'
-
       - name: Set workflow environment variables
         run: ./scripts/set-workflow-env-variables.sh ${{ inputs.tenant }} ${{ inputs.location }} ${{ inputs.IsNewDeployment }}
 
@@ -134,41 +118,14 @@ jobs:
       - name: Terraform Plan
         id: plan
         if: inputs.terraform-action != 'import'
-
         run: |
-          # terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -detailed-exitcode
           terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -out=plan
 
-          if [ $? -eq 0 ]; then
-              echo "No changes, not applying"
-          elif [ $? -eq 1 ]; then
-              echo "Terraform plan failed"
-              exit 1
-          elif [ $? -eq 2 ]; then
-              echo "Terraform apply needed"
-          fi
-                    
       - name: Terraform Apply
         if: inputs.terraform-action == 'plan+apply'
         run: |
           terraform -chdir=${{ inputs.terraform-directory }} apply "plan"
           # -auto-approve -input=false
-
-      - name: Terraform Output
-        run: |
-          terraform -chdir=${{ inputs.terraform-directory }} output -raw kv_name
-          echo "after command 1"
-          export KEYVAULT=$(terraform -chdir='${{inputs.terraform-directory}}' output -raw kv_name)
-          echo $KEYVAULT
-          echo "after command 2"
-          export KEYVAULT=$(terraform -chdir=${{inputs.terraform-directory}} output -raw kv_name)
-          echo $KEYVAULT
-          echo "after command 3"
-          export KEYVAULT=$(terraform -chdir="${{inputs.terraform-directory}}" output -raw kv_name)
-          echo $KEYVAULT
-          echo "after command 4"
-
-
 
       - name: Terraform Destroy
         if: inputs.terraform-action == 'destroy' && inputs.confirm-destroy
