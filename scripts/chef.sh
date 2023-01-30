@@ -12,13 +12,17 @@ echo "Keyvault name is $KEYVAULT"
 # install the Chef Inspec
 curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec 
 
-declare -A assArray1
-assArray1[fruit]=Mango
-assArray1[bird]=Cockatail
-assArray1[flower]=Rose
-assArray1[animal]=Tiger
+# declare -A assArray1
+# assArray1[fruit]=Mango
+# assArray1[bird]=Cockatail
+# assArray1[flower]=Rose
+# assArray1[animal]=Tiger
+
 # execute Azure tests
 # inspec exec inspec/test/ --input=URL="kv-test-weu-50e2b310.vault.azure.net" KEYVAULT=$KEYVAULT -t azure:// --chef-license accept-silent --reporter cli html:azure_test.html 
+
+echo scripts/inputs.yaml
+envsubst < scripts/inputs.yaml
 
 inspec exec inspec/test/ --input-file scripts/inputs.yaml -t azure:// --chef-license accept-silent --reporter cli html:azure_test.html 
 
