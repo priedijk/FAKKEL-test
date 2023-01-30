@@ -1,0 +1,2 @@
+keyvault: $KEYVAULT
+keyvault_name: $KEYVAULT_NAME
