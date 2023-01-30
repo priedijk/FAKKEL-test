@@ -26,7 +26,10 @@ cat inspec/test/inputs.yaml
 envsubst < inspec/test/inputs.yaml
 (cat inspec/test/inputs.yaml | envsubst) >> inspec/test/inputs-sub.yaml
 
-inspec exec inspec/test/ --input-file inspec/test/inputs-sub.yaml -t azure:// --chef-license accept-silent --reporter cli html:azure_test.html 
+TEST_VAR="test"
+TEST_DIRECTORY="inspec/${TEST_VAR}"
+
+inspec exec ${TEST_DIRECTORY} --input-file ${TEST_DIRECTORY}/inputs-sub.yaml -t azure:// --chef-license accept-silent --reporter cli html:azure_test.html 
 
 # execute keyvault test
 # inspec exec inspec/access/ --input=URL="kv-test-weu-50e2b310.vault.azure.net" KEYVAULT=$KEYVAULT --chef-license accept-silent --reporter cli html:keyvault_test.html 
