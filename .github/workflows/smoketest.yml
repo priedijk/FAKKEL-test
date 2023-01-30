@@ -101,22 +101,6 @@ jobs:
         shell: bash
         env:
           TERRAFORM_DIRECTORY: ${{ env.terraform-directory }}
-
-      # - name: Terraform Output
-      #   run: |
-      #     terraform -chdir=${{ env.terraform-directory }} output -raw kv_name
-      #     echo "after command 1"
-      #     export KEYVAULT=$(terraform -chdir=${{ env.terraform-directory }} output -raw kv_name)
-      #     echo $KEYVAULT
-      #     echo "after command 2"
-      #     export KEYVAULT=$(terraform -chdir="${{ env.terraform-directory }}" output -raw kv_name)
-      #     echo $KEYVAULT
-      #     echo "after command 3"
-      #     export KEYVAULT=$(terraform -chdir='${{ env.terraform-directory }}' output -raw kv_name)
-          
-      #     echo "KEYVAULT=$(echo $KEYVAULT)" >> $GITHUB_ENV
-      #     echo "KEYVAULT2=$(terraform -chdir='${{ env.terraform-directory }}' output -raw kv_name)" >> $GITHUB_ENV
-      #     echo "KEYVAULT3=${KEYVAULT}" >> $GITHUB_ENV
           
       - name: Inspec tests
         run: ./scripts/chef.sh  

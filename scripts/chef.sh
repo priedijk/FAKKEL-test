@@ -24,9 +24,7 @@ curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 
 cat scripts/inputs.yaml
 envsubst < scripts/inputs.yaml
-envsubst < scripts/inputs.yaml > scripts/inputs-sub.yaml
-
-inspec exec inspec/test/ --input-file scripts/inputs.yaml -t azure:// --chef-license accept-silent --reporter cli html:azure_test.html 
+(cat scripts/inputs.yaml | envsubst) >> scripts/inputs-sub.yaml
 
 inspec exec inspec/test/ --input-file scripts/inputs-sub.yaml -t azure:// --chef-license accept-silent --reporter cli html:azure_test.html 
 

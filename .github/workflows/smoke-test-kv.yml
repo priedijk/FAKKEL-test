@@ -70,64 +70,64 @@ jobs:
           echo "Running with the following input:"
           echo "${{ toJSON(inputs) }}"
 
-      - name: Checkout
-        uses: actions/checkout@v3
+      # - name: Checkout
+      #   uses: actions/checkout@v3
 
-      - name: 'Az CLI login'
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      # - name: 'Az CLI login'
+      #   uses: azure/login@v1
+      #   with:
+      #     client-id: ${{ secrets.AZURE_CLIENT_ID }}
+      #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+      #     subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
      
-      - name: Set workflow environment variables
-        run: ./scripts/set-workflow-env-variables.sh ${{ inputs.tenant }} ${{ inputs.location }} ${{ inputs.IsNewDeployment }}
+      # - name: Set workflow environment variables
+      #   run: ./scripts/set-workflow-env-variables.sh ${{ inputs.tenant }} ${{ inputs.location }} ${{ inputs.IsNewDeployment }}
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        # with:
-        #   terraform_wrapper: false
+      # - name: Setup Terraform
+      #   uses: hashicorp/setup-terraform@v2
+      #   # with:
+      #   #   terraform_wrapper: false
 
-      - name: Terraform Format
-        id: fmt
-        run: |
-          terraform -chdir=${{inputs.terraform-directory}} fmt -check
+      # - name: Terraform Format
+      #   id: fmt
+      #   run: |
+      #     terraform -chdir=${{inputs.terraform-directory}} fmt -check
 
-      - name: Terraform Init
-        id: init
-        run: |
-          terraform -chdir=${{inputs.terraform-directory}} init \
-            -backend-config="resource_group_name=tfstatetestfakkel" \
-            -backend-config="storage_account_name=tfstatetestfakkel"
+      # - name: Terraform Init
+      #   id: init
+      #   run: |
+      #     terraform -chdir=${{inputs.terraform-directory}} init \
+      #       -backend-config="resource_group_name=tfstatetestfakkel" \
+      #       -backend-config="storage_account_name=tfstatetestfakkel"
 
-      - name: Terraform Validate
-        id: validate
-        run: |
-          terraform -chdir=${{ inputs.terraform-directory }} validate
+      # - name: Terraform Validate
+      #   id: validate
+      #   run: |
+      #     terraform -chdir=${{ inputs.terraform-directory }} validate
 
-      - name: Terraform Import
-        if: inputs.terraform-action == 'import'
-        id: terraform-import
-        shell: pwsh
-        run: |
-          ./import/${{ inputs.terraform-import-file }}.ps1 `
-            -subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }} `
-            -location ${{ inputs.location }} `
-            -terraformdir ${{ inputs.terraform-directory }}
+      # - name: Terraform Import
+      #   if: inputs.terraform-action == 'import'
+      #   id: terraform-import
+      #   shell: pwsh
+      #   run: |
+      #     ./import/${{ inputs.terraform-import-file }}.ps1 `
+      #       -subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }} `
+      #       -location ${{ inputs.location }} `
+      #       -terraformdir ${{ inputs.terraform-directory }}
 
-      - name: Terraform Plan
-        id: plan
-        if: inputs.terraform-action != 'import'
-        run: |
-          terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -out=plan
+      # - name: Terraform Plan
+      #   id: plan
+      #   if: inputs.terraform-action != 'import'
+      #   run: |
+      #     terraform -chdir=${{ inputs.terraform-directory }} plan -input=false -out=plan
 
-      - name: Terraform Apply
-        if: inputs.terraform-action == 'plan+apply'
-        run: |
-          terraform -chdir=${{ inputs.terraform-directory }} apply "plan"
-          # -auto-approve -input=false
+      # - name: Terraform Apply
+      #   if: inputs.terraform-action == 'plan+apply'
+      #   run: |
+      #     terraform -chdir=${{ inputs.terraform-directory }} apply "plan"
+      #     # -auto-approve -input=false
 
-      - name: Terraform Destroy
-        if: inputs.terraform-action == 'destroy' && inputs.confirm-destroy
-        run: |
-          terraform -chdir=${{ inputs.terraform-directory }} destroy -auto-approve -input=false
+      # - name: Terraform Destroy
+      #   if: inputs.terraform-action == 'destroy' && inputs.confirm-destroy
+      #   run: |
+      #     terraform -chdir=${{ inputs.terraform-directory }} destroy -auto-approve -input=false
