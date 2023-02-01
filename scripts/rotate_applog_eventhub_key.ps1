@@ -36,20 +36,20 @@ if ($eventhubKeyAction -eq "renew") {
 
     if (${activeSendKey} -match "key1") {
         Write-Host ""
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Output "active_send_Key is ${activeSendKey} (PrimaryKey)"
         $keyToRenew = "SecondaryKey"
         Write-Output "Rotating `"SecondaryKey`""
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Host ""
     }
     elseif (${activeSendKey} -match "key2") {
         Write-Host ""
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Output "active_send_Key is ${activeSendKey} (SecondaryKey)"
         $keyToRenew = "PrimaryKey"
         Write-Output "Rotating `"PrimaryKey`""
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Host ""
     }
     az eventhubs eventhub authorization-rule keys renew `
@@ -62,16 +62,16 @@ if ($eventhubKeyAction -eq "renew") {
 
     if($?) {
         Write-Host ""
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Output "Key successfuly rotated"
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Host ""
     }
     else {
         Write-Host ""
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Output "Key rotation was not successful"
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Host ""
         $successful = $false
     }
@@ -82,22 +82,22 @@ if ($eventhubKeyAction -eq "rotate" ) {
 
     if (${activeSendKey} -match "key1") {
         Write-Host ""
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Output "active_send_Key was ${activeSendKey}"
         $newActiveSendKey = "key2"
         $connectionStringToRotate = "secondaryConnectionString"
         Write-Output "active_send_Key set to `"key2`" (SecondaryKey)"
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Host ""
     }
     elseif (${activeSendKey} -match "key2") {
         Write-Host ""
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Output "active_send_Key was ${activeSendKey}"
         $newActiveSendKey = "key1"
         $connectionStringToRotate = "primaryConnectionString"
         Write-Output "active_send_Key set to `"key1`" (PrimaryKey)"
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Host ""
     }
 
@@ -106,9 +106,9 @@ if ($eventhubKeyAction -eq "rotate" ) {
         
     # Set new active_send_key tag value
     Write-Host ""
-    Write-Host "----------------------------------------"
+    Write-Host "--------------------------------------------------------------"
     Write-Output "Updating active_send_key tag"
-    Write-Host "----------------------------------------"
+    Write-Host "--------------------------------------------------------------"
     Write-Host ""
     
     $eventhubNamespaceId = (az eventhubs namespace show --resource-group $resourceGroupName --name $eventhubNamespace --query "id")
@@ -121,17 +121,17 @@ if ($eventhubKeyAction -eq "rotate" ) {
 
     if($?) {
         Write-Host ""
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Output "active_send_key tag successfully updated"
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Host ""
         
     }
     else {
         Write-Host ""
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Output "Updating the active_send_key tag was not successful"
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Host ""
         $successful = $false
     }
@@ -140,11 +140,11 @@ if ($eventhubKeyAction -eq "rotate" ) {
     az config set extension.use_dynamic_install=yes_without_prompt
     $keyvaults = (az graph query -q "where type =~ 'microsoft.keyvault/vaults' | where tags.logicalname =~ 'keyvault-app' and tags.environment == '$($environment)'" --first 1000 | ConvertFrom-Json).data
     Write-Host ""
-    Write-Host "----------------------------------------"
-    Write-Host "updating eventhub key to ${activeSendKey} for:"
-    Write-Host "----------------------------------------"
+    Write-Host "------------------------------------------------------------------"
+    Write-Host "updating eventhub_key secret with value of ${activeSendKey} for:"
+    Write-Host "------------------------------------------------------------------"
     ${keyvaults}.name
-    Write-Host "----------------------------------------"
+    Write-Host "------------------------------------------------------------------"
     Write-Host ""
     
     foreach ($keyvault in $keyvaults) {
@@ -159,16 +159,16 @@ if ($eventhubKeyAction -eq "rotate" ) {
 
         if($?) {
             Write-Host ""
-            Write-Host "----------------------------------------"
+            Write-Host "--------------------------------------------------------------"
             Write-Output "Secret successfully updated"
-            Write-Host "----------------------------------------"
+            Write-Host "--------------------------------------------------------------"
             Write-Host ""
             }
         else {
             Write-Host ""
-            Write-Host "----------------------------------------"
+            Write-Host "--------------------------------------------------------------"
             Write-Output "Updating the secret was not successful"
-            Write-Host "----------------------------------------"
+            Write-Host "--------------------------------------------------------------"
             Write-Host ""
             $successful = $false
         }
@@ -181,18 +181,18 @@ if ($eventhubKeyAction -eq "distribute" ) {
 
     if (${activeSendKey} -match "key1") {
         Write-Host ""
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Output "active_send_Key is ${activeSendKey}"
         $connectionString = "primaryConnectionString"
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Host ""
     }
     elseif (${activeSendKey} -match "key2") {
         Write-Host ""
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Output "active_send_Key is ${activeSendKey}"
         $connectionString = "secondaryConnectionString"
-        Write-Host "----------------------------------------"
+        Write-Host "--------------------------------------------------------------"
         Write-Host ""
     }
 
@@ -202,11 +202,11 @@ if ($eventhubKeyAction -eq "distribute" ) {
     az config set extension.use_dynamic_install=yes_without_prompt
     $keyvaults = (az graph query -q "where type =~ 'microsoft.keyvault/vaults' | where tags.logicalname =~ 'keyvault-app' and tags.environment == '$($environment)'" --first 1000 | ConvertFrom-Json).data
     Write-Host ""
-    Write-Host "----------------------------------------"
+    Write-Host "--------------------------------------------------------------"
     Write-Host "Distributing ${activeSendKey} to:"
-    Write-Host "----------------------------------------"
+    Write-Host "--------------------------------------------------------------"
     ${keyvaults}.name
-    Write-Host "----------------------------------------"
+    Write-Host "--------------------------------------------------------------"
     Write-Host ""
 
     foreach ($keyvault in $keyvaults) {
@@ -221,16 +221,16 @@ if ($eventhubKeyAction -eq "distribute" ) {
         
         if($?) {
             Write-Host ""
-            Write-Host "----------------------------------------"
+            Write-Host "--------------------------------------------------------------"
             Write-Output "Secret successfully updated"
-            Write-Host "----------------------------------------"
+            Write-Host "--------------------------------------------------------------"
             Write-Host ""
             }
         else {
             Write-Host ""
-            Write-Host "----------------------------------------"
+            Write-Host "--------------------------------------------------------------"
             Write-Output "Updating the secret was not successful"
-            Write-Host "----------------------------------------"
+            Write-Host "--------------------------------------------------------------"
             Write-Host ""
             $successful = $false
         }
