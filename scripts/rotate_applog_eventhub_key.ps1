@@ -138,6 +138,11 @@ if ($eventhubKeyAction -eq "rotate" ) {
     $keyvaults = (az graph query -q "where type =~ 'microsoft.keyvault/vaults' | where tags.logicalname =~ 'keyvault-app' and tags.environment == '$($environment)'" --first 1000 | ConvertFrom-Json).data
     Write-Host ""
     Write-Host "----------------------------------------"
+    Write-Host "updating eventhub key to ${activeSendKey} for:"
+    Write-Host "----------------------------------------"
+    ${keyvaults}.name
+    Write-Host "----------------------------------------"
+    Write-Host ""
     
     foreach ($keyvault in $keyvaults) {
         Write-Host "INFO processing keyvault $($keyvault.name)"
