@@ -111,10 +111,13 @@ if ($eventhubKeyAction -eq "rotate" ) {
     Write-Host "----------------------------------------"
     Write-Host ""
     
-    az eventhubs namespace update `
-    --resource-group $resourceGroupName `
-    --name $eventhubNamespace `
+    $eventhubNamespaceId = (az eventhubs namespace show --resource-group $resourceGroupName --name $eventhubNamespace --query "id")
+    
+    az tag update `
+    --resource-id $eventhubNamespaceId `
+    --operation merge `
     --tags active_send_key=$newActiveSendKey
+
 
     if($?) {
         Write-Host ""
