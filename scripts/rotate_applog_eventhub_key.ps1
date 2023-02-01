@@ -81,16 +81,24 @@ if ($eventhubKeyAction -eq "renew") {
 if ($eventhubKeyAction -eq "rotate" ) {
 
     if (${activeSendKey} -match "key1") {
+        Write-Host ""
+        Write-Host "----------------------------------------"
         Write-Output "active_send_Key was ${activeSendKey}"
         $newActiveSendKey = "key2"
         $connectionStringToRotate = "secondaryConnectionString"
         Write-Output "active_send_Key set to `"key2`" (SecondaryKey)"
+        Write-Host "----------------------------------------"
+        Write-Host ""
     }
     elseif (${activeSendKey} -match "key2") {
+        Write-Host ""
+        Write-Host "----------------------------------------"
         Write-Output "active_send_Key was ${activeSendKey}"
         $newActiveSendKey = "key1"
         $connectionStringToRotate = "primaryConnectionString"
         Write-Output "active_send_Key set to `"key1`" (PrimaryKey)"
+        Write-Host "----------------------------------------"
+        Write-Host ""
     }
 
     # Get eventhub authorization rule key
@@ -164,12 +172,20 @@ if ($eventhubKeyAction -eq "rotate" ) {
 if ($eventhubKeyAction -eq "distribute" ) {
 
     if (${activeSendKey} -match "key1") {
+        Write-Host ""
+        Write-Host "----------------------------------------"
         Write-Output "active_send_Key is ${activeSendKey}"
         $connectionString = "primaryConnectionString"
+        Write-Host "----------------------------------------"
+        Write-Host ""
     }
     elseif (${activeSendKey} -match "key2") {
+        Write-Host ""
+        Write-Host "----------------------------------------"
         Write-Output "active_send_Key is ${activeSendKey}"
         $connectionString = "secondaryConnectionString"
+        Write-Host "----------------------------------------"
+        Write-Host ""
     }
 
     # Get eventhub authorization rule key
