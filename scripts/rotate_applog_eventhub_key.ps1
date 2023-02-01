@@ -35,14 +35,22 @@ $activeSendKey=(az eventhubs namespace show `
 if ($eventhubKeyAction -eq "renew") {
 
     if (${activeSendKey} -match "key1") {
+        Write-Host ""
+        Write-Host "----------------------------------------"
         Write-Output "active_send_Key is ${activeSendKey} (PrimaryKey)"
         $keyToRenew = "SecondaryKey"
         Write-Output "Rotating `"SecondaryKey`""
+        Write-Host "----------------------------------------"
+        Write-Host ""
     }
     elseif (${activeSendKey} -match "key2") {
+        Write-Host ""
+        Write-Host "----------------------------------------"
         Write-Output "active_send_Key is ${activeSendKey} (SecondaryKey)"
         $keyToRenew = "PrimaryKey"
         Write-Output "Rotating `"PrimaryKey`""
+        Write-Host "----------------------------------------"
+        Write-Host ""
     }
     az eventhubs eventhub authorization-rule keys renew `
         --resource-group $resourceGroupName `

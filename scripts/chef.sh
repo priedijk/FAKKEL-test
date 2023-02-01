@@ -5,9 +5,11 @@
 # export AZURE_CLIENT_SECRET=$INPUT_CLIENTSECRET
 export KEYVAULT_NAME=$KEYVAULT
 # export KEYVAULT=$KEYVAULT
-
+echo "test output of environment variables"
+echo "---------------------------------"
 echo "Keyvault name is $KEYVAULT_NAME"
 echo "Keyvault name is $KEYVAULT"
+echo "---------------------------------"
 # exit 0
 
 # # install the Chef Inspec
@@ -18,7 +20,7 @@ wget -q https://packages.chef.io/files/stable/inspec/5.21.29/ubuntu/20.04/inspec
 echo 35ed1da6c885edd1618c19eb0305eaf2836cfae33b21ebd327d31512f15140d7 inspec_5.21.29-1_amd64.deb|sha256sum -c  
 sudo dpkg -i inspec_5.21.29-1_amd64.deb
 echo "---------------------------------"
-echo "---------------------------------"
+
 # execute Azure tests
 # inspec exec inspec/test/ --input=URL="kv-test-weu-50e2b310.vault.azure.net" KEYVAULT=$KEYVAULT -t azure:// --chef-license accept-silent --reporter cli html:azure_test.html 
 
