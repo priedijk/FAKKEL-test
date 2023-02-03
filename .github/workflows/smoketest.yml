@@ -100,7 +100,7 @@ jobs:
           TERRAFORM_DIRECTORY: ${{ env.terraform-directory }}
           
   Inspec-tests:
-      # needs: kv-terraform
+    needs: Gather-output
     runs-on: ubuntu-latest
     # environment: 'fakkel'
     environment: 'fakkel'
