@@ -1,6 +1,6 @@
-output "kvhex" {
-  value = random_id.kvname.hex
-}
+# output "kvhex" {
+#   value = random_id.kvname.hex
+# }
 
 # output "rg_name" {
 #   value = azurerm_resource_group.fakkel.name
