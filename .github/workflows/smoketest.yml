@@ -94,6 +94,7 @@ jobs:
             -backend-config="storage_account_name=tfstatetestfakkel"
 
       - name: Gather TF output
+        id: terraform-output
         run: ./scripts/output.sh 
         shell: bash
         env:
@@ -109,6 +110,9 @@ jobs:
       terraform-directory: 'kv-test'
       
     steps:
+      - uses: actions/checkout@v3
+        name: 'checkout'
+
       - name: Inspec tests
         run: ./scripts/chef.sh  
         # shell: bash
@@ -117,6 +121,8 @@ jobs:
           AZURE_CLIENT_ID: ${{ vars.AZURE_SMOKETEST_CLIENT_ID }}
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_SMOKETEST_SECRET }}
+          KEYVAULT: ${{ needs.Gather-output.terraform-output.outputs.KEYVAULT }}
+          RG: ${{ needs.Gather-output.terraform-output.outputs.RG }}
           
       - name: 'upload test results'
         uses: actions/upload-artifact@v3
