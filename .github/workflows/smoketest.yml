@@ -57,7 +57,7 @@ jobs:
     # needs: kv-terraform
     runs-on: ubuntu-latest
     # environment: 'fakkel'
-    environment: "${{ inputs.tenant }}_READ_ONLY"
+    environment: ${{ inputs.tenant }}
 
     env:
       TF_CLI_ARGS_plan: ${{ inputs.terraform-plan-args }}
