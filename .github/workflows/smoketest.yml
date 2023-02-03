@@ -58,6 +58,9 @@ jobs:
     runs-on: ubuntu-latest
     # environment: 'fakkel'
     environment: 'fakkel'
+    outputs:
+      keyvault: ${{ steps.terraform-output.outputs.KEYVAULT }}
+      rg: ${{ steps.terraform-output.outputs.RG }}
 
     env:
       TF_VAR_environment: ${{ inputs.environment }}
@@ -100,6 +103,12 @@ jobs:
         env:
           TERRAFORM_DIRECTORY: ${{ env.terraform-directory }}
           
+      - name: Display KEYVAULT output
+        run: echo "${{ steps.terraform-output.outputs.KEYVAULT }}"
+        
+      - name: Display RG output
+        run: echo "${{ steps.terraform-output.outputs.RG }}"
+        
   Inspec-tests:
     needs: Gather-output
     runs-on: ubuntu-latest
@@ -121,8 +130,8 @@ jobs:
           AZURE_CLIENT_ID: ${{ vars.AZURE_SMOKETEST_CLIENT_ID }}
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_SMOKETEST_SECRET }}
-          KEYVAULT: ${{ needs.Gather-output.terraform-output.outputs.KEYVAULT }}
-          RG: ${{ needs.Gather-output.terraform-output.outputs.RG }}
+          KEYVAULT: ${{ needs.Gather-output.outputs.KEYVAULT }}
+          RG: ${{ needs.Gather-output.outputs.RG }}
           
       - name: 'upload test results'
         uses: actions/upload-artifact@v3
