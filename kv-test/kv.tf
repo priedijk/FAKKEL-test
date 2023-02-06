@@ -4,6 +4,14 @@ resource "random_id" "kvname" {
   byte_length = 4
 }
 
+data "azuread_service_principal" "local_spn" {
+  display_name = "az_github_spn"
+}
+
+data "azuread_user" "patrick" {
+  user_principal_name = "patrick.riedijk_avanade.com#EXT#@draaicloud.onmicrosoft.com"
+}
+
 resource "azurerm_resource_group" "fakkel" {
   name     = "fakkel-kv"
   location = "West Europe"
@@ -15,6 +23,7 @@ resource "azurerm_key_vault" "fakkel" {
   resource_group_name         = azurerm_resource_group.fakkel.name
   enabled_for_disk_encryption = true
   tenant_id                   = data.azurerm_client_config.current.tenant_id
+  enable_rbac_authorization   = true
   soft_delete_retention_days  = 7
   purge_protection_enabled    = true
   sku_name                    = "standard"
@@ -24,20 +33,32 @@ resource "azurerm_key_vault" "fakkel" {
     default_action = "Deny"
   }
 
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = data.azurerm_client_config.current.object_id
+  # access_policy {
+  #   tenant_id = data.azurerm_client_config.current.tenant_id
+  #   object_id = data.azurerm_client_config.current.object_id
 
-    key_permissions = [
-      "Get"
-    ]
+  #   key_permissions = [
+  #     "Get"
+  #   ]
 
-    secret_permissions = [
-      "Get",
-    ]
+  #   secret_permissions = [
+  #     "Get",
+  #   ]
 
-    storage_permissions = [
-      "Get",
-    ]
-  }
+  #   storage_permissions = [
+  #     "Get",
+  #   ]
+  # }
+}
+
+resource "azurerm_role_assignment" "spn_secret_getter" {
+  role_definition_name = "Key Vault Secrets User"
+  principal_id = data.azuread_service_principal.local_spn.object_id
+  scope = azurerm_key_vault.fakkel
+}
+
+resource "azurerm_role_assignment" "patrick_secret_getter" {
+  role_definition_name = "Key Vault Secrets User"
+  principal_id = data.azuread_user.patrick.object_id
+  scope = azurerm_key_vault.fakkel
 }
