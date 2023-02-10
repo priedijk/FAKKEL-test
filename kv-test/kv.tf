@@ -51,14 +51,14 @@ resource "azurerm_key_vault" "fakkel" {
   # }
 }
 
-resource "azurerm_role_assignment" "spn_secret_getter" {
-  role_definition_name = "Key Vault Secrets User"
-  principal_id         = data.azuread_service_principal.local_spn.object_id
-  scope                = azurerm_key_vault.fakkel.id
-}
+# resource "azurerm_role_assignment" "spn_secret_getter" {
+#   role_definition_name = "Key Vault Secrets User"
+#   principal_id         = data.azuread_service_principal.local_spn.object_id
+#   scope                = azurerm_key_vault.fakkel.id
+# }
 
-resource "azurerm_role_assignment" "patrick_secret_getter" {
-  role_definition_name = "Key Vault Secrets User"
-  principal_id         = data.azuread_user.patrick.object_id
-  scope                = azurerm_key_vault.fakkel.id
-}
+# resource "azurerm_role_assignment" "patrick_secret_getter" {
+#   role_definition_name = "Key Vault Secrets User"
+#   principal_id         = data.azuread_user.patrick.object_id
+#   scope                = azurerm_key_vault.fakkel.id
+# }
