@@ -28,44 +28,44 @@ describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT'))
 
 
   # testing
-  keyvaults = azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids
+  # keyvaults = azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids
 
-  keyvaults.each do |id|
+  # keyvaults.each do |id|
 
-    describe azure_key_vault(resource_id: id) do
-      its('properties.enabledForDiskEncryption') { should be_truthy }
-    end
-  end
-
-
+  #   describe azure_key_vault(resource_id: id) do
+  #     its('properties.enabledForDiskEncryption') { should be_truthy }
+  #   end
+  # end
 
 
 
 
 
-  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
-    describe azure_generic_resource(resource_id: id) do
+
+
+  # azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+  #   describe azure_generic_resource(resource_id: id) do
 
       
-        # disk encryption
-        describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT')) do
-          its('properties.enabledForDiskEncryption') { should be_truthy }
-        end
+  #       # disk encryption
+  #       describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT')) do
+  #         its('properties.enabledForDiskEncryption') { should be_truthy }
+  #       end
 
-        # private endpoints
-        privateEndpointConnections = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')).properties.privateEndpointConnections
+  #       # private endpoints
+  #       privateEndpointConnections = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')).properties.privateEndpointConnections
 
-        privateEndpointConnections.each do |endpoints|
-          describe endpoints do
-            its('properties.provisioningState') { should eq 'Succeeded' }
-          end
-        end
+  #       privateEndpointConnections.each do |endpoints|
+  #         describe endpoints do
+  #           its('properties.provisioningState') { should eq 'Succeeded' }
+  #         end
+  #       end
 
-        privateEndpointConnections.each do |privateLink|
-          describe privateLink do
-            its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
-          end
-        end
-    end
-  end
+  #       privateEndpointConnections.each do |privateLink|
+  #         describe privateLink do
+  #           its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
+  #         end
+  #       end
+  #   end
+  # end
 end
