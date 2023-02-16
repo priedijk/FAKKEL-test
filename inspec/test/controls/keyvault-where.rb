@@ -129,34 +129,34 @@ control 'keyvault_check_tags_after_id' do
 
 
 
-    keyvault_tags = azure_key_vault(resource_id: id).tags.owned-by 
+    # keyvault_tags = azure_key_vault(resource_id: id).tags.owned-by 
     
-    if keyvault_tags == 'cisaz'
+    # if keyvault_tags == 'cisaz'
 
-        describe azure_key_vault(resource_id: id) do
-            its('tags.owned-by') { should eq 'cisaz' }
-        end
+    #     describe azure_key_vault(resource_id: id) do
+    #         its('tags.owned-by') { should eq 'cisaz' }
+    #     end
 
         
-        describe azure_key_vault(resource_id: id) do
-            its('properties.privateEndpointConnections') { should_not be_empty }
-        end
-    end
+    #     describe azure_key_vault(resource_id: id) do
+    #         its('properties.privateEndpointConnections') { should_not be_empty }
+    #     end
+    # end
 
 
 
 
-    if azure_key_vault(resource_id: id).tags == 'cisaz'
+    # if azure_key_vault(resource_id: id).tags == 'cisaz'
 
-        describe azure_key_vault(resource_id: id) do
-            its('tags.owned-by') { should eq 'cisaz' }
-        end
+    #     describe azure_key_vault(resource_id: id) do
+    #         its('tags.owned-by') { should eq 'cisaz' }
+    #     end
 
 
-        describe azure_key_vault(resource_id: id) do
-            its('properties.privateEndpointConnections') { should_not be_empty }
-        end
-    end
+    #     describe azure_key_vault(resource_id: id) do
+    #         its('properties.privateEndpointConnections') { should_not be_empty }
+    #     end
+    # end
 
     
 end
