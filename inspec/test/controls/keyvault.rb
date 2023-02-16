@@ -45,14 +45,16 @@ end
 # control test of keyvault with a private endpoint
 control 'azure_key_vault_disk_privateEndpointConnections_control' do
   title "Check Azure Keyvault"
-  privateEndpointConnectionsControl = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties.privateEndpointConnections
 
-   
-  # privateEndpointConnectionsControl.each do |endpoints|
-  #   describe endpoints do
-  #     its('properties') { should exist }
-  #   end
-  # end
+  
+  
+  privateEndpointConnectionsControl.each do |endpoints|
+    describe endpoints do
+      its('properties') { should exist }
+    end
+  end
+  
+  privateEndpointConnectionsControl = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties.privateEndpointConnections
   
   privateEndpointConnectionsControl.each do |endpoints|
     describe endpoints do
@@ -62,6 +64,18 @@ control 'azure_key_vault_disk_privateEndpointConnections_control' do
 
   privateEndpointConnectionsControl.each do |privateLink|
     describe privateLink do
+      its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
+    end
+  end
+end
+
+  privateEndpointConnectionsControlId = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties.privateEndpointConnections.each do |endpoints|
+  
+    describe endpoints do
+      its('properties.provisioningState') { should eq 'Succeeded' }
+    end
+
+    describe endpoints do
       its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
     end
   end
