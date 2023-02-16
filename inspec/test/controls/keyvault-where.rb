@@ -53,3 +53,25 @@ control 'azure_key_vault_where_tags_name' do
         end
     end
 end
+
+
+
+
+control 'azure_key_vault_where_if' do
+    title "Check Azure Keyvault where if tags"
+  
+    keyvaults = azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').name.each do |id|
+      
+        if keyvaults.tags['owned-by']
+
+            describe keyvaults do
+                its('properties.enabledForDiskEncryption') { should be_truthy }
+            end
+            
+            describe keyvaults do
+                its('properties.privateEndpointConnections') { should_not be_empty }
+            end
+        end
+    end
+end
+end
