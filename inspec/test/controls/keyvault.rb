@@ -10,7 +10,7 @@ describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT'))
    
   privateEndpointConnections.each do |endpoints|
     describe endpoints do
-      it { should exist }
+      its('properties.provisioningState') { should exist }
     end
   end
 
@@ -32,7 +32,7 @@ describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT'))
    
   privateEndpointConnectionsControl.each do |endpoints|
     describe endpoints do
-      it { should exist }
+      its('properties.provisioningState') { should exist }
     end
   end
   
