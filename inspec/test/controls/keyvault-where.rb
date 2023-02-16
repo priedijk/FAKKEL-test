@@ -93,3 +93,29 @@ control 'azure_key_vault_where_if' do
         end
     end
 end
+
+
+
+
+
+
+
+
+
+
+# check tags of resrouce_provider
+# with resource providers only type
+control 'keyvault_check_tags_after_id' do
+  title "Check Azure Keyvault - tags after ID"
+
+  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+    
+    describe azure_key_vault(resource_id: id) do
+      its('tags') { should_not be_empty }
+    end
+    describe azure_key_vault(resource_id: id) do
+      its('properties') { should_not be_empty }
+    end
+    
+  end
+end
