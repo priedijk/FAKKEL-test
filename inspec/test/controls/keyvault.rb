@@ -22,6 +22,9 @@ control 'azure_key_vault_disk_privateEndpointConnections' do
   describe properties.properties do
     its('privateEndpointConnections') { should_not eq '' }
   end
+  describe properties.properties do
+    its('privateEndpointConnections') { should_not be_empty }
+  end
 
 
   describe properties do
@@ -73,6 +76,10 @@ control 'azure_key_vault_disk_privateEndpointConnections_control' do
   # how to check if this value is empty or not?
   describe privateEndpointConnectionsControlProperties do
     its('properties.privateEndpointConnections') { should_not eq '' }
+  end
+  # how to check if this value is empty or not?
+  describe privateEndpointConnectionsControlProperties do
+    its('properties.privateEndpointConnections') { should_not should be_empty }
   end
 
 
