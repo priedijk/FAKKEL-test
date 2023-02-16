@@ -1,10 +1,14 @@
-control 'azure_key_vault' do
+control 'azure_key_vault_disk_encryption' do
   title "Check Azure Keyvault"
 
 describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT')) do
     its('properties.enabledForDiskEncryption') { should be_truthy }
   end
 
+
+control 'azure_key_vault_disk_privateEndpointConnections' do
+    title "Check Azure Keyvault"
+# without private endpoint
   privateEndpointConnections = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')).properties.privateEndpointConnections
 
    
@@ -25,8 +29,11 @@ describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT'))
       its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
     end
   end
+end
 
-
+control 'azure_key_vault_disk_privateEndpointConnections_control' do
+  title "Check Azure Keyvault"
+# with private endpoint
   privateEndpointConnectionsControl = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties.privateEndpointConnections
 
    
@@ -47,6 +54,7 @@ describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT'))
       its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
     end
   end
+end
 
 
 
