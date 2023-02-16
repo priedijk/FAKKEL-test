@@ -47,6 +47,7 @@ control 'azure_key_vault_disk_privateEndpointConnections_control' do
   title "Check Azure Keyvault"
 
   
+  privateEndpointConnectionsControl = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties.privateEndpointConnections
   
   privateEndpointConnectionsControl.each do |endpoints|
     describe endpoints do
@@ -54,7 +55,6 @@ control 'azure_key_vault_disk_privateEndpointConnections_control' do
     end
   end
   
-  privateEndpointConnectionsControl = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties.privateEndpointConnections
   
   privateEndpointConnectionsControl.each do |endpoints|
     describe endpoints do
@@ -67,7 +67,8 @@ control 'azure_key_vault_disk_privateEndpointConnections_control' do
       its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
     end
   end
-end
+
+
 
   privateEndpointConnectionsControlId = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties.privateEndpointConnections.each do |endpoints|
   
@@ -115,7 +116,7 @@ control 'azure_key_vault_disk_privateEndpointConnections_generic_resource_provid
 
   azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
     describe azure_generic_resource(resource_id: id) do
-      it { should exist }
+      it { should exist } 
     end
   end
 end
@@ -150,3 +151,15 @@ end
   #   end
   # end
 # end
+
+
+
+
+
+privateEndpointConnectionsControl = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties.privateEndpointConnections
+  
+privateEndpointConnectionsControl.each do |endpoints|
+  describe endpoints.properties do
+    it { should exist }
+  end
+end
