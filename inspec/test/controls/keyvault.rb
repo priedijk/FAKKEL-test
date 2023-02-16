@@ -8,13 +8,20 @@ end
 
 control 'azure_key_vault_disk_privateEndpointConnections' do
     title "Check Azure Keyvault"
-# without private endpoint
+
+# test of keyvault without a private endpoint
   privateEndpointConnections = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')).properties.privateEndpointConnections
 
    
   privateEndpointConnections.each do |endpoints|
     describe endpoints do
       its('properties.provisioningState') { should exist }
+    end
+  end
+
+  privateEndpointConnections.each do |endpoints|
+    describe endpoints do
+      its('properties') { should exist }
     end
   end
 
@@ -31,9 +38,10 @@ control 'azure_key_vault_disk_privateEndpointConnections' do
   end
 end
 
+
+# control test of keyvault with a private endpoint
 control 'azure_key_vault_disk_privateEndpointConnections_control' do
   title "Check Azure Keyvault"
-# with private endpoint
   privateEndpointConnectionsControl = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties.privateEndpointConnections
 
    
@@ -63,16 +71,8 @@ end
 
 
 
-  # testing
+# testing
 
-  # keyvaults = azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids
-
-  # keyvaults.each do |id|
-
-  #   describe azure_key_vault(resource_id: id) do
-  #     its('properties.enabledForDiskEncryption') { should be_truthy }
-  #   end
-  # end
 control 'azure_key_vault_disk_privateEndpointConnections_generic' do
   title "Check Azure Keyvault"
 
@@ -86,6 +86,32 @@ keyvaults = azure_generic_resources(resource_group: 'fakkel-kv', name: +input('K
   end
 end
 
+control 'azure_key_vault_disk_privateEndpointConnections_generic_resource_provider' do
+  title "Check Azure Keyvault"
+
+keyvaults = azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids
+
+  keyvaults.each do |id|
+
+    describe azure_key_vault(resource_id: id) do
+      its('properties.enabledForDiskEncryption') { should be_truthy }
+    end
+  end
+end
+
+keyvaults = azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids
+keyvaults.each do |id|
+
+  describe azure_generic_resource(resource_id: id) do
+    it { should exist }
+  end
+end
+
+azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+  describe azure_generic_resource(resource_id: id) do
+    it { should exist }
+  end
+end
 
 
 
