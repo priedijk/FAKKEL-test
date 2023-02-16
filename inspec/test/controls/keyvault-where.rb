@@ -168,4 +168,3 @@ control 'keyvault_check_tags_after_id' do
 
     
 end
-end
