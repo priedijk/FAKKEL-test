@@ -53,65 +53,65 @@ jobs:
   #     terraform-import-file: ${{ inputs.terraform-import-file }}
   #   secrets: inherit
 
-  Gather-output:
-    # needs: kv-terraform
-    runs-on: ubuntu-latest
-    # environment: 'fakkel'
-    environment: 'fakkel'
+  # Gather-output:
+  #   # needs: kv-terraform
+  #   runs-on: ubuntu-latest
+  #   # environment: 'fakkel'
+  #   environment: 'fakkel'
 
-    env:
-      TF_VAR_environment: ${{ inputs.environment }}
-      TF_VAR_location_code: ${{ inputs.location }}
-      terraform-directory: 'kv-test'
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      # ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      ARM_USE_OIDC: true
+  #   env:
+  #     TF_VAR_environment: ${{ inputs.environment }}
+  #     TF_VAR_location_code: ${{ inputs.location }}
+  #     terraform-directory: 'kv-test'
+  #     ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  #     # ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  #     ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  #     ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  #     ARM_USE_OIDC: true
 
-    steps:
-      - uses: actions/checkout@v3
-        name: 'checkout'
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       name: 'checkout'
         
-      # - name: 'Az CLI login'
-      #   uses: azure/login@v1
-      #   with:
-      #     client-id: ${{ vars.AZURE_SMOKETEST_CLIENT_ID }}
-      #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-      #     subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  #     # - name: 'Az CLI login'
+  #     #   uses: azure/login@v1
+  #     #   with:
+  #     #     client-id: ${{ vars.AZURE_SMOKETEST_CLIENT_ID }}
+  #     #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+  #     #     subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_wrapper: false
+  #     - name: Setup Terraform
+  #       uses: hashicorp/setup-terraform@v2
+  #       with:
+  #         terraform_wrapper: false
 
-      - name: Terraform Init
-        id: init
-        run: |
-          terraform -chdir=${{ env.terraform-directory }} init \
-            -backend-config="key=kv.tfstate" \
-            -backend-config="resource_group_name=tfstatetestfakkel" \
-            -backend-config="storage_account_name=tfstatetestfakkel"
+  #     - name: Terraform Init
+  #       id: init
+  #       run: |
+  #         terraform -chdir=${{ env.terraform-directory }} init \
+  #           -backend-config="key=kv.tfstate" \
+  #           -backend-config="resource_group_name=tfstatetestfakkel" \
+  #           -backend-config="storage_account_name=tfstatetestfakkel"
 
-      - name: Gather TF output
-        id: terraform-output
-        run: ./scripts/output.sh 
-        shell: bash
-        env:
-          TERRAFORM_DIRECTORY: ${{ env.terraform-directory }}
+  #     - name: Gather TF output
+  #       id: terraform-output
+  #       run: ./scripts/output.sh 
+  #       shell: bash
+  #       env:
+  #         TERRAFORM_DIRECTORY: ${{ env.terraform-directory }}
           
-      - name: Display KEYVAULT output
-        run: echo "${{ steps.terraform-output.outputs.KEYVAULT }}"
+  #     - name: Display KEYVAULT output
+  #       run: echo "${{ steps.terraform-output.outputs.KEYVAULT }}"
         
-      - name: Display RG output
-        run: echo "${{ steps.terraform-output.outputs.RG }}"
+  #     - name: Display RG output
+  #       run: echo "${{ steps.terraform-output.outputs.RG }}"
         
-    outputs:
-      KEYVAULT: ${{ steps.terraform-output.outputs.KEYVAULT }}
-      RG: ${{ steps.terraform-output.outputs.RG }}
+  #   outputs:
+  #     KEYVAULT: ${{ steps.terraform-output.outputs.KEYVAULT }}
+  #     RG: ${{ steps.terraform-output.outputs.RG }}
   
   Inspec-tests:
-    needs: Gather-output
+    # needs: Gather-output
     runs-on: ubuntu-latest
     # environment: 'fakkel'
     environment: 'fakkel'
