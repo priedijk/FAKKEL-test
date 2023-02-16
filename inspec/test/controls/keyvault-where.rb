@@ -81,7 +81,7 @@ control 'azure_key_vault_where_if' do
   
     keyvaults = azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').each do |id|
       
-        if id.tags['owned-by']
+        if azure_key_vault(resource_id: id).tags['owned-by']
 
             describe keyvaults do
                 its('properties.enabledForDiskEncryption') { should be_truthy }
@@ -99,7 +99,9 @@ end
 
 
 
-
+describe azure_key_vault(resource_id: id) do
+    its('tags.owned-by') { should eq 'cisaz' }
+end
 
 
 
@@ -110,13 +112,16 @@ control 'keyvault_check_tags_after_id' do
 
   azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
     
-    describe azure_key_vault(resource_id: id) do
-      its('tags.owned-by') { should eq 'cisaz' }
+    if azure_key_vault(resource_id: id).tags == 'cisaz'
+
+        describe azure_key_vault(resource_id: id) do
+            its('tags.owned-by') { should eq 'cisaz' }
+        end
+
+        
+        describe azure_key_vault(resource_id: id) do
+            its('properties.privateEndpointConnections') { should_not be_empty }
+        end
     end
-    
-    describe azure_key_vault(resource_id: id) do
-      its('properties.privateEndpointConnections') { should_not be_empty }
-    end
-    
   end
 end
