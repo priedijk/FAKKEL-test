@@ -16,11 +16,20 @@ end
 control 'azure_key_vault_disk_privateEndpointConnections' do
     title "Check Azure Keyvault"
 
+  properties = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln")
+
+  privateEndpointConnections.each do |endpoints|
+    describe endpoints do
+      its('properties.privateEndpointConnections') { should_not eq '' }
+    end
+  end
+
+
   privateEndpointConnections = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')).properties.privateEndpointConnections
 
   privateEndpointConnections.each do |endpoints|
     describe endpoints do
-      its('properties') { should exist }
+      its('properties') { should_not eq '' }
     end
   end
 
@@ -53,6 +62,10 @@ control 'azure_key_vault_disk_privateEndpointConnections_control' do
   # how to check if this value is empty or not?
   describe privateEndpointConnectionsControlProperties do
     its('properties.privateEndpointConnections') { should_not exist }
+  end
+  # how to check if this value is empty or not?
+  describe privateEndpointConnectionsControlProperties do
+    its('properties.privateEndpointConnections') { should_not eq '' }
   end
 
   privateEndpointConnectionsControlProperties2 = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties
