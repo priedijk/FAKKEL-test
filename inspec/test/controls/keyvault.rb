@@ -19,14 +19,6 @@ control 'azure_key_vault_disk_privateEndpointConnections' do
     its('privateEndpointConnections') { should_not be_empty }
   end
 
-  describe properties do
-    its('properties') { should include '"privateEndpointConnections"' }
-  end
-  describe properties do
-    its('properties') { should include 'privateEndpointConnections' }
-  end
-
-
   privateEndpointConnections = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')).properties.privateEndpointConnections
 
   privateEndpointConnections.each do |endpoints|
