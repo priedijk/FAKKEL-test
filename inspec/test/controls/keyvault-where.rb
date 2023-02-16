@@ -156,9 +156,8 @@ control 'keyvault_check_tags_after_id' do
         describe azure_key_vault(resource_id: id) do
             its('properties.privateEndpointConnections') { should_not be_empty }
         end
+    end
 
-
-
-
-  end
+    
+end
 end
