@@ -1,10 +1,10 @@
 # with resource providers only type
-control 'azure_key_vault_where' do
+control 'azure_key_vault_where_all' do
     title "Check Azure Keyvault where tags"
   
     azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').name.each do |id|
       
-        azure_key_vault.where(name: id tag_name: 'owned-by', tag_name: 'cisaz').each do |keyvaults|
+        azure_key_vault.where(name: id, tag_name: 'owned-by', tag_name: 'cisaz').each do |keyvaults|
 
             describe keyvaults do
                 its('properties.enabledForDiskEncryption') { should be_truthy }
@@ -18,8 +18,7 @@ control 'azure_key_vault_where' do
 end
 
 
-# with resource providers only type
-control 'azure_key_vault_where' do
+control 'azure_key_vault_where_tags' do
     title "Check Azure Keyvault where tags"
   
     azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').name.each do |id|
@@ -37,9 +36,7 @@ control 'azure_key_vault_where' do
     end
 end
 
-
-# with resource providers only type
-control 'azure_key_vault_where' do
+control 'azure_key_vault_where_tags_name' do
     title "Check Azure Keyvault where tags"
   
     azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').name.each do |id|
