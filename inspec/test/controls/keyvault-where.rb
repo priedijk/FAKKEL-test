@@ -112,7 +112,23 @@ control 'keyvault_check_tags_after_id' do
 
   azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
     
-    if azure_key_vault(resource_id: id).tags == 'cisaz'
+    keyvault_tags = azure_key_vault(resource_id: id).tags 
+    
+    if keyvault_tags.owned-by == 'cisaz'
+
+        describe azure_key_vault(resource_id: id) do
+            its('tags.owned-by') { should eq 'cisaz' }
+        end
+
+        
+        describe azure_key_vault(resource_id: id) do
+            its('properties.privateEndpointConnections') { should_not be_empty }
+        end
+    end
+
+    keyvault_tags = azure_key_vault(resource_id: id).tags.owned-by 
+    
+    if keyvault_tags == 'cisaz'
 
         describe azure_key_vault(resource_id: id) do
             its('tags.owned-by') { should eq 'cisaz' }
