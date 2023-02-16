@@ -19,8 +19,8 @@ control 'azure_key_vault_disk_privateEndpointConnections' do
   properties = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT'))
 
   
-  describe properties do
-    its('properties.privateEndpointConnections') { should_not eq '' }
+  describe properties.properties do
+    its('privateEndpointConnections') { should_not eq '' }
   end
 
 
