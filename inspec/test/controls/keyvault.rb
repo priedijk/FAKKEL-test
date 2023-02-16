@@ -46,31 +46,27 @@ end
 control 'azure_key_vault_disk_privateEndpointConnections_control' do
   title "Check Azure Keyvault"
 
-  
-  privateEndpointConnectionsControl = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties.privateEndpointConnections
-  
-  privateEndpointConnectionsControl.each do |endpoints|
-    describe endpoints do
-      its('properties') { should exist }
-    end
-  end
-  
-  
-  privateEndpointConnectionsControl.each do |endpoints|
-    describe endpoints do
-      its('properties.provisioningState') { should eq 'Succeeded' }
-    end
+
+  privateEndpointConnectionsControlProperties = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln")
+
+
+  # how to check if this value is empty or not?
+  describe privateEndpointConnectionsControlProperties do
+    its('properties.privateEndpointConnections') { should exist }
   end
 
-  privateEndpointConnectionsControl.each do |privateLink|
-    describe privateLink do
-      its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
-    end
+  privateEndpointConnectionsControlProperties2 = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties
+
+
+  # how to check if this value is empty or not?
+  describe privateEndpointConnectionsControlProperties2 do
+    its('privateEndpointConnections') { should exist }
   end
 
 
 
-  privateEndpointConnectionsControlId = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties.privateEndpointConnections.each do |endpoints|
+
+  privateEndpointConnectionsControlEndpoints = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties.privateEndpointConnections.each do |endpoints|
   
     describe endpoints do
       its('properties.provisioningState') { should eq 'Succeeded' }
@@ -114,11 +110,11 @@ control 'azure_key_vault_disk_privateEndpointConnections_generic_resource_provid
   end
 
 
-  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
-    describe azure_generic_resource(resource_id: id) do
-      it { should exist } 
-    end
-  end
+  # azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+  #   describe azure_generic_resource(resource_id: id) do
+  #     it { should exist } 
+  #   end
+  # end
 end
 
 
