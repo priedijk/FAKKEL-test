@@ -73,6 +73,8 @@ end
   #     its('properties.enabledForDiskEncryption') { should be_truthy }
   #   end
   # end
+control 'azure_key_vault_disk_privateEndpointConnections_generic' do
+  title "Check Azure Keyvault"
 
 keyvaults = azure_generic_resources(resource_group: 'fakkel-kv', name: +input('KEYVAULT'), resource_provider: 'Microsoft.KeyVault/vaults').ids
 
@@ -82,7 +84,7 @@ keyvaults = azure_generic_resources(resource_group: 'fakkel-kv', name: +input('K
       its('properties.enabledForDiskEncryption') { should be_truthy }
     end
   end
-
+end
 
 
 
@@ -113,4 +115,4 @@ keyvaults = azure_generic_resources(resource_group: 'fakkel-kv', name: +input('K
   #       end
   #   end
   # end
-end
+# end
