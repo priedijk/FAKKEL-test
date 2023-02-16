@@ -162,6 +162,32 @@ end
 
 
 
+# check with tags only
+control 'azure_key_vault_with_tag' do
+  title "Check Azure Keyvault - with tags"
+
+  azure_generic_resources(tag_name: 'owned-by', tag_value: 'cisaz').ids.each do |id|
+    
+    describe azure_key_vault(resource_id: id) do
+      its('properties.enabledForDiskEncryption') { should be_truthy }
+    end
+  
+    describe azure_key_vault(resource_id: id) do
+      its('properties.privateEndpointConnections') { should_not be_empty }
+    end
+
+    privateEndpointConnections = azure_key_vault(resource_id: id).properties.privateEndpointConnections.each do |endpoints|
+  
+      describe endpoints do
+        its('properties.provisioningState') { should eq 'Succeeded' }
+      end
+  
+      describe endpoints do
+        its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
+      end
+    end
+  end
+end
 
 # check with tag_name
 control 'azure_key_vault_with_tag_name' do
