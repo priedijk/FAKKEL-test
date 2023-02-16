@@ -4,7 +4,7 @@ control 'azure_key_vault_disk_encryption' do
 describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT')) do
     its('properties.enabledForDiskEncryption') { should be_truthy }
   end
-
+end
 
 control 'azure_key_vault_disk_privateEndpointConnections' do
     title "Check Azure Keyvault"
