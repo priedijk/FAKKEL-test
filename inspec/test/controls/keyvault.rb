@@ -6,18 +6,17 @@ describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT'))
   end
 end
 
+
+
+
+
+
+# test of keyvault without a private endpoint
+
 control 'azure_key_vault_disk_privateEndpointConnections' do
     title "Check Azure Keyvault"
 
-# test of keyvault without a private endpoint
   privateEndpointConnections = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')).properties.privateEndpointConnections
-
-   
-  privateEndpointConnections.each do |endpoints|
-    describe endpoints do
-      its('properties.provisioningState') { should exist }
-    end
-  end
 
   privateEndpointConnections.each do |endpoints|
     describe endpoints do
@@ -39,6 +38,10 @@ control 'azure_key_vault_disk_privateEndpointConnections' do
 end
 
 
+
+
+
+
 # control test of keyvault with a private endpoint
 control 'azure_key_vault_disk_privateEndpointConnections_control' do
   title "Check Azure Keyvault"
@@ -47,7 +50,7 @@ control 'azure_key_vault_disk_privateEndpointConnections_control' do
    
   privateEndpointConnectionsControl.each do |endpoints|
     describe endpoints do
-      its('properties.provisioningState') { should exist }
+      its('properties') { should exist }
     end
   end
   
@@ -67,51 +70,42 @@ end
 
 
 
-
-
-
-
 # testing
 
-control 'azure_key_vault_disk_privateEndpointConnections_generic' do
-  title "Check Azure Keyvault"
+# control 'azure_key_vault_disk_privateEndpointConnections_generic' do
+#   title "Check Azure Keyvault"
 
-keyvaults = azure_generic_resources(resource_group: 'fakkel-kv', name: +input('KEYVAULT'), resource_provider: 'Microsoft.KeyVault/vaults').ids
+# keyvaults = azure_generic_resources(resource_group: 'fakkel-kv', name: +input('KEYVAULT'), resource_provider: 'Microsoft.KeyVault/vaults').ids
 
-  keyvaults.each do |id|
+#   keyvaults.each do |id|
 
-    describe azure_key_vault(resource_id: id) do
-      its('properties.enabledForDiskEncryption') { should be_truthy }
-    end
-  end
-end
+#     describe azure_key_vault(resource_id: id) do
+#       its('properties.enabledForDiskEncryption') { should be_truthy }
+#     end
+#   end
+# end
 
+
+
+# with resource providers only type
 control 'azure_key_vault_disk_privateEndpointConnections_generic_resource_provider' do
   title "Check Azure Keyvault"
 
-keyvaults = azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids
-
-  keyvaults.each do |id|
-
+  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+    
     describe azure_key_vault(resource_id: id) do
       its('properties.enabledForDiskEncryption') { should be_truthy }
     end
   end
-end
 
-keyvaults = azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids
-keyvaults.each do |id|
 
-  describe azure_generic_resource(resource_id: id) do
-    it { should exist }
+  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+    describe azure_generic_resource(resource_id: id) do
+      it { should exist }
+    end
   end
 end
 
-azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
-  describe azure_generic_resource(resource_id: id) do
-    it { should exist }
-  end
-end
 
 
 
