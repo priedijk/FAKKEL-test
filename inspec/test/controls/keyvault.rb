@@ -98,6 +98,9 @@
 
 
 
+
+
+# working
 # check with tag
 control 'azure_key_vault_with_tags' do
   title "Check Azure Keyvault - with tags"
@@ -124,37 +127,6 @@ control 'azure_key_vault_with_tags' do
     end
   end
 end
-
-
-
-
-  # azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
-  #   describe azure_generic_resource(resource_id: id) do
-
-      
-  #       # disk encryption
-  #       describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT')) do
-  #         its('properties.enabledForDiskEncryption') { should be_truthy }
-  #       end
-
-  #       # private endpoints
-  #       privateEndpointConnections = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')).properties.privateEndpointConnections
-
-  #       privateEndpointConnections.each do |endpoints|
-  #         describe endpoints do
-  #           its('properties.provisioningState') { should eq 'Succeeded' }
-  #         end
-  #       end
-
-  #       privateEndpointConnections.each do |privateLink|
-  #         describe privateLink do
-  #           its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
-  #         end
-  #       end
-  #   end
-  # end
-# end
-
 
 
 

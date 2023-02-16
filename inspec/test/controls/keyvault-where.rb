@@ -114,7 +114,7 @@ control 'keyvault_check_tags_after_id' do
     
     keyvault_tags = azure_key_vault(resource_id: id).tags 
     
-    if keyvault_tags.owned-by == 'cisaz'
+    if keyvault_tags == 'cisaz'
 
         describe azure_key_vault(resource_id: id) do
             its('tags.owned-by') { should eq 'cisaz' }
