@@ -28,6 +28,7 @@ describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT'))
 
 
   # testing
+
   # keyvaults = azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids
 
   # keyvaults.each do |id|
@@ -37,6 +38,14 @@ describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT'))
   #   end
   # end
 
+keyvaults = azure_generic_resources(resource_group: 'fakkel-kv', name: +input('KEYVAULT'), resource_provider: 'Microsoft.KeyVault/vaults').ids
+
+  keyvaults.each do |id|
+
+    describe azure_key_vault(resource_id: id) do
+      its('properties.enabledForDiskEncryption') { should be_truthy }
+    end
+  end
 
 
 
