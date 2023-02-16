@@ -4,7 +4,7 @@ control 'azure_key_vault_where_all' do
   
     azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').name.each do |id|
       
-        azure_key_vault.where(name: id, tag_name: 'owned-by', tag_name: 'cisaz').each do |keyvaults|
+        azure_key_vault.where(name: id, tag_name: 'owned-by', tag_value: 'cisaz').each do |keyvaults|
 
             describe keyvaults do
                 its('properties.enabledForDiskEncryption') { should be_truthy }
@@ -23,7 +23,7 @@ control 'azure_key_vault_where_tags' do
   
     azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').name.each do |id|
       
-        azure_key_vault.where(tag_name: 'owned-by', tag_name: 'cisaz').each do |keyvaults|
+        azure_key_vault.where(tag_name: 'owned-by', tag_value: 'cisaz').each do |keyvaults|
 
             describe keyvaults do
                 its('properties.enabledForDiskEncryption') { should be_truthy }
@@ -73,5 +73,4 @@ control 'azure_key_vault_where_if' do
             end
         end
     end
-end
 end
