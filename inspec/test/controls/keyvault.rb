@@ -8,9 +8,6 @@ end
 
 
 
-
-
-
 # test of keyvault without a private endpoint
 
 control 'azure_key_vault_disk_privateEndpointConnections' do
@@ -18,25 +15,16 @@ control 'azure_key_vault_disk_privateEndpointConnections' do
 
   properties = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT'))
 
-  
-  # describe properties.properties do
-  #   its('privateEndpointConnections') { should_not eq '' }
-  # end
   describe properties.properties do
     its('privateEndpointConnections') { should_not be_empty }
   end
 
-
-  # describe properties do
-  #   its('properties') { should include '"privateEndpointConnections"' }
-  # end
-  # describe properties do
-  #   its('properties') { should include 'privateEndpointConnections' }
-  # end
-
-
-
-
+  describe properties do
+    its('properties') { should include '"privateEndpointConnections"' }
+  end
+  describe properties do
+    its('properties') { should include 'privateEndpointConnections' }
+  end
 
 
   privateEndpointConnections = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')).properties.privateEndpointConnections
@@ -66,15 +54,11 @@ control 'azure_key_vault_disk_privateEndpointConnections_control' do
 
   privateEndpointConnectionsControlProperties = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln")
 
-
   # how to check if this value is empty or not?
   describe privateEndpointConnectionsControlProperties do
     its('properties.privateEndpointConnections') { should_not be_empty }
   end
-
-
-
-
+  
   privateEndpointConnectionsControlEndpoints = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties.privateEndpointConnections.each do |endpoints|
   
     describe endpoints do
@@ -92,20 +76,6 @@ end
 
 # testing
 
-# control 'azure_key_vault_disk_privateEndpointConnections_generic' do
-#   title "Check Azure Keyvault"
-
-# keyvaults = azure_generic_resources(resource_group: 'fakkel-kv', name: +input('KEYVAULT'), resource_provider: 'Microsoft.KeyVault/vaults').ids
-
-#   keyvaults.each do |id|
-
-#     describe azure_key_vault(resource_id: id) do
-#       its('properties.enabledForDiskEncryption') { should be_truthy }
-#     end
-#   end
-# end
-
-
 
 # with resource providers only type
 control 'azure_key_vault_disk_privateEndpointConnections_generic_resource_provider' do
@@ -120,7 +90,6 @@ control 'azure_key_vault_disk_privateEndpointConnections_generic_resource_provid
     describe azure_key_vault(resource_id: id) do
       its('properties.privateEndpointConnections') { should_not be_empty }
     end
-  end
 
     privateEndpointConnections = azure_key_vault(resource_id: id).properties.privateEndpointConnections.each do |endpoints|
   
@@ -132,14 +101,37 @@ control 'azure_key_vault_disk_privateEndpointConnections_generic_resource_provid
         its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
       end
     end
-
-  # azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
-  #   describe azure_generic_resource(resource_id: id) do
-  #     it { should exist } 
-  #   end
-  # end
+  end
 end
 
+
+
+# check with tag
+control 'azure_key_vault_with_tag' do
+  title "Check Azure Keyvault - with tags"
+
+  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults'. tag_name: 'owned-by', tag_value: 'cisaz').ids.each do |id|
+    
+    describe azure_key_vault(resource_id: id) do
+      its('properties.enabledForDiskEncryption') { should be_truthy }
+    end
+  
+    describe azure_key_vault(resource_id: id) do
+      its('properties.privateEndpointConnections') { should_not be_empty }
+    end
+
+    privateEndpointConnections = azure_key_vault(resource_id: id).properties.privateEndpointConnections.each do |endpoints|
+  
+      describe endpoints do
+        its('properties.provisioningState') { should eq 'Succeeded' }
+      end
+  
+      describe endpoints do
+        its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
+      end
+    end
+  end
+end
 
 
 
