@@ -19,20 +19,20 @@ control 'azure_key_vault_disk_privateEndpointConnections' do
   properties = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT'))
 
   
-  describe properties.properties do
-    its('privateEndpointConnections') { should_not eq '' }
-  end
+  # describe properties.properties do
+  #   its('privateEndpointConnections') { should_not eq '' }
+  # end
   describe properties.properties do
     its('privateEndpointConnections') { should_not be_empty }
   end
 
 
-  describe properties do
-    its('properties') { should include '"privateEndpointConnections"' }
-  end
-  describe properties do
-    its('properties') { should include 'privateEndpointConnections' }
-  end
+  # describe properties do
+  #   its('properties') { should include '"privateEndpointConnections"' }
+  # end
+  # describe properties do
+  #   its('properties') { should include 'privateEndpointConnections' }
+  # end
 
 
 
@@ -74,12 +74,12 @@ control 'azure_key_vault_disk_privateEndpointConnections_control' do
 
 
   # how to check if this value is empty or not?
-  describe privateEndpointConnectionsControlProperties do
-    its('properties.privateEndpointConnections') { should_not eq '' }
-  end
+  # describe privateEndpointConnectionsControlProperties do
+  #   its('properties.privateEndpointConnections') { should_not eq '' }
+  # end
   # how to check if this value is empty or not?
   describe privateEndpointConnectionsControlProperties do
-    its('properties.privateEndpointConnections') { should_not should be_empty }
+    its('properties.privateEndpointConnections') { should_not be_empty }
   end
 
 
