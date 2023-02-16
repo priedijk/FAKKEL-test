@@ -43,12 +43,6 @@ control 'azure_key_vault_disk_privateEndpointConnections' do
 
   privateEndpointConnections.each do |endpoints|
     describe endpoints do
-      its('properties') { should_not eq '' }
-    end
-  end
-
-  privateEndpointConnections.each do |endpoints|
-    describe endpoints do
       its('properties.provisioningState') { should eq 'Succeeded' }
     end
   end
@@ -73,10 +67,6 @@ control 'azure_key_vault_disk_privateEndpointConnections_control' do
   privateEndpointConnectionsControlProperties = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln")
 
 
-  # how to check if this value is empty or not?
-  # describe privateEndpointConnectionsControlProperties do
-  #   its('properties.privateEndpointConnections') { should_not eq '' }
-  # end
   # how to check if this value is empty or not?
   describe privateEndpointConnectionsControlProperties do
     its('properties.privateEndpointConnections') { should_not be_empty }
@@ -126,8 +116,22 @@ control 'azure_key_vault_disk_privateEndpointConnections_generic_resource_provid
     describe azure_key_vault(resource_id: id) do
       its('properties.enabledForDiskEncryption') { should be_truthy }
     end
+  
+    describe azure_key_vault(resource_id: id) do
+      its('properties.privateEndpointConnections') { should_not be_empty }
+    end
   end
 
+    privateEndpointConnections = azure_key_vault(resource_id: id).properties.privateEndpointConnections.each do |endpoints|
+  
+      describe endpoints do
+        its('properties.provisioningState') { should eq 'Succeeded' }
+      end
+  
+      describe endpoints do
+        its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
+      end
+    end
 
   # azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
   #   describe azure_generic_resource(resource_id: id) do
@@ -166,15 +170,3 @@ end
   #   end
   # end
 # end
-
-
-
-
-
-privateEndpointConnectionsControl = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties.privateEndpointConnections
-  
-privateEndpointConnectionsControl.each do |endpoints|
-  describe endpoints.properties do
-    it { should exist }
-  end
-end
