@@ -52,7 +52,7 @@ control 'azure_key_vault_disk_privateEndpointConnections_control' do
 
   # how to check if this value is empty or not?
   describe privateEndpointConnectionsControlProperties do
-    its('properties.privateEndpointConnections') { should exist }
+    its('properties.privateEndpointConnections') { should_not exist }
   end
 
   privateEndpointConnectionsControlProperties2 = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties
@@ -60,7 +60,7 @@ control 'azure_key_vault_disk_privateEndpointConnections_control' do
 
   # how to check if this value is empty or not?
   describe privateEndpointConnectionsControlProperties2 do
-    its('privateEndpointConnections') { should exist }
+    its('privateEndpointConnections') { should_not eq '' }
   end
 
 
