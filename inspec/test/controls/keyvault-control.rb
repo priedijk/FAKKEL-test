@@ -1,5 +1,5 @@
 control 'azure_key_vault_control' do
-    title "Check Azure Keyvault - control test"
+    title "Check Azure Keyvault - control"
   
   describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT')) do
       its('properties.enabledForDiskEncryption') { should be_truthy }

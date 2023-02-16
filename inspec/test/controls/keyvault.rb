@@ -7,6 +7,13 @@ describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT'))
 
   privateEndpointConnections = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')).properties.privateEndpointConnections
 
+   
+  privateEndpointConnections.each do |endpoints|
+    describe endpoints do
+      it { should exist }
+    end
+  end
+
   privateEndpointConnections.each do |endpoints|
     describe endpoints do
       its('properties.provisioningState') { should eq 'Succeeded' }
@@ -19,6 +26,27 @@ describe azure_key_vault(resource_group: +input('RG'), name: +input('KEYVAULT'))
     end
   end
 
+
+  privateEndpointConnectionsControl = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties.privateEndpointConnections
+
+   
+  privateEndpointConnectionsControl.each do |endpoints|
+    describe endpoints do
+      it { should exist }
+    end
+  end
+  
+  privateEndpointConnectionsControl.each do |endpoints|
+    describe endpoints do
+      its('properties.provisioningState') { should eq 'Succeeded' }
+    end
+  end
+
+  privateEndpointConnectionsControl.each do |privateLink|
+    describe privateLink do
+      its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
+    end
+  end
 
 
 
