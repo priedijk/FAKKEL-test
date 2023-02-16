@@ -99,7 +99,7 @@ end
 
 
 # check with tag
-control 'azure_key_vault_with_tag' do
+control 'azure_key_vault_with_tags' do
   title "Check Azure Keyvault - with tags"
 
   azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults', tag_name: 'owned-by', tag_value: 'cisaz').ids.each do |id|
@@ -163,7 +163,7 @@ end
 
 
 # check with tags only
-control 'azure_key_vault_with_tag' do
+control 'azure_key_vault_with_tags_only' do
   title "Check Azure Keyvault - with tags"
 
   azure_generic_resources(tag_name: 'owned-by', tag_value: 'cisaz').ids.each do |id|
