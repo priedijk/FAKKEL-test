@@ -16,13 +16,24 @@ end
 control 'azure_key_vault_disk_privateEndpointConnections' do
     title "Check Azure Keyvault"
 
-  properties = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln")
+  properties = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT'))
 
-  privateEndpointConnections.each do |endpoints|
-    describe endpoints do
-      its('properties.privateEndpointConnections') { should_not eq '' }
-    end
+  
+  describe properties do
+    its('properties.privateEndpointConnections') { should_not eq '' }
   end
+
+
+  describe properties do
+    its('properties') { should include '"privateEndpointConnections"' }
+  end
+  describe properties do
+    its('properties') { should include 'privateEndpointConnections' }
+  end
+
+
+
+
 
 
   privateEndpointConnections = azure_key_vault(resource_group: 'fakkel-kv', name: +input('KEYVAULT')).properties.privateEndpointConnections
@@ -61,19 +72,7 @@ control 'azure_key_vault_disk_privateEndpointConnections_control' do
 
   # how to check if this value is empty or not?
   describe privateEndpointConnectionsControlProperties do
-    its('properties.privateEndpointConnections') { should_not exist }
-  end
-  # how to check if this value is empty or not?
-  describe privateEndpointConnectionsControlProperties do
     its('properties.privateEndpointConnections') { should_not eq '' }
-  end
-
-  privateEndpointConnectionsControlProperties2 = azure_key_vault(resource_group: 'fileshare-resources', name: "rteasrdjkhvbjln").properties
-
-
-  # how to check if this value is empty or not?
-  describe privateEndpointConnectionsControlProperties2 do
-    its('privateEndpointConnections') { should_not eq '' }
   end
 
 
