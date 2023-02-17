@@ -158,10 +158,6 @@ control 'azure_key_vault_context_test2v3' do
 
       keyvault = azure_key_vault(resource_id: id)
 
-      # describe keyvault do
-      #   its('tags') { should_not be_empty }
-      # end
-
       if (keyvault.tags.any?) 
 
         if (keyvault.tags.owner == 'cisaz')
@@ -192,6 +188,28 @@ control 'azure_key_vault_context_test2v4' do
   end
 end
 
+# check keyvault, filter on tag and location
+control 'azure_key_vault_context_test2v5' do
+  title "Check Azure Keyvault - context test2v5"
+
+  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+
+      keyvault = azure_key_vault(resource_id: id)
+
+      if (keyvault.tags.any?) 
+
+        if (keyvault.tags.owner == 'cisaz')
+
+          if (keyvault.location == 'northeurope') 
+
+            describe keyvault do
+              it { should exist }
+            end
+          end
+        end 
+      end
+  end
+end
 
 # control 'azure_key_vault_context_test3' do
 #   title "Check Azure Keyvault - context test3"
