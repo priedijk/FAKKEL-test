@@ -242,3 +242,39 @@ control 'azure_key_vault_context_test5' do
 end
 end
 
+
+control 'azure_key_vault_context_test6' do
+  title "Check Azure Keyvault - context test6"
+
+  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+
+      keyvault = azure_key_vault(resource_id: id)
+      keyvault_tags = azure_key_vault(resource_id: id).tags['owner']
+
+      # control keyvault exits
+      # if keyvault.tags.include? 'cisaz'
+      #   describe keyvault do
+      #     it { should exist }
+      #   end 
+      # end
+
+      if keyvault.tags.find { |h| h[:owner] == 'cisaz' }
+        describe keyvault do
+          it { should exist }
+        end 
+      end
+
+      # if keyvault_tags.include? 'cisaz'
+      #   describe keyvault do
+      #     it { should exist }
+      #   end 
+      # end
+
+      # if keyvault_tags.include? 'owner'
+      #   describe keyvault do
+      #     it { should exist }
+      #   end 
+      # end
+end
+end
+
