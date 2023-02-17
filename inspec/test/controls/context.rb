@@ -163,14 +163,39 @@ control 'azure_key_vault_context_test2v3' do
         its('tags') { should_not be_empty }
       end
 
-      # describe keyvault do
-      #   its('tags.owner') { should_not be_empty }
-      # end
-
-
       if (keyvault.tags.any?) 
 
         if (keyvault.tags.owner == 'cisaz')
+          describe keyvault do
+            it { should exist }
+          end
+        end 
+      end
+  end
+end
+
+control 'azure_key_vault_context_test2v4' do
+  title "Check Azure Keyvault - context test2v4"
+
+  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+
+      keyvault = azure_key_vault(resource_id: id)
+
+
+      describe keyvault do
+        its('tags') { should_not be_empty }
+      end
+
+      if (keyvault.tags.any?) 
+        if (keyvault.tags.owner == 'team')
+          describe keyvault do
+            it { should exist }
+          end
+        end 
+      end
+
+      if keyvault.tags
+        if (keyvault.tags.owner == 'team')
           describe keyvault do
             it { should exist }
           end
