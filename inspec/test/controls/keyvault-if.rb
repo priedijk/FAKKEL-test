@@ -208,7 +208,7 @@ control 'azure_key_vault_context_test2v5' do
 
         if (keyvault.tags.owner == 'cisaz')
 
-          if (keyvault.location == 'northeurope')
+          if (keyvault.location == 'westeurope')
 
             describe keyvault do
               it { should exist }
