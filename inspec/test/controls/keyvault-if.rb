@@ -158,7 +158,7 @@ control 'azure_key_vault_context_test2v3' do
 
       keyvault = azure_key_vault(resource_id: id)
 
-      if (keyvault.tags.any?) 
+      if (keyvault.tags.any?)
 
         if (keyvault.tags.owner == 'cisaz')
           describe keyvault do
@@ -177,7 +177,7 @@ control 'azure_key_vault_context_test2v4' do
       keyvault = azure_key_vault(resource_id: id)
 
 
-      if (keyvault.tags.any?) 
+      if (keyvault.tags.any?)
 
         if (keyvault.tags.owner == 'team')
           describe keyvault do
@@ -196,11 +196,11 @@ control 'azure_key_vault_context_test2v5' do
 
       keyvault = azure_key_vault(resource_id: id)
 
-      if (keyvault.tags.any?) 
+      if (keyvault.tags.any?)
 
         if (keyvault.tags.owner == 'cisaz')
 
-          if (keyvault.location == 'northeurope') 
+          if (keyvault.location == 'northeurope')
 
             describe keyvault do
               it { should exist }
