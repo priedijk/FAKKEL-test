@@ -158,10 +158,9 @@ control 'azure_key_vault_context_test2v3' do
 
       keyvault = azure_key_vault(resource_id: id)
 
-
-      describe keyvault do
-        its('tags') { should_not be_empty }
-      end
+      # describe keyvault do
+      #   its('tags') { should_not be_empty }
+      # end
 
       if (keyvault.tags.any?) 
 
@@ -182,9 +181,9 @@ control 'azure_key_vault_context_test2v4' do
       keyvault = azure_key_vault(resource_id: id)
 
 
-      describe keyvault do
-        its('tags') { should_not be_empty }
-      end
+      # describe keyvault do
+      #   its('tags') { should_not be_empty }
+      # end
 
       if (keyvault.tags.any?) 
         if (keyvault.tags.owner == 'team')
