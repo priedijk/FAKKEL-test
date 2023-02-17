@@ -68,7 +68,7 @@
 
 # # testing
 
-
+# working
 # # with resource providers only type
 # control 'azure_key_vault_disk_privateEndpointConnections_generic_resource_provider' do
 #   title "Check Azure Keyvault"
@@ -100,7 +100,6 @@
 
 
 
-# working
 # check with tag
 control 'azure_key_vault_with_tags' do
   title "Check Azure Keyvault - with tags"

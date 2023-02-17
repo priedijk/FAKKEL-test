@@ -26,22 +26,38 @@
 
 
 
-  control 'azure_key_vault_generic_resources' do
+  control 'azure_key_vault_context' do
     title "Check Azure Keyvault"
   
     azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
       
-      describe azure_key_vault(resource_id: id) do
-        it { should exist } 
-      end
+      # describe azure_key_vault(resource_id: id) do
+      #   it { should exist } 
+      # end
 
-        keyvault = azure_key_vault(resource_id: id)
+        # keyvault = azure_key_vault(resource_id: id)
 
-        describe keyvault do
-          it { should exist }
-        end 
+        # describe keyvault do
+        #   it { should exist }
+        # end 
 
         if keyvault.tags['owner']
+
+          describe azure_key_vault(resource_id: id) do
+            it { should exist } 
+          end
+      end
+
+      
+        if keyvault.tags['owner'] == 'cisaz'
+
+          describe azure_key_vault(resource_id: id) do
+            it { should exist } 
+          end
+      end
+
+
+        if keyvault.tags['owner-by'] == 'cisaz'
 
           describe azure_key_vault(resource_id: id) do
             it { should exist } 
