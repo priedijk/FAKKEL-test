@@ -97,7 +97,7 @@ control 'azure_key_vault_context_test' do
 
     
       # test if tag has cetain value
-      if keyvault.tags['owner'] == 'cisaz'
+      if keyvault.tags['owner'] === 'cisaz'
 
         describe azure_key_vault(resource_id: id) do
           it { should exist } 
@@ -114,7 +114,7 @@ control 'azure_key_vault_context_test' do
 
 
       # test if tag has cetain value
-      if keyvault_tags == 'cisaz'
+      if keyvault_tags === 'cisaz'
 
         describe azure_key_vault(resource_id: id) do
           it { should exist } 
