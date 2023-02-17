@@ -158,17 +158,19 @@ control 'azure_key_vault_context_test2v3' do
 
       keyvault = azure_key_vault(resource_id: id)
 
-      # if (keyvault.tags['owner'])
-      #   describe keyvault do
-      #     it { should exist }
-      #   end 
-      # end
 
-      puts keyvault.tags
+      describe keyvault do
+        its('tags') { should_not be_empty }
+      end
+
+      describe keyvault do
+        its('tags.owner') { should_not be_empty }
+      end
 
       if (keyvault.tags['owner'] == 'cisaz')
         describe keyvault do
           it { should exist }
+          
         end 
       end
   end
