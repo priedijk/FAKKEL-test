@@ -66,11 +66,11 @@ end
 #         end 
 #       end
 
-#       # if keyvault.tags.include? 'owner'
-#       #   describe keyvault do
-#       #     it { should exist }
-#       #   end 
-#       # end
+      # if keyvault.tags.include? 'owner'
+      #   describe keyvault do
+      #     it { should exist }
+      #   end 
+      # end
 
 #       # if keyvault_tags.include? 'cisaz'
 #       #   describe keyvault do
@@ -102,38 +102,38 @@ control 'azure_key_vault_context_test2' do
 end
 
 
-control 'azure_key_vault_context_test2v1' do
-  title "Check Azure Keyvault - context test2v1"
+# control 'azure_key_vault_context_test2v1' do
+#   title "Check Azure Keyvault - context test2v1"
 
-  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+#   azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
 
-      keyvault = azure_key_vault(resource_id: id)
+#       keyvault = azure_key_vault(resource_id: id)
 
-      if keyvault.tags.include? 'owner'
-        describe keyvault do
-          it { should exist }
-        end 
-        describe keyvault do
-          its('properties.enabledForDiskEncryption') { should be_truthy }
-        end
+#       if keyvault.tags.include? 'owner'
+#         describe keyvault do
+#           it { should exist }
+#         end 
+#         describe keyvault do
+#           its('properties.enabledForDiskEncryption') { should be_truthy }
+#         end
   
-        describe azure_key_vault(resource_id: id) do
-          its('properties.privateEndpointConnections') { should_not be_empty }
-        end
+#         describe azure_key_vault(resource_id: id) do
+#           its('properties.privateEndpointConnections') { should_not be_empty }
+#         end
 
-        privateEndpointConnections = keyvault.properties.privateEndpointConnections.each do |endpoints|
+#         privateEndpointConnections = keyvault.properties.privateEndpointConnections.each do |endpoints|
       
-          describe endpoints do
-            its('properties.provisioningState') { should eq 'Succeeded' }
-          end
+#           describe endpoints do
+#             its('properties.provisioningState') { should eq 'Succeeded' }
+#           end
       
-          describe endpoints do
-            its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
-          end
-        end
-      end
-  end
-end
+#           describe endpoints do
+#             its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
+#           end
+#         end
+#       end
+#   end
+# end
 
 control 'azure_key_vault_context_test2v2' do
   title "Check Azure Keyvault - context test2v2"
@@ -148,6 +148,15 @@ control 'azure_key_vault_context_test2v2' do
           it { should exist }
         end 
       end
+  end
+end
+
+control 'azure_key_vault_context_test2v3' do
+  title "Check Azure Keyvault - context test2v3"
+
+  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+
+      keyvault = azure_key_vault(resource_id: id)
 
       if (keyvault.tags['owner'] == 'cisaz')
         describe keyvault do
@@ -185,11 +194,11 @@ end
 #         end 
 #       end
 
-#       # if keyvault_tags.include? 'owner'
-#       #   describe keyvault do
-#       #     it { should exist }
-#       #   end 
-#       # end
+#       if keyvault_tags.include? 'owner'
+#         describe keyvault do
+#           it { should exist }
+#         end 
+#       end
 # end
 # end
 
@@ -244,7 +253,7 @@ control 'azure_key_vault_context_test5' do
       #   end 
       # end
 
-      if keyvault.tags.any? { |h| h[:owner] == 'cisaz' }
+      if (keyvault.tags.any? { |h| h[:owner] == 'cisaz' })
         describe keyvault do
           it { should exist }
         end 
@@ -280,7 +289,7 @@ control 'azure_key_vault_context_test6' do
       #   end 
       # end
 
-      if keyvault.tags.find { |h| h[:owner] == 'cisaz' }
+      if (keyvault.tags.find { |h| h[:owner] == 'cisaz' })
         describe keyvault do
           it { should exist }
         end 

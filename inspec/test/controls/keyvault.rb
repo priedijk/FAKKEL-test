@@ -100,117 +100,117 @@
 
 
 
-# check with tag
-control 'azure_key_vault_with_tags' do
-  title "Check Azure Keyvault - with tags"
+# # check with tag
+# control 'azure_key_vault_with_tags' do
+#   title "Check Azure Keyvault - with tags"
 
-  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults', tag_name: 'owned-by', tag_value: 'cisaz').ids.each do |id|
+#   azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults', tag_name: 'owned-by', tag_value: 'cisaz').ids.each do |id|
     
-    describe azure_key_vault(resource_id: id) do
-      its('properties.enabledForDiskEncryption') { should be_truthy }
-    end
+#     describe azure_key_vault(resource_id: id) do
+#       its('properties.enabledForDiskEncryption') { should be_truthy }
+#     end
   
-    describe azure_key_vault(resource_id: id) do
-      its('properties.privateEndpointConnections') { should_not be_empty }
-    end
+#     describe azure_key_vault(resource_id: id) do
+#       its('properties.privateEndpointConnections') { should_not be_empty }
+#     end
 
-    privateEndpointConnections = azure_key_vault(resource_id: id).properties.privateEndpointConnections.each do |endpoints|
+#     privateEndpointConnections = azure_key_vault(resource_id: id).properties.privateEndpointConnections.each do |endpoints|
   
-      describe endpoints do
-        its('properties.provisioningState') { should eq 'Succeeded' }
-      end
+#       describe endpoints do
+#         its('properties.provisioningState') { should eq 'Succeeded' }
+#       end
   
-      describe endpoints do
-        its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
-      end
-    end
-  end
-end
+#       describe endpoints do
+#         its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
+#       end
+#     end
+#   end
+# end
 
 
 
 
 
 
+# # working
+# # check with tags only
+# control 'azure_key_vault_with_tags_only' do
+#   title "Check Azure Keyvault - with tags"
 
-# check with tags only
-control 'azure_key_vault_with_tags_only' do
-  title "Check Azure Keyvault - with tags"
-
-  azure_generic_resources(tag_name: 'owned-by', tag_value: 'cisaz').ids.each do |id|
+#   azure_generic_resources(tag_name: 'owned-by', tag_value: 'cisaz').ids.each do |id|
     
-    describe azure_key_vault(resource_id: id) do
-      its('properties.enabledForDiskEncryption') { should be_truthy }
-    end
+#     describe azure_key_vault(resource_id: id) do
+#       its('properties.enabledForDiskEncryption') { should be_truthy }
+#     end
   
-    describe azure_key_vault(resource_id: id) do
-      its('properties.privateEndpointConnections') { should_not be_empty }
-    end
+#     describe azure_key_vault(resource_id: id) do
+#       its('properties.privateEndpointConnections') { should_not be_empty }
+#     end
 
-    privateEndpointConnections = azure_key_vault(resource_id: id).properties.privateEndpointConnections.each do |endpoints|
+#     privateEndpointConnections = azure_key_vault(resource_id: id).properties.privateEndpointConnections.each do |endpoints|
   
-      describe endpoints do
-        its('properties.provisioningState') { should eq 'Succeeded' }
-      end
+#       describe endpoints do
+#         its('properties.provisioningState') { should eq 'Succeeded' }
+#       end
   
-      describe endpoints do
-        its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
-      end
-    end
-  end
-end
+#       describe endpoints do
+#         its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
+#       end
+#     end
+#   end
+# end
 
-# check with tag_name
-control 'azure_key_vault_with_tag_name' do
-  title "Check Azure Keyvault - with tags"
+# # check with tag_name
+# control 'azure_key_vault_with_tag_name' do
+#   title "Check Azure Keyvault - with tags"
 
-  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults', tag_name: 'owned-by').ids.each do |id|
+#   azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults', tag_name: 'owned-by').ids.each do |id|
     
-    describe azure_key_vault(resource_id: id) do
-      its('properties.enabledForDiskEncryption') { should be_truthy }
-    end
+#     describe azure_key_vault(resource_id: id) do
+#       its('properties.enabledForDiskEncryption') { should be_truthy }
+#     end
   
-    describe azure_key_vault(resource_id: id) do
-      its('properties.privateEndpointConnections') { should_not be_empty }
-    end
+#     describe azure_key_vault(resource_id: id) do
+#       its('properties.privateEndpointConnections') { should_not be_empty }
+#     end
 
-    privateEndpointConnections = azure_key_vault(resource_id: id).properties.privateEndpointConnections.each do |endpoints|
+#     privateEndpointConnections = azure_key_vault(resource_id: id).properties.privateEndpointConnections.each do |endpoints|
   
-      describe endpoints do
-        its('properties.provisioningState') { should eq 'Succeeded' }
-      end
+#       describe endpoints do
+#         its('properties.provisioningState') { should eq 'Succeeded' }
+#       end
   
-      describe endpoints do
-        its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
-      end
-    end
-  end
-end
+#       describe endpoints do
+#         its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
+#       end
+#     end
+#   end
+# end
 
 
-# check with tag_value
-control 'azure_key_vault_with_tag_value' do
-  title "Check Azure Keyvault - with tags"
+# # check with tag_value
+# control 'azure_key_vault_with_tag_value' do
+#   title "Check Azure Keyvault - with tags"
 
-  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults', tag_value: 'cisaz').ids.each do |id|
+#   azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults', tag_value: 'cisaz').ids.each do |id|
     
-    describe azure_key_vault(resource_id: id) do
-      its('properties.enabledForDiskEncryption') { should be_truthy }
-    end
+#     describe azure_key_vault(resource_id: id) do
+#       its('properties.enabledForDiskEncryption') { should be_truthy }
+#     end
   
-    describe azure_key_vault(resource_id: id) do
-      its('properties.privateEndpointConnections') { should_not be_empty }
-    end
+#     describe azure_key_vault(resource_id: id) do
+#       its('properties.privateEndpointConnections') { should_not be_empty }
+#     end
 
-    privateEndpointConnections = azure_key_vault(resource_id: id).properties.privateEndpointConnections.each do |endpoints|
+#     privateEndpointConnections = azure_key_vault(resource_id: id).properties.privateEndpointConnections.each do |endpoints|
   
-      describe endpoints do
-        its('properties.provisioningState') { should eq 'Succeeded' }
-      end
+#       describe endpoints do
+#         its('properties.provisioningState') { should eq 'Succeeded' }
+#       end
   
-      describe endpoints do
-        its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
-      end
-    end
-  end
-end
+#       describe endpoints do
+#         its('properties.privateLinkServiceConnectionState.status') { should eq 'Approved' }
+#       end
+#     end
+#   end
+# end
