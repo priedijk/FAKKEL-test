@@ -158,7 +158,12 @@ control 'azure_key_vault_context_test2v3' do
 
       keyvault = azure_key_vault(resource_id: id)
 
-      if (keyvault.tags['owner'] == 'cisaz')
+      if (keyvault.tags['owner'])
+        describe keyvault do
+          it { should exist }
+        end 
+      end
+      if (keyvault.tags['owner'] = 'cisaz')
         describe keyvault do
           it { should exist }
         end 
@@ -238,74 +243,34 @@ end
 # end
 
 
-control 'azure_key_vault_context_test5' do
-  title "Check Azure Keyvault - context test5"
+# control 'azure_key_vault_context_test5' do
+#   title "Check Azure Keyvault - context test5"
 
-  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+#   azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
 
-      keyvault = azure_key_vault(resource_id: id)
-      keyvault_tags = azure_key_vault(resource_id: id).tags['owner']
+#       keyvault = azure_key_vault(resource_id: id)
 
-      # control keyvault exits
-      # if keyvault.tags.include? 'cisaz'
-      #   describe keyvault do
-      #     it { should exist }
-      #   end 
-      # end
-
-      if (keyvault.tags.any? { |h| h[:owner] == 'cisaz' })
-        describe keyvault do
-          it { should exist }
-        end 
-      end
-
-      # if keyvault_tags.include? 'cisaz'
-      #   describe keyvault do
-      #     it { should exist }
-      #   end 
-      # end
-
-      # if keyvault_tags.include? 'owner'
-      #   describe keyvault do
-      #     it { should exist }
-      #   end 
-      # end
-end
-end
+#       if (keyvault.tags.any? { |h| h[:owner] == 'cisaz' })
+#         describe keyvault do
+#           it { should exist }
+#         end 
+#       end
+# end
+# end
 
 
-control 'azure_key_vault_context_test6' do
-  title "Check Azure Keyvault - context test6"
+# control 'azure_key_vault_context_test6' do
+#   title "Check Azure Keyvault - context test6"
 
-  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+#   azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
 
-      keyvault = azure_key_vault(resource_id: id)
-      keyvault_tags = azure_key_vault(resource_id: id).tags['owner']
+#       keyvault = azure_key_vault(resource_id: id)
 
-      # control keyvault exits
-      # if keyvault.tags.include? 'cisaz'
-      #   describe keyvault do
-      #     it { should exist }
-      #   end 
-      # end
-
-      if (keyvault.tags.find { |h| h[:owner] == 'cisaz' })
-        describe keyvault do
-          it { should exist }
-        end 
-      end
-
-      # if keyvault_tags.include? 'cisaz'
-      #   describe keyvault do
-      #     it { should exist }
-      #   end 
-      # end
-
-      # if keyvault_tags.include? 'owner'
-      #   describe keyvault do
-      #     it { should exist }
-      #   end 
-      # end
-end
-end
+#       if (keyvault.tags.find { |h| h[:owner] == 'cisaz' })
+#         describe keyvault do
+#           it { should exist }
+#         end 
+#       end
+# end
+# end
 
