@@ -31,9 +31,6 @@
   
     azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
       
-      # describe azure_key_vault(resource_id: id) do
-      #   it { should exist } 
-      # end
 
         keyvault = azure_key_vault(resource_id: id)
 
@@ -43,24 +40,8 @@
         end 
 
         # control keyvault exits with owner tag
-        if keyvault.tags['owner']
-
-          describe azure_key_vault(resource_id: id) do
-            it { should exist } 
-          end
-      end
-
-      
-      #   # test if tag has cetain value
-      #   if keyvault.tags['owner'] == 'cisaz'
-
-      #     describe azure_key_vault(resource_id: id) do
-      #       it { should exist } 
-      #     end
-      # end
-
-      #   # test if tag has cetain value
-      #   if keyvault.tags['owner-by'] == 'cisaz'
+        # this only checks if the resource has tags
+      #   if keyvault.tags['owner']
 
       #     describe azure_key_vault(resource_id: id) do
       #       it { should exist } 
@@ -117,36 +98,175 @@ control 'azure_key_vault_context_test' do
 
 
       # test if tag has cetain value
-      if keyvault.tags['owner'] === 'cisaz'
+    #   if keyvault.tags['owner'] === 'cisaz'
 
-        describe azure_key_vault(resource_id: id) do
-          it { should exist } 
-        end
-    end
+    #     describe azure_key_vault(resource_id: id) do
+    #       it { should exist } 
+    #     end
+    # end
 
-      # test if tag has cetain value
-      if keyvault.tags['owner-by'] == 'cisaz'
+    #   # test if tag has cetain value
+    #   if keyvault.tags['owner-by'] == 'cisaz'
 
-        describe azure_key_vault(resource_id: id) do
-          it { should exist } 
-        end
-    end
+    #     describe azure_key_vault(resource_id: id) do
+    #       it { should exist } 
+    #     end
+    # end
 
 
-      # test if tag has cetain value
-      if keyvault_tags === 'cisaz'
+    #   # test if tag has cetain value
+    #   if keyvault_tags === 'cisaz'
 
-        describe azure_key_vault(resource_id: id) do
-          it { should exist } 
-        end
-    end
+    #     describe azure_key_vault(resource_id: id) do
+    #       it { should exist } 
+    #     end
+    # end
 
-      # test if tag has cetain value
-      if keyvault_tags = 'cisaz'
+    #   # test if tag has cetain value
+    #   if keyvault_tags = 'cisaz'
 
-        describe azure_key_vault(resource_id: id) do
-          it { should exist } 
-        end
-    end
+    #     describe azure_key_vault(resource_id: id) do
+    #       it { should exist } 
+    #     end
+    # end
+end
+end
+
+
+
+control 'azure_key_vault_context_test1' do
+  title "Check Azure Keyvault - context test1"
+
+  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+
+      keyvault = azure_key_vault(resource_id: id)
+      keyvault_tags = azure_key_vault(resource_id: id).tags['owner']
+
+      # control keyvault exits
+      if keyvault.tags.include? 'cisaz'
+        describe keyvault do
+          it { should exist }
+        end 
+      end
+
+      # if keyvault.tags.include? 'owner'
+      #   describe keyvault do
+      #     it { should exist }
+      #   end 
+      # end
+
+      # if keyvault_tags.include? 'cisaz'
+      #   describe keyvault do
+      #     it { should exist }
+      #   end 
+      # end
+
+      # if keyvault_tags.include? 'owner'
+      #   describe keyvault do
+      #     it { should exist }
+      #   end 
+      # end
+end
+end
+control 'azure_key_vault_context_test2' do
+  title "Check Azure Keyvault - context test2"
+
+  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+
+      keyvault = azure_key_vault(resource_id: id)
+      keyvault_tags = azure_key_vault(resource_id: id).tags['owner']
+
+      # control keyvault exits
+      # if keyvault.tags.include? 'cisaz'
+      #   describe keyvault do
+      #     it { should exist }
+      #   end 
+      # end
+
+      if keyvault.tags.include? 'owner'
+        describe keyvault do
+          it { should exist }
+        end 
+      end
+
+      # if keyvault_tags.include? 'cisaz'
+      #   describe keyvault do
+      #     it { should exist }
+      #   end 
+      # end
+
+      # if keyvault_tags.include? 'owner'
+      #   describe keyvault do
+      #     it { should exist }
+      #   end 
+      # end
+end
+end
+control 'azure_key_vault_context_test3' do
+  title "Check Azure Keyvault - context test3"
+
+  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+
+      keyvault = azure_key_vault(resource_id: id)
+      keyvault_tags = azure_key_vault(resource_id: id).tags['owner']
+
+      # control keyvault exits
+      # if keyvault.tags.include? 'cisaz'
+      #   describe keyvault do
+      #     it { should exist }
+      #   end 
+      # end
+
+      # if keyvault.tags.include? 'owner'
+      #   describe keyvault do
+      #     it { should exist }
+      #   end 
+      # end
+
+      if keyvault_tags.include? 'cisaz'
+        describe keyvault do
+          it { should exist }
+        end 
+      end
+
+      # if keyvault_tags.include? 'owner'
+      #   describe keyvault do
+      #     it { should exist }
+      #   end 
+      # end
+end
+end
+control 'azure_key_vault_context_test4' do
+  title "Check Azure Keyvault - context test4"
+
+  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+
+      keyvault = azure_key_vault(resource_id: id)
+      keyvault_tags = azure_key_vault(resource_id: id).tags['owner']
+
+      # control keyvault exits
+      # if keyvault.tags.include? 'cisaz'
+      #   describe keyvault do
+      #     it { should exist }
+      #   end 
+      # end
+
+      # if keyvault.tags.include? 'owner'
+      #   describe keyvault do
+      #     it { should exist }
+      #   end 
+      # end
+
+      # if keyvault_tags.include? 'cisaz'
+      #   describe keyvault do
+      #     it { should exist }
+      #   end 
+      # end
+
+      if keyvault_tags.include? 'owner'
+        describe keyvault do
+          it { should exist }
+        end 
+      end
 end
 end
