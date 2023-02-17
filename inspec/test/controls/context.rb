@@ -80,6 +80,7 @@ control 'azure_key_vault_context_test' do
     # end
 
       keyvault = azure_key_vault(resource_id: id)
+      keyvault_tags = azure_key_vault(resource_id: id).tags['owner']
 
       # control keyvault exits
     #   describe keyvault do
@@ -105,6 +106,23 @@ control 'azure_key_vault_context_test' do
 
       # test if tag has cetain value
       if keyvault.tags['owner-by'] == 'cisaz'
+
+        describe azure_key_vault(resource_id: id) do
+          it { should exist } 
+        end
+    end
+
+
+      # test if tag has cetain value
+      if keyvault_tags == 'cisaz'
+
+        describe azure_key_vault(resource_id: id) do
+          it { should exist } 
+        end
+    end
+
+      # test if tag has cetain value
+      if keyvault_tags = 'cisaz'
 
         describe azure_key_vault(resource_id: id) do
           it { should exist } 
