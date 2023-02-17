@@ -167,7 +167,7 @@ control 'azure_key_vault_context_test2v3' do
         its('tags.owner') { should_not be_empty }
       end
 
-      if (keyvault.tags['owner'] == 'cisaz')
+      if (keyvault.tags.owner == 'cisaz')
         describe keyvault do
           it { should exist }
           
