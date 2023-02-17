@@ -35,12 +35,14 @@
       #   it { should exist } 
       # end
 
-        # keyvault = azure_key_vault(resource_id: id)
+        keyvault = azure_key_vault(resource_id: id)
 
-        # describe keyvault do
-        #   it { should exist }
-        # end 
+        # control keyvault exits
+        describe keyvault do
+          it { should exist }
+        end 
 
+        # control keyvault exits with owner tag
         if keyvault.tags['owner']
 
           describe azure_key_vault(resource_id: id) do
@@ -49,6 +51,7 @@
       end
 
       
+        # test if tag has cetain value
         if keyvault.tags['owner'] == 'cisaz'
 
           describe azure_key_vault(resource_id: id) do
@@ -56,7 +59,7 @@
           end
       end
 
-
+        # test if tag has cetain value
         if keyvault.tags['owner-by'] == 'cisaz'
 
           describe azure_key_vault(resource_id: id) do
