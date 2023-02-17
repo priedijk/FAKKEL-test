@@ -113,7 +113,7 @@ control 'keyvault_check_tags_after_id' do
   azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
     
     # keyvault_tags = azure_key_vault(resource_id: id).tags 
-    keyvault_tags2 = azure_key_vault(resource_id: id).tags['owned-by'] 
+    keyvault_tags2 = azure_key_vault(resource_id: id).tags.owner
 
     # p keyvault_tags
     p keyvault_tags2
