@@ -26,8 +26,8 @@
 
 
 
-  control 'azure_key_vault_context' do
-    title "Check Azure Keyvault"
+  control 'azure_key_vault_context_control' do
+    title "Check Azure Keyvault - context control"
   
     azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
       
@@ -51,20 +51,64 @@
       end
 
       
-        # test if tag has cetain value
-        if keyvault.tags['owner'] == 'cisaz'
+      #   # test if tag has cetain value
+      #   if keyvault.tags['owner'] == 'cisaz'
 
-          describe azure_key_vault(resource_id: id) do
-            it { should exist } 
-          end
-      end
+      #     describe azure_key_vault(resource_id: id) do
+      #       it { should exist } 
+      #     end
+      # end
 
-        # test if tag has cetain value
-        if keyvault.tags['owner-by'] == 'cisaz'
+      #   # test if tag has cetain value
+      #   if keyvault.tags['owner-by'] == 'cisaz'
 
-          describe azure_key_vault(resource_id: id) do
-            it { should exist } 
-          end
-      end
+      #     describe azure_key_vault(resource_id: id) do
+      #       it { should exist } 
+      #     end
+      # end
   end
+end
+
+
+control 'azure_key_vault_context_test' do
+  title "Check Azure Keyvault - context test"
+
+  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+    
+    # describe azure_key_vault(resource_id: id) do
+    #   it { should exist } 
+    # end
+
+      keyvault = azure_key_vault(resource_id: id)
+
+      # control keyvault exits
+    #   describe keyvault do
+    #     it { should exist }
+    #   end 
+
+    #   # control keyvault exits with owner tag
+    #   if keyvault.tags['owner']
+
+    #     describe azure_key_vault(resource_id: id) do
+    #       it { should exist } 
+    #     end
+    # end
+
+    
+      # test if tag has cetain value
+      if keyvault.tags['owner'] == 'cisaz'
+
+        describe azure_key_vault(resource_id: id) do
+          it { should exist } 
+        end
+    end
+
+      # test if tag has cetain value
+      if keyvault.tags['owner-by'] == 'cisaz'
+
+        describe azure_key_vault(resource_id: id) do
+          it { should exist } 
+        end
+    end
+end
 end
