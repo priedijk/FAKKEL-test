@@ -196,8 +196,12 @@ control 'azure_key_vault_context_test2v5' do
 
       keyvault = azure_key_vault(resource_id: id)
 
-      describe keyvault.location do
+      describe keyvault do
         its('location') { should_not be_empty}
+      end
+
+      describe keyvault do
+        its('location') { should eq 'northeurope'}
       end
       
       if (keyvault.tags.any?)
