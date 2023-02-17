@@ -92,8 +92,6 @@ control 'azure_key_vault_context_test2' do
   azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
 
       keyvault = azure_key_vault(resource_id: id)
-      keyvault_tags = azure_key_vault(resource_id: id).tags['owner']
-
 
       if keyvault.tags.include? 'owner'
         describe keyvault do
@@ -102,6 +100,7 @@ control 'azure_key_vault_context_test2' do
       end
   end
 end
+
 
 control 'azure_key_vault_context_test2v1' do
   title "Check Azure Keyvault - context test2v1"
@@ -135,6 +134,29 @@ control 'azure_key_vault_context_test2v1' do
       end
   end
 end
+
+control 'azure_key_vault_context_test2v2' do
+  title "Check Azure Keyvault - context test2v2"
+
+  azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
+
+      keyvault = azure_key_vault(resource_id: id)
+
+
+      if keyvault.tags.include?('owner')
+        describe keyvault do
+          it { should exist }
+        end 
+      end
+
+      if (keyvault.tags['owner'] == 'cisaz')
+        describe keyvault do
+          it { should exist }
+        end 
+      end
+  end
+end
+
 
 # control 'azure_key_vault_context_test3' do
 #   title "Check Azure Keyvault - context test3"
