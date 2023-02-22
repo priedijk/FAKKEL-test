@@ -47,7 +47,7 @@ variable "address_space_test" {
 variable "address_space" {
   type = map(string)
   default = {
-    "replace" = "10.100.0.0/24"
+    "vnet"    = "10.100.0.0/24"
     "replace" = "0.0/24"
     "test"    = "0.64/26"
     "rg_name" = "pluto"
