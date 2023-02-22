@@ -27,8 +27,31 @@ variable "tenant" {
 }
 
 variable "address_space" {
-  type = map(string)
+  type = object({
+    regional        = list(string)
+    regional_remote = list(string)
+    local           = list(string)
+  })
 }
+
+variable "address_space" {
+  type = map({
+    vnet    = string
+    replace = string
+    test    = string
+    rg_name = string
+  })
+  default = {
+    "replace" = "10.100.0.0/24"
+    "replace" = "0.0/24"
+    "test"    = "0.64/26"
+    "rg_name" = "pluto"
+  }
+}
+
 variable "address_space2" {
   type = map(list(string))
+  default = {
+    "vnet" = ["10.100.0.0/24", "10.200.0.0/24"]
+  }
 }
