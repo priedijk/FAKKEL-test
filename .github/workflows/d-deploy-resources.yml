@@ -57,7 +57,7 @@ run-name: Deploy ${{ github.event.inputs.resource }} | ${{ github.event.inputs.t
 name: Deploy Resources
 
 jobs:
-  Action-group-test:
+  Deploy-resources:
     uses: ./.github/workflows/reusable-workflow.yml
     with:
       location: ${{ github.event.inputs.location }}

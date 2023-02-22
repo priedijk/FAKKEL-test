@@ -44,7 +44,7 @@ jobs:
       confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
       IsNewDeployment: ${{ github.event.inputs.IsNewDeployment }}
       terraform-action: ${{ github.event.inputs.terraform-action }}
-      terraform-directory: 'action-group-test'
+      terraform-directory: 'action-group'
       terraform-init-args: '-backend-config="key=action-group.tfstate"'
       terraform-plan-args: ''
       terraform-apply-args: ''
