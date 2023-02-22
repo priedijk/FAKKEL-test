@@ -26,13 +26,13 @@ variable "tenant" {
   default     = "ae"
 }
 
-variable "address_space" {
-  type = object({
-    regional        = list(string)
-    regional_remote = list(string)
-    local           = list(string)
-  })
-}
+# variable "address_space" {
+#   type = object({
+#     regional        = list(string)
+#     regional_remote = list(string)
+#     local           = list(string)
+#   })
+# }
 
 variable "address_space_test" {
   type = map(string)
