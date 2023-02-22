@@ -25,6 +25,11 @@ on:
          - 'event-action-group'
          - 'firewall'
          - 'keyvault'
+         - 'private-dns'
+         - 'random_id'
+         - 'rg'
+         - 'vnet'
+         - 'vnet-peering'
       terraform-action:
         description: 'Terraform action'
         type: choice
@@ -33,10 +38,15 @@ on:
           - 'plan'
           - 'plan+apply'
           - 'destroy'
+          - 'import'
       confirm-destroy:
         description: "Confirm destroy"
         type: boolean
         default: false
+      terraform-import-file:
+        description: "(Import only!) <import-file-name>.ps1"
+        type: string
+        default: ''
       IsNewDeployment:
         description: "IsNewDeployment?"
         type: boolean
@@ -59,4 +69,5 @@ jobs:
       terraform-init-args: '-backend-config="key=${{ github.event.inputs.resource }}-${{ github.event.inputs.tenant }}-${{ github.event.inputs.location }}.tfstate"'
       terraform-plan-args: ''
       terraform-apply-args: ''
+      terraform-import-file: ${{ inputs.terraform-import-file }}
     secrets: inherit
