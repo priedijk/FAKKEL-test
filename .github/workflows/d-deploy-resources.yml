@@ -15,6 +15,16 @@ on:
         options:
          - 'ae'
          - 'prod'
+      resource:
+        description: "Which resources to deploy"
+        type: choice
+        required: true
+        options:
+         - 'action-group'
+         - 'bastion'
+         - 'event-action-group'
+         - 'firewall'
+         - 'keyvault'
       terraform-action:
         description: 'Terraform action'
         type: choice
@@ -33,7 +43,8 @@ on:
         default: false
         required: true
 
-name: Action-group test
+run-name: Deploy ${{ github.event.inputs.resource }} | ${{ github.event.inputs.terraform-action }} | ${{ github.event.inputs.tenant }} | ${{ github.event.inputs.location }} | ${{ github.ref_name }}
+name: Deploy Resources
 
 jobs:
   Action-group-test:
@@ -44,8 +55,8 @@ jobs:
       confirm-destroy: ${{ github.event.inputs.confirm-destroy }}
       IsNewDeployment: ${{ github.event.inputs.IsNewDeployment }}
       terraform-action: ${{ github.event.inputs.terraform-action }}
-      terraform-directory: 'action-group-test'
-      terraform-init-args: '-backend-config="key=action-group.tfstate"'
+      terraform-directory: ${{ github.event.inputs.resource }}
+      terraform-init-args: '-backend-config="key=${{ github.event.inputs.resource }}-${{ github.event.inputs.tenant }}-${{ github.event.inputs.location }}.tfstate"'
       terraform-plan-args: ''
       terraform-apply-args: ''
     secrets: inherit
