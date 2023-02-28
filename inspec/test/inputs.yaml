@@ -1,2 +1,3 @@
-KEYVAULT: ${KEYVAULT}
+KEYVAULT: 'kv-test-weu-c8f14f4d'
 RG: ${RG}
+URL: 'kv-test-weu-50e2b310.vault.azure.net/'

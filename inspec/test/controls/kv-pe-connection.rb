@@ -53,6 +53,7 @@ describe command('dig '+input('URL')) do
 end
 
 
+
 control 'azure_key_vault_context_control' do
    title "Check Azure Keyvault - context control"
  
