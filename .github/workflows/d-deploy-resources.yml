@@ -51,7 +51,7 @@ on:
         description: "IsNewDeployment?"
         type: boolean
         default: false
-        required: true
+        required: false
 
 run-name: Deploy ${{ github.event.inputs.resource }} | ${{ github.event.inputs.terraform-action }} | ${{ github.event.inputs.tenant }} | ${{ github.event.inputs.location }} | ${{ github.ref_name }}
 name: Deploy Resources
