@@ -26,7 +26,7 @@ resource "azurerm_key_vault" "fakkel" {
   enable_rbac_authorization   = true
   soft_delete_retention_days  = 7
   purge_protection_enabled    = true
-  sku_name                    = "standard"
+  sku_name                    = "premium"
 
   network_acls {
     bypass         = "AzureServices"
