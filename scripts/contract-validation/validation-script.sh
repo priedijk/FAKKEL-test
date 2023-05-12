@@ -52,6 +52,7 @@ contract_validation () {
 
 # wget -q https://github.com/mikefarah/yq/releases/download/${VERSION}/${BINARY}.tar.gz -O - |\
 #   tar xz && mv ${BINARY} /usr/bin/yq
+# echo -e 79ccca7829e22748ce7fc26efe36f408de23baa0fbb2f38250160afa966967ac yq_linux_amd64.tar.gz|sha256sum -c 
 white_line
 
 # function should be used like contract_validation "fileName" "key location in yaml file" "naming convention" "name for value for readability"
