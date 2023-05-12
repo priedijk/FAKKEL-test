@@ -1,0 +1,7 @@
+
+blalbal: "yes"
+service_category: aks
+acr_workspace_name: fakkel-azure-teambox-acr01-nonsense-weu-008
+action_group_present: true
+private_cluster_enabled: false
+cluster_number: 1

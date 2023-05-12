@@ -1,0 +1,43 @@
+on:
+  workflow_dispatch:
+    inputs:
+      team:
+        description: 'Team name'
+        type: string
+        required: true
+      environment:
+        description: 'Environment'
+        type: choice
+        options:
+          - 'nonprod'
+          - 'prod'
+        required: true
+      location:
+        description: "Location (weu / frc)"
+        type: choice
+        required: true
+        options:
+          - 'weu'
+          - 'frc'
+      subscription-number:
+        description: "number of the subscription to check"
+        type: string
+        required: true
+        default: '001'
+      b-cluster-enabled:
+        description: "Perform check for B cluster?"
+        type: boolean
+        default: false
+        required: false
+
+name: "Contract validation"
+ 
+jobs:
+  validation:
+    runs-on: ubuntu-latest
+    environment: 'fakkel'
+    steps: 
+      - if: always()
+        name: Check if contract.yml is valid
+        run: ./contract-validation/validate-contract.sh ${{ github.event.inputs.team }} ${{ github.event.inputs.environment }} ${{ github.event.inputs.location }} ${{ github.event.inputs.subscription-number }} ${{ github.event.inputs.b-cluster-enabled }}"
+        shell: bash
