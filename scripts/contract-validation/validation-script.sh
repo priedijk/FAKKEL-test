@@ -16,32 +16,15 @@ echo "subscription number = $SUBSCRIPTION_NUMBER"
 echo "B cluster enabled = $B_CLUSTER_ENABLED"
 echo "-----------------------------------------------------------------------------------"
 
+# variables
 VERSION="v4.2.0"
 BINARY="yq_linux_amd64"
-
-wget https://github.com/mikefarah/yq/releases/download/${VERSION}/${BINARY}.tar.gz -O - |\
-  tar xz && mv ${BINARY} /usr/bin/yq
-
-# WORKSPACES=(
-#     # ACR
-#     "ngdc-sc-azure-${TEAM}-acr01-${ENVIRONMENT}-${LOCATION}-${SUBSCRIPTION_NUMBER}"
-#     # A cluster
-#     "ngdc-sc-azure-${TEAM}-aks01-${ENVIRONMENT}-${LOCATION}-${SUBSCRIPTION_NUMBER}"
-# )
-
-# ACR_WORKSPACE=$(yq -r '.acr_workspace_name' contract.yaml)
-# echo $ACR_WORKSPACE
-
-# if [ $ACR_WORKSPACE == "ngdc-sc-azure-${TEAM}-acr01-${ENVIRONMENT}-${LOCATION}-${SUBSCRIPTION_NUMBER}" ]; then
-#     echo "ACR name is the same"
-# else
-#     echo -e "ACR name is \n\"${ACR_WORKSPACE}\" \nbut should be \n\"ngdc-sc-azure-${TEAM}-acr01-${ENVIRONMENT}-${LOCATION}-${SUBSCRIPTION_NUMBER}\""
-# fi
-
+YAML_FOLDER="scripts/contract-validation"
 # naming conventions
 ACR_WORKSPACE_NAME="ngdc-sc-azure-${TEAM}-acr01-${ENVIRONMENT}-${LOCATION}-${SUBSCRIPTION_NUMBER}"
 # AKS_A_WORKSPACE_NAME
 # AKS_B_WORKSPACE_NAME
+
 white_line () {
     echo "------------------------------------------------------------------------"
 }
@@ -66,5 +49,26 @@ contract_validation () {
     fi
 }
 
+wget -q https://github.com/mikefarah/yq/releases/download/${VERSION}/${BINARY}.tar.gz -O - |\
+  tar xz && mv ${BINARY} /usr/bin/yq
+white_line
+
+# WORKSPACES=(
+#     # ACR
+#     "ngdc-sc-azure-${TEAM}-acr01-${ENVIRONMENT}-${LOCATION}-${SUBSCRIPTION_NUMBER}"
+#     # A cluster
+#     "ngdc-sc-azure-${TEAM}-aks01-${ENVIRONMENT}-${LOCATION}-${SUBSCRIPTION_NUMBER}"
+# )
+
+# ACR_WORKSPACE=$(yq -r '.acr_workspace_name' contract.yaml)
+# echo $ACR_WORKSPACE
+
+# if [ $ACR_WORKSPACE == "ngdc-sc-azure-${TEAM}-acr01-${ENVIRONMENT}-${LOCATION}-${SUBSCRIPTION_NUMBER}" ]; then
+#     echo "ACR name is the same"
+# else
+#     echo -e "ACR name is \n\"${ACR_WORKSPACE}\" \nbut should be \n\"ngdc-sc-azure-${TEAM}-acr01-${ENVIRONMENT}-${LOCATION}-${SUBSCRIPTION_NUMBER}\""
+# fi
+
+
 # function should be used like contract_validation "fileName" "key location in yaml file" "naming convention" "name for value for readability"
-contract_validation "contract.yaml" ".acr_workspace_name" ${ACR_WORKSPACE_NAME} "ACR Workspace"
+contract_validation "${YAML_FOLDER}/contract.yaml" ".acr_workspace_name" ${ACR_WORKSPACE_NAME} "ACR Workspace"
