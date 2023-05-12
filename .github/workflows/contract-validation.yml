@@ -38,6 +38,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: 'fakkel'
     steps: 
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - if: always()
         name: Check if contract.yml is valid
         run: ./scripts/contract-validation/validation-script.sh ${{ github.event.inputs.team }} ${{ github.event.inputs.environment }} ${{ github.event.inputs.location }} ${{ github.event.inputs.subscription-number }} ${{ github.event.inputs.b-cluster-enabled }}
