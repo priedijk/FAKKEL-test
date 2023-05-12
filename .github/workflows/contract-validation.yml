@@ -31,7 +31,8 @@ on:
         required: false
 
 name: "Contract validation"
- 
+run-name: Contract validation | ${{ github.event.inputs.team }} | ${{ github.event.inputs.location }} | ${{ github.event.inputs.environment }} | subscription-number ${{ github.event.inputs.subscription-number }} 
+
 jobs:
   validation:
     runs-on: ubuntu-latest
