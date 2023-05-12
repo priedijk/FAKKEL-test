@@ -49,8 +49,8 @@ contract_validation () {
     fi
 }
 
-wget -q https://github.com/mikefarah/yq/releases/download/${VERSION}/${BINARY}.tar.gz -O - |\
-  tar xz && mv ${BINARY} /usr/bin/yq
+# wget -q https://github.com/mikefarah/yq/releases/download/${VERSION}/${BINARY}.tar.gz -O - |\
+#   tar xz && mv ${BINARY} /usr/bin/yq
 white_line
 
 # WORKSPACES=(
