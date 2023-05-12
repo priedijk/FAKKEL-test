@@ -42,3 +42,8 @@ jobs:
         name: Check if contract.yml is valid
         run: ./scripts/contract-validation/validation-script.sh ${{ github.event.inputs.team }} ${{ github.event.inputs.environment }} ${{ github.event.inputs.location }} ${{ github.event.inputs.subscription-number }} ${{ github.event.inputs.b-cluster-enabled }}
         shell: bash
+
+      - if: always()
+        name: Check if contract.yml is valid
+        run: ./scripts/validation-script.sh ${{ github.event.inputs.team }} ${{ github.event.inputs.environment }} ${{ github.event.inputs.location }} ${{ github.event.inputs.subscription-number }} ${{ github.event.inputs.b-cluster-enabled }}
+        shell: bash
