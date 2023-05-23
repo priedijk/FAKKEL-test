@@ -34,13 +34,8 @@ white_line () {
 }
 
 contract_validation () {
-#    echo "Parameter #1 is $1"
-#    echo "Parameter #2 is $2"
-#    echo "Parameter #3 is $3"
-#    echo "Parameter #3 is $4"
-#    white_line
-   
-   # retrieve key value from yaml file
+    
+   # retrieve key value and line number from yaml file
    KEY_VALUE=$(yq -r $2 $1)
    LINE_NUMBER_VALUE=$(yq ''$2' | line' $1)
 
@@ -53,6 +48,7 @@ contract_validation () {
         # echo -e "$4 is \n\"${KEY_VALUE}\" \nbut should be \n\"$3\""
         # echo -e "Line number ${LINE_NUMBER_VALUE}"
         COMPARISON_VALUES+=("false")
+        VALID_CONTRACT=false
         # white_line
     fi
 
@@ -104,28 +100,36 @@ white_line
 DELIMITER="|"
 
 # Determine the width of each column
-KEY_NAMES_WIDTH=20
-KEY_VALUES_WIDTH=50
-EXPECTED_VALUE_WIDTH=50
-LINE_NUMBER_WIDTH=10
+KEY_NAMES_WIDTH=15
+KEY_VALUES_WIDTH=45 
+EXPECTED_VALUE_WIDTH=45
+LINE_NUMBER_WIDTH=5
 COMPARISON_VALUES_WIDTH=10
 
 # Title of table
-echo "=========================================================================================================================================================="
+echo "================================================================================================================================================"
 printf "%75s\n" "Contract validation"
-echo "=========================================================================================================================================================="
+echo "================================================================================================================================================"
 
 # Format the table header
 printf "%-${KEY_NAMES_WIDTH}s ${DELIMITER} %-${KEY_VALUES_WIDTH}s ${DELIMITER} %-${EXPECTED_VALUE_WIDTH}s ${DELIMITER} %-${LINE_NUMBER_WIDTH}s ${DELIMITER} %-${COMPARISON_VALUES_WIDTH}s ${DELIMITER}\n" "Name" "Current value" "Expected value" "Line" "Correct?"
-echo "=========================================================================================================================================================="
+echo "================================================================================================================================================"
 
 # Format the table data
 for (( i=0; i<${#KEY_NAMES[@]}; i++ ))
 do
   printf "%-${KEY_NAMES_WIDTH}s ${DELIMITER} %-${KEY_VALUES_WIDTH}s ${DELIMITER} %-${EXPECTED_VALUE_WIDTH}s ${DELIMITER} %-${LINE_NUMBER_WIDTH}s ${DELIMITER} %-${COMPARISON_VALUES_WIDTH}s ${DELIMITER}\n" "${KEY_NAMES[$i]}" "${KEY_VALUES[$i]}" "${EXPECTED_VALUES[$i]}" "${LINE_NUMBER_VALUES[$i]}" "${COMPARISON_VALUES[$i]}"
-  echo "----------------------------------------------------------------------------------------------------------------------------------------------------------"
+  echo "------------------------------------------------------------------------------------------------------------------------------------------------"
 
 done
 
 # Footer of table
-echo "=========================================================================================================================================================="
+echo "================================================================================================================================================"
+
+# exit script with error is one or more incorrect values are detected
+if [ "$VALID_CONTRACT" == "false" ]; then
+    exit 1
+fi
+
+
+
