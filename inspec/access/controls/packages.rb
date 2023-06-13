@@ -16,11 +16,11 @@ describe command('dig '+input('URL')) do
  end
 
  describe command('dig '+input('URL')) do
-    its('stdout') { should match 'kv-test-weu-50e2b310.privatelink.vaultcore.azure.net' }
+    its('stdout') { should match 'etcfgjvh23.privatelink.vaultcore.azure.net' }
  end
 
  describe command('dig '+input('URL')) do
-    its('stdout') { should match 'IN CNAME kv-test-weu-50e2b310.privatelink.vaultcore.azure.net' }
+    its('stdout') { should match 'IN CNAME etcfgjvh23.privatelink.vaultcore.azure.net' }
  end
 
  describe command('dig '+input('URL')) do
