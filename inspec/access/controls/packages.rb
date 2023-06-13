@@ -46,8 +46,4 @@ describe command('dig '+input('URL')) do
  describe command('dig '+input('URL')) do
     its('stdout') { should match +input('KEYVAULT') }
  end
-
- describe command('dig '+input('URL')) do
-    its('stdout') { should match +input('KEYVAULT') }
- end
 end
