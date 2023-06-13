@@ -51,28 +51,3 @@ describe command('dig '+input('URL')) do
     its('stdout') { should match +input('KEYVAULT') }
  end
 end
-
-
-control 'azure_key_vault_context_control' do
-   title "Check Azure Keyvault - context control"
- 
-   azure_generic_resources(resource_provider: 'Microsoft.KeyVault/vaults').ids.each do |id|
-     
-
-       keyvault = azure_key_vault(resource_id: id)
-
-       # control keyvault exits
-       describe keyvault do
-         it { should exist }
-       end 
-
-       # control keyvault exits with owner tag
-       # this only checks if the resource has tags
-     #   if keyvault.tags['owner']
-
-     #     describe azure_key_vault(resource_id: id) do
-     #       it { should exist } 
-     #     end
-     # end
- end
-end

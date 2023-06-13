@@ -48,7 +48,7 @@ jobs:
       - name: 'perform test'
         run: |
           # export KEYVAULTURL=$(terraform output -raw vault_uri)
-          export KEYVAULTURL="kv-test-weu-50e2b310.vault.azure.net/"
+          export KEYVAULTURL="etcfgjvh23.vault.azure.net/"
           # inspec exec --chef-license=accept-silent --input=URL=${KEYVAULTURL} --reporter cli html:test.html -- inspec/access
           inspec exec inspec/access --chef-license=accept-silent --input=URL=${KEYVAULTURL} --reporter cli html:test.html
       
