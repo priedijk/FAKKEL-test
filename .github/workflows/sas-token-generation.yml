@@ -9,6 +9,9 @@ on:
           - 'weu'
           - 'frc'
 
+name: Generate SAS token
+# run-name: Eventhub key | ${{ github.event.inputs.eventhub-key-action }} | ${{ github.event.inputs.tenant }} | ${{ github.event.inputs.location }} | ${{ github.event.inputs.environment }}
+          
 permissions:
   id-token: write
   contents: read
