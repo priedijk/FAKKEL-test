@@ -1,20 +1,24 @@
 on:
   workflow_dispatch:
     inputs:
-      location:
-        description: "Hub Location (weu / frc)"
-        type: choice
-        required: true
-        options:
-          - 'weu'
-          - 'frc'
+      # location:
+      #   description: "Hub Location (weu / frc)"
+      #   type: choice
+      #   required: true
+      #   options:
+      #     - 'weu'
+      #     - 'frc'
+      storageaccount:
+        description: "Storage Account to create a SAS token for"
+        type: string
+        default: 'fileshareazcopy66e4bd71'
       fileshare:
         description: "Fileshare to create a SAS token for"
         type: string
         default: 'dev'
 
 name: Generate SAS token
-# run-name: Eventhub key | ${{ github.event.inputs.eventhub-key-action }} | ${{ github.event.inputs.tenant }} | ${{ github.event.inputs.location }} | ${{ github.event.inputs.environment }}
+run-name: Generate SAS token | ${{ inputs.storageaccount }} | ${{ inputs.fileshare }}
           
 permissions:
   id-token: write
@@ -57,7 +61,7 @@ jobs:
           # end=`date -u -d "24 hours" '+%Y-%m-%dT%H:%MZ'`
           # sasToken=$(az storage account generate-sas \
           #   --permissions cdlruwap \
-          #   --account-name "fileshareazcopy66e4bd71" \
+          #   --account-name "${{ inputs.storageaccount }}" \
           #   --services f \
           #   --resource-types sco \
           #   --expiry $end \
@@ -67,7 +71,7 @@ jobs:
           end=`date -u -d "3 minutes" '+%Y-%m-%dT%H:%MZ'`
           sasToken=$(az storage account generate-sas \
             --permissions cdlruwap \
-            --account-name "fileshareazcopy66e4bd71" \
+            --account-name "${{ inputs.storageaccount }}" \
             --services f \
             --resource-types sco \
             --expiry $end \
@@ -85,9 +89,9 @@ jobs:
           echo "| Variable   | Value       |"
           echo "| ---------- | ----------- |"
           echo "| SAS token  | ?${{ env.STORAGE_SAS_TOKEN }} |"
-          echo "| File service SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/?${{ env.STORAGE_SAS_TOKEN }} |"
-          echo "| Fileshare SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/${{ env.FILESHARE }}?${{ env.STORAGE_SAS_TOKEN }} |"
-          echo "| Fileshare SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/${{ inputs.fileshare }}?${{ env.STORAGE_SAS_TOKEN }} |"
+          echo "| File service SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/?${{ env.STORAGE_SAS_TOKEN }} |"
+          echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ env.FILESHARE }}?${{ env.STORAGE_SAS_TOKEN }} |"
+          echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ inputs.fileshare }}?${{ env.STORAGE_SAS_TOKEN }} |"
           echo "=========================================================================================================================================================="
           
           {
@@ -95,8 +99,8 @@ jobs:
             echo "| Variable   | Value       |"
             echo "| ---------- | ----------- |"
             echo "| SAS token  | ${{ env.STORAGE_SAS_TOKEN }} |"
-            echo "| File service SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/?${{ env.STORAGE_SAS_TOKEN }} |"
-            echo "| Fileshare SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/${{env.FILESHARE}}?${{ env.STORAGE_SAS_TOKEN }} |"
-            echo "| Fileshare SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/${{ inputs.fileshare }}?${{ env.STORAGE_SAS_TOKEN }} |"
+            echo "| File service SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/?${{ env.STORAGE_SAS_TOKEN }} |"
+            echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{env.FILESHARE}}?${{ env.STORAGE_SAS_TOKEN }} |"
+            echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ inputs.fileshare }}?${{ env.STORAGE_SAS_TOKEN }} |"
           } >> $GITHUB_STEP_SUMMARY
 
