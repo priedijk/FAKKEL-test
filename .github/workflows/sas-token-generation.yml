@@ -60,9 +60,10 @@ jobs:
             --services f \
             --resource-types sco \
             --expiry $end \
+            --https-only \
             -o tsv) 
-            
-          echo "STORAGE_SAS_TOKEN=$($sasToken)" >> $GITHUB_ENV
+
+          echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
           echo "FILESHARE=dev" >> $GITHUB_ENV
 
 
@@ -71,8 +72,8 @@ jobs:
           # Title of table
           echo "=========================================================================================================================================================="
           echo "SAS token = ${{ env.STORAGE_SAS_TOKEN }}"
-          echo "File service SAS URL = https://fileshareazcopy66e4bd71.file.core.windows.net/${{ env.STORAGE_SAS_TOKEN }}"
-          echo "Fileshare SAS URL = https://fileshareazcopy66e4bd71.file.core.windows.net/${{env.FILESHARE}}${{ env.STORAGE_SAS_TOKEN }}"
+          echo "File service SAS URL = https://fileshareazcopy66e4bd71.file.core.windows.net/?${{ env.STORAGE_SAS_TOKEN }}"
+          echo "Fileshare SAS URL = https://fileshareazcopy66e4bd71.file.core.windows.net/${{env.FILESHARE}}?${{ env.STORAGE_SAS_TOKEN }}"
           echo "=========================================================================================================================================================="
           
           {
