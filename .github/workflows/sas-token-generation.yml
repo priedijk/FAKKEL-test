@@ -1,0 +1,83 @@
+on:
+  workflow_dispatch:
+    inputs:
+      location:
+        description: "Hub Location (weu / frc)"
+        type: choice
+        required: true
+        options:
+          - 'weu'
+          - 'frc'
+
+permissions:
+  id-token: write
+  contents: read
+  issues: write 
+
+jobs:
+  terraform-deploy:
+    runs-on: ubuntu-latest
+    environment: 'fakkel'
+  
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_USE_OIDC: true
+  
+    steps:
+      - name: '${{ github.ref_name }} to ${{ github.event.inputs.location }} ${{ github.event.inputs.tenant }}'
+        run: echo ""
+        
+      - name: Log inputs
+        run: |
+          echo "Running with the following input:"
+          echo "${{ toJSON(inputs) }}"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+     
+      # - name: Set workflow environment variables
+      #   run: ./scripts/set-workflow-env-variables.sh ${{ inputs.tenant }} ${{ inputs.location }} ${{ inputs.IsNewDeployment }}
+
+      - name: Generate SAS token
+        run: |
+          end=`date -u -d "24 hours" '+%Y-%m-%dT%H:%MZ'`
+          sasToken=$(az storage account generate-sas \
+            --permissions cdlruwap \
+            --account-name "fileshareazcopy66e4bd71" \
+            --services f \
+            --resource-types sco \
+            --expiry $end \
+            -o tsv) 
+            
+          echo "STORAGE_SAS_TOKEN=$($sasToken)" >> $GITHUB_ENV
+          echo "FILESHARE=dev" >> $GITHUB_ENV
+
+
+      - name: output SAS token
+        run: |
+          # Title of table
+          echo "=========================================================================================================================================================="
+          echo "SAS token = ${{ env.STORAGE_SAS_TOKEN }}"
+          echo "File service SAS URL = https://fileshareazcopy66e4bd71.file.core.windows.net/${{ env.STORAGE_SAS_TOKEN }}"
+          echo "Fileshare SAS URL = https://fileshareazcopy66e4bd71.file.core.windows.net/${{env.FILESHARE}}${{ env.STORAGE_SAS_TOKEN }}"
+          echo "=========================================================================================================================================================="
+          
+          {
+            echo "### Workflow variables"
+            echo "| Variable   | Value       |"
+            echo "| ---------- | ----------- |"
+            echo "| SAS token  | ${{ env.STORAGE_SAS_TOKEN }} |"
+            echo "| File service SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/${{ env.STORAGE_SAS_TOKEN }} |"
+            echo "| Fileshare SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/${{env.FILESHARE}}${{ env.STORAGE_SAS_TOKEN }} |"
+          } >> $GITHUB_STEP_SUMMARY
+
