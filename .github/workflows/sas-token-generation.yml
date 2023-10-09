@@ -18,7 +18,7 @@ permissions:
   issues: write 
 
 jobs:
-  terraform-deploy:
+  generate-sas-token:
     runs-on: ubuntu-latest
     environment: 'fakkel'
   
@@ -81,7 +81,7 @@ jobs:
             echo "| Variable   | Value       |"
             echo "| ---------- | ----------- |"
             echo "| SAS token  | ${{ env.STORAGE_SAS_TOKEN }} |"
-            echo "| File service SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/${{ env.STORAGE_SAS_TOKEN }} |"
-            echo "| Fileshare SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/${{env.FILESHARE}}${{ env.STORAGE_SAS_TOKEN }} |"
+            echo "| File service SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/?${{ env.STORAGE_SAS_TOKEN }} |"
+            echo "| Fileshare SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/${{env.FILESHARE}}?${{ env.STORAGE_SAS_TOKEN }} |"
           } >> $GITHUB_STEP_SUMMARY
 
