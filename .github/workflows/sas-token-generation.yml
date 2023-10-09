@@ -8,6 +8,10 @@ on:
         options:
           - 'weu'
           - 'frc'
+      fileshare:
+        description: "Fileshare to create a SAS token for"
+        type: string
+        default: 'dev'
 
 name: Generate SAS token
 # run-name: Eventhub key | ${{ github.event.inputs.eventhub-key-action }} | ${{ github.event.inputs.tenant }} | ${{ github.event.inputs.location }} | ${{ github.event.inputs.environment }}
@@ -48,12 +52,19 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
      
-      # - name: Set workflow environment variables
-      #   run: ./scripts/set-workflow-env-variables.sh ${{ inputs.tenant }} ${{ inputs.location }} ${{ inputs.IsNewDeployment }}
-
       - name: Generate SAS token
         run: |
-          end=`date -u -d "24 hours" '+%Y-%m-%dT%H:%MZ'`
+          # end=`date -u -d "24 hours" '+%Y-%m-%dT%H:%MZ'`
+          # sasToken=$(az storage account generate-sas \
+          #   --permissions cdlruwap \
+          #   --account-name "fileshareazcopy66e4bd71" \
+          #   --services f \
+          #   --resource-types sco \
+          #   --expiry $end \
+          #   --https-only \
+          #   -o tsv) 
+
+          end=`date -u -d "3 minutes" '+%Y-%m-%dT%H:%MZ'`
           sasToken=$(az storage account generate-sas \
             --permissions cdlruwap \
             --account-name "fileshareazcopy66e4bd71" \
@@ -63,17 +74,20 @@ jobs:
             --https-only \
             -o tsv) 
 
-          echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
+          echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV_ENV
           echo "FILESHARE=dev" >> $GITHUB_ENV
 
 
       - name: output SAS token
         run: |
-          # Title of table
+          # SAS values
           echo "=========================================================================================================================================================="
-          echo "SAS token = ${{ env.STORAGE_SAS_TOKEN }}"
-          echo "File service SAS URL = https://fileshareazcopy66e4bd71.file.core.windows.net/?${{ env.STORAGE_SAS_TOKEN }}"
-          echo "Fileshare SAS URL = https://fileshareazcopy66e4bd71.file.core.windows.net/${{env.FILESHARE}}?${{ env.STORAGE_SAS_TOKEN }}"
+          echo "| Variable   | Value       |"
+          echo "| ---------- | ----------- |"
+          echo "| SAS token  | ?${{ env.STORAGE_SAS_TOKEN }} |"
+          echo "| File service SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/?${{ env.STORAGE_SAS_TOKEN }} |"
+          echo "| Fileshare SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/${{ env.FILESHARE }}?${{ env.STORAGE_SAS_TOKEN }} |"
+          echo "| Fileshare SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/${{ inputs.fileshare }}?${{ env.STORAGE_SAS_TOKEN }} |"
           echo "=========================================================================================================================================================="
           
           {
@@ -83,5 +97,6 @@ jobs:
             echo "| SAS token  | ${{ env.STORAGE_SAS_TOKEN }} |"
             echo "| File service SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/?${{ env.STORAGE_SAS_TOKEN }} |"
             echo "| Fileshare SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/${{env.FILESHARE}}?${{ env.STORAGE_SAS_TOKEN }} |"
+            echo "| Fileshare SAS URL | https://fileshareazcopy66e4bd71.file.core.windows.net/${{ inputs.fileshare }}?${{ env.STORAGE_SAS_TOKEN }} |"
           } >> $GITHUB_STEP_SUMMARY
 
