@@ -98,7 +98,7 @@ jobs:
             echo "### Workflow variables"
             echo "| Variable   | Value       |"
             echo "| ---------- | ----------- |"
-            echo "| SAS token  | ${{ env.STORAGE_SAS_TOKEN }} |"
+            echo "| SAS token  | ?${{ env.STORAGE_SAS_TOKEN }} |"
             echo "| File service SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/?${{ env.STORAGE_SAS_TOKEN }} |"
             echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{env.FILESHARE}}?${{ env.STORAGE_SAS_TOKEN }} |"
             echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ inputs.fileshare }}?${{ env.STORAGE_SAS_TOKEN }} |"
