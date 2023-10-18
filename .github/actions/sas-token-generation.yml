@@ -37,7 +37,7 @@ runs:
           -o tsv) 
 
         # masks all output of sasToken
-        echo "::add-mask::${sasToken}"
+        # echo "::add-mask::${sasToken}"
 
         echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
         echo "FILESHARE=dev" >> $GITHUB_ENV
