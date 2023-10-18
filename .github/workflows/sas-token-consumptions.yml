@@ -50,7 +50,7 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
      
       - name: Generate SAS token
-        uses: ./.github/actions/sas-token-generation
+        uses: ./.github/actions/sas-token-generation@main
         with:
           storageaccount: ${{ inputs.storageaccount }}
           fileshare: ${{ inputs.fileshare }}
