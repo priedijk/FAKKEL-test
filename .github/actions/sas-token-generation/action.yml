@@ -4,17 +4,16 @@ description: "Generate SAS token"
 inputs:
   storageaccount:
     description: "Storage Account to create a SAS token for"
-    type: string
     required: true
   fileshare:
     description: "Fileshare to create a SAS token for"
-    type: string
     required: true
     
 runs:
   using: "composite"
   steps:    
     - name: Generate SAS token
+      shell: bash
       run: |
         # end=`date -u -d "24 hours" '+%Y-%m-%dT%H:%MZ'`
         # sasToken=$(az storage account generate-sas \
@@ -44,7 +43,9 @@ runs:
 
 
     - name: output SAS token
+      shell: bash
       run: |
+      
         # SAS values
         echo "=========================================================================================================================================================="
         echo "| Variable   | Value       |"
