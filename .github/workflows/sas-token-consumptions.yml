@@ -10,7 +10,7 @@ on:
         type: string
         default: 'dev'
 
-name: Generate SAS token
+name: Generate SAS token via custom action
 run-name: Generate SAS token | ${{ inputs.storageaccount }} | ${{ inputs.fileshare }}
           
 permissions:
