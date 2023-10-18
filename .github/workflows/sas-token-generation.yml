@@ -78,6 +78,7 @@ jobs:
             --https-only \
             -o tsv) 
 
+          # masks all output of sasToken
           echo "::add-mask::${sasToken}"
 
           echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
