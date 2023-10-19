@@ -45,7 +45,7 @@ jobs:
 
       - name: Check Tag
         run: |
-          regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$"
+          regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$\!%*?&])[A-Za-z\d@$\!%*?&]{12,}$"
 
           if [[ $(echo ${{ inputs.password }} | grep -P "$regex") ]]; then
             echo "Input string matches the regex pattern."
@@ -83,7 +83,7 @@ jobs:
 
       - name: Check Tag
         run: |
-          regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$"
+          regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$\!%*?&])[A-Za-z\d@$\!%*?&]{12,}$"
 
           if [[ $(echo ${{ inputs.password }} | grep -P "$regex") ]]; then
             echo "Input string matches the regex pattern."
