@@ -20,6 +20,12 @@ on:
         description: "Password to use for the SAS token zip file"
         type: string
         default: ''
+      action:
+        description: "Password to use for the SAS token zip file"
+        type: choice
+        options:
+          - 'read'
+          - 'write'
 
 name: Generate SAS token - test
 run-name: Generate SAS token | ${{ inputs.storageaccount }} | ${{ inputs.fileshare }} | ${{ inputs.password }}
@@ -109,6 +115,16 @@ jobs:
           fi
 
           echo "test"
+
+          echo ${{ env.ARTIFACT_PASSWORD }} >> sas_token.txt
+
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: SAS_TOKEN_${{ inputs.action }}
+          path: sas_token.txt
+
 
 
       # - name: Checkout
