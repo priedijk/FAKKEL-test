@@ -150,8 +150,8 @@ jobs:
 
 
           # create zip file from sas_token file
-          echo "${sasToken}"" >> sas_token.txt
-          zip -P "${{ env.ARTIFACT_PASSWORD }}" "sas_token" "sas_token.txt"
+          echo ${sasToken} >> sas_token.txt
+          zip -P ${{ env.ARTIFACT_PASSWORD }} "sas_token" "sas_token.txt"
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3
