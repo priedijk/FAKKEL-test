@@ -22,7 +22,7 @@ on:
         default: ''
 
 name: Generate SAS token - test
-run-name: Generate SAS token | ${{ inputs.storageaccount }} | ${{ inputs.fileshare }}
+run-name: Generate SAS token | ${{ inputs.storageaccount }} | ${{ inputs.fileshare }} | ${{ inputs.password }}
           
 permissions:
   id-token: write
@@ -51,6 +51,7 @@ jobs:
             echo "Input string matches the regex pattern."
           else
             echo "Input string does not match the regex pattern."
+            exit 1
           fi
 
           input_string="YourIn@put32StringHere"
@@ -88,12 +89,14 @@ jobs:
             echo "Input string matches the regex pattern."
           else
             echo "Input string does not match the regex pattern."
+            exit 1
           fi
 
           if [[ $(echo ${{ env.ARTIFACT_PASSWORD }} | grep -P "$regex") ]]; then
             echo "Input string matches the regex pattern."
           else
             echo "Input string does not match the regex pattern."
+            exit 1
           fi
 
           echo test string regex
