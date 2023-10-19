@@ -45,12 +45,25 @@ jobs:
 
       - name: Check Tag
         run: |
-          if [[ ${{ inputs.password }} =~ ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$])[A-Za-z\d!@#$]{12,}$ ]]; then
-              # echo "match=true" >> $GITHUB_OUTPUT 
-                echo "match=true"
-                fi
-                
+          regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-_])[A-Za-z\d@$!%*?&-_]{12,}$"
+
+          if [[ $(echo ${{ inputs.password }} | grep -P "$regex") ]]; then
+            echo "Input string matches the regex pattern."
+          else
+            echo "Input string does not match the regex pattern."
+          fi
+
+          input_string="YourIn@put32StringHere"
+
+          if [[ $(echo "$input_string" | grep -P "$regex") ]]; then
+            echo "Input string matches the regex pattern."
+          else
+            echo "Input string does not match the regex pattern."
+          fi
+
           echo "test"
+
+
 
       - name: Masking password
         run: |
@@ -78,6 +91,42 @@ jobs:
           # echo "match=true" >> $GITHUB_OUTPUT 
             echo "match=true"
             fi
+
+            regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-_])[A-Za-z\d@$!%*?&-_]{12,}$"
+
+
+
+
+          if [[ $(echo ${{ inputs.password }} | grep -P "$regex") ]]; then
+            echo "Input string matches the regex pattern."
+          else
+            echo "Input string does not match the regex pattern."
+          fi
+
+          input_string="YourIn@put32StringHere"
+
+          if [[ $(echo "$input_string" | grep -P "$regex") ]]; then
+            echo "Input string matches the regex pattern."
+          else
+            echo "Input string does not match the regex pattern."
+          fi
+
+
+          if [[ $(echo ${{ env.ARTIFACT_PASSWORD }} | grep -P "$regex") ]]; then
+            echo "Input string matches the regex pattern."
+          else
+            echo "Input string does not match the regex pattern."
+          fi
+
+          input_string="YourIn@put32StringHere"
+
+          if [[ $(echo "$input_string" | grep -P "$regex") ]]; then
+            echo "Input string matches the regex pattern."
+          else
+            echo "Input string does not match the regex pattern."
+          fi
+
+          echo "test"
 
 
       # - name: Checkout
