@@ -14,3 +14,10 @@ fi
 
 echo "password" >> sas_token.txt
 zip -P "1234 "sas_token" "sas_token.txt"
+
+endDate="tomorrow"
+sasToken="token1"
+cat <<EOF >sas_token.txt
+  End date: ${endDate}
+  SAS token: ?${sasToken}
+EOF
