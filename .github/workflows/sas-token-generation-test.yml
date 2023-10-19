@@ -58,12 +58,12 @@ jobs:
 
       - name: Check Tag
         run: |
-          if [[ ${{ inputs.password }} =~ ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$])[A-Za-z\d!@#$]{12,}$; then
+          if [[ ${{ inputs.password }} =~ ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$])[A-Za-z\d!@#$]{12,}$ ]]; then
               # echo "match=true" >> $GITHUB_OUTPUT 
                echo "match=true"
                 fi
 
-          if [[ ${{ env.ARTIFACT_PASSWORD }} =~ ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$])[A-Za-z\d!@#$]{12,}$; then
+          if [[ ${{ env.ARTIFACT_PASSWORD }} =~ ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$])[A-Za-z\d!@#$]{12,}$ ]]; then
           # echo "match=true" >> $GITHUB_OUTPUT 
             echo "match=true"
             fi
