@@ -24,8 +24,6 @@ runs:
         PASSWORD=$(jq -r '.inputs.password' $GITHUB_EVENT_PATH)
         echo ::add-mask::$PASSWORD
 
-
-
     - name: Check password complexity
       shell: bash
       run: |
