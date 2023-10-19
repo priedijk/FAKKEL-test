@@ -68,34 +68,21 @@ jobs:
       - name: Masking password
         run: |
           PASSWORD=$(jq -r '.inputs.password' $GITHUB_EVENT_PATH)
+
           echo Before mask
           echo $PASSWORD
           echo ::add-mask::$PASSWORD
           echo After mask
           echo $PASSWORD
+
           echo Setting output
-          echo ::set-output name=secret::$PASSWORD
+          # echo ::set-output name=secret::$PASSWORD
           echo Setting environment variables
           echo ARTIFACT_PASSWORD="$PASSWORD" >> $GITHUB_ENV
 
       - name: Check Tag
         run: |
-          if [[ ${{ inputs.password }} =~ ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$])[A-Za-z\d!@#$]{12,}$ ]]; then
-              # echo "match=true" >> $GITHUB_OUTPUT 
-               echo "match=true"
-                fi
-
-          echo "test"
-
-          if [[ ${{ env.ARTIFACT_PASSWORD }} =~ ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$])[A-Za-z\d!@#$]{12,}$ ]]; then
-          # echo "match=true" >> $GITHUB_OUTPUT 
-            echo "match=true"
-            fi
-
-            regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-_])[A-Za-z\d@$!%*?&-_]{12,}$"
-
-
-
+          regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-_])[A-Za-z\d@$!%*?&-_]{12,}$"
 
           if [[ $(echo ${{ inputs.password }} | grep -P "$regex") ]]; then
             echo "Input string matches the regex pattern."
@@ -103,21 +90,13 @@ jobs:
             echo "Input string does not match the regex pattern."
           fi
 
-          input_string="YourIn@put32StringHere"
-
-          if [[ $(echo "$input_string" | grep -P "$regex") ]]; then
-            echo "Input string matches the regex pattern."
-          else
-            echo "Input string does not match the regex pattern."
-          fi
-
-
           if [[ $(echo ${{ env.ARTIFACT_PASSWORD }} | grep -P "$regex") ]]; then
             echo "Input string matches the regex pattern."
           else
             echo "Input string does not match the regex pattern."
           fi
 
+          echo test string regex
           input_string="YourIn@put32StringHere"
 
           if [[ $(echo "$input_string" | grep -P "$regex") ]]; then
@@ -190,3 +169,17 @@ jobs:
       #       echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ inputs.fileshare }}?${{ env.STORAGE_SAS_TOKEN }} |"
       #     } >> $GITHUB_STEP_SUMMARY
 
+
+      # - name: Check Tag
+      #   run: |
+      #     # if [[ ${{ inputs.password }} =~ ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$])[A-Za-z\d!@#$]{12,}$ ]]; then
+      #     #     # echo "match=true" >> $GITHUB_OUTPUT 
+      #     #      echo "match=true"
+      #     #       fi
+
+      #     # echo "test"
+
+      #     # if [[ ${{ env.ARTIFACT_PASSWORD }} =~ ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$])[A-Za-z\d!@#$]{12,}$ ]]; then
+      #     # # echo "match=true" >> $GITHUB_OUTPUT 
+      #     #   echo "match=true"
+      #     #   fi
