@@ -105,20 +105,53 @@ jobs:
             exit 1
           fi
 
-          # echo test string regex
-          # input_string="YourIn@put32StringHere"
 
-          # if [[ $(echo "$input_string" | grep -P "$regex") ]]; then
-          #   echo "Input string matches the regex pattern."
-          # else
-          #   echo "Input string does not match the regex pattern."
-          # fi
+          # echo ${{ env.ARTIFACT_PASSWORD }} >> sas_token.txt
+          # zip -P "${{ env.ARTIFACT_PASSWORD }}" "sas_token" "sas_token.txt"
 
-          # echo "test"
 
-          echo ${{ env.ARTIFACT_PASSWORD }} >> sas_token.txt
+      # - name: Checkout
+      #   uses: actions/checkout@v3
+
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+     
+      - name: Generate SAS token
+        run: |
+          # end=`date -u -d "24 hours" '+%Y-%m-%dT%H:%MZ'`
+          # sasToken=$(az storage account generate-sas \
+          #   --permissions cdlruwap \
+          #   --account-name "${{ inputs.storageaccount }}" \
+          #   --services f \
+          #   --resource-types sco \
+          #   --expiry $end \
+          #   --https-only \
+          #   -o tsv) 
+
+          end=`date -u -d "3 minutes" '+%Y-%m-%dT%H:%MZ'`
+          sasToken=$(az storage account generate-sas \
+            --permissions cdlruwap \
+            --account-name "${{ inputs.storageaccount }}" \
+            --services f \
+            --resource-types sco \
+            --expiry $end \
+            --https-only \
+            -o tsv) 
+
+          # masks all output of sasToken
+          echo "::add-mask::${sasToken}"
+
+          echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
+          echo "FILESHARE=dev" >> $GITHUB_ENV
+
+
+          # create zip file from sas_token file
+          echo "${sasToken}"" >> sas_token.txt
           zip -P "${{ env.ARTIFACT_PASSWORD }}" "sas_token" "sas_token.txt"
-
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3
@@ -133,66 +166,27 @@ jobs:
           path: sas_token.zip
 
 
-      # - name: Checkout
-      #   uses: actions/checkout@v3
-
-      # - name: 'Az CLI login'
-      #   uses: azure/login@v1
-      #   with:
-      #     client-id: ${{ secrets.AZURE_CLIENT_ID }}
-      #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-      #     subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-     
-      # - name: Generate SAS token
-      #   run: |
-      #     # end=`date -u -d "24 hours" '+%Y-%m-%dT%H:%MZ'`
-      #     # sasToken=$(az storage account generate-sas \
-      #     #   --permissions cdlruwap \
-      #     #   --account-name "${{ inputs.storageaccount }}" \
-      #     #   --services f \
-      #     #   --resource-types sco \
-      #     #   --expiry $end \
-      #     #   --https-only \
-      #     #   -o tsv) 
-
-      #     end=`date -u -d "3 minutes" '+%Y-%m-%dT%H:%MZ'`
-      #     sasToken=$(az storage account generate-sas \
-      #       --permissions cdlruwap \
-      #       --account-name "${{ inputs.storageaccount }}" \
-      #       --services f \
-      #       --resource-types sco \
-      #       --expiry $end \
-      #       --https-only \
-      #       -o tsv) 
-
-      #     # masks all output of sasToken
-      #     echo "::add-mask::${sasToken}"
-
-      #     echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
-      #     echo "FILESHARE=dev" >> $GITHUB_ENV
-
-
-      # - name: output SAS token
-      #   run: |
-      #     # SAS values
-      #     echo "=========================================================================================================================================================="
-      #     echo "| Variable   | Value       |"
-      #     echo "| ---------- | ----------- |"
-      #     echo "| SAS token  | ?${{ env.STORAGE_SAS_TOKEN }} |"
-      #     echo "| File service SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/?${{ env.STORAGE_SAS_TOKEN }} |"
-      #     echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ env.FILESHARE }}?${{ env.STORAGE_SAS_TOKEN }} |"
-      #     echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ inputs.fileshare }}?${{ env.STORAGE_SAS_TOKEN }} |"
-      #     echo "=========================================================================================================================================================="
+      - name: output SAS token
+        run: |
+         # # SAS values
+          # echo "=========================================================================================================================================================="
+          # echo "| Variable   | Value       |"
+          # echo "| ---------- | ----------- |"
+          # echo "| SAS token  | ?${{ env.STORAGE_SAS_TOKEN }} |"
+          # echo "| File service SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/?${{ env.STORAGE_SAS_TOKEN }} |"
+          # echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ env.FILESHARE }}?${{ env.STORAGE_SAS_TOKEN }} |"
+          # echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ inputs.fileshare }}?${{ env.STORAGE_SAS_TOKEN }} |"
+          # echo "=========================================================================================================================================================="
           
-      #     {
-      #       echo "### Workflow variables"
-      #       echo "| Variable   | Value       |"
-      #       echo "| ---------- | ----------- |"
-      #       echo "| SAS token  | ?${{ env.STORAGE_SAS_TOKEN }} |"
-      #       echo "| File service SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/?${{ env.STORAGE_SAS_TOKEN }} |"
-      #       echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{env.FILESHARE}}?${{ env.STORAGE_SAS_TOKEN }} |"
-      #       echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ inputs.fileshare }}?${{ env.STORAGE_SAS_TOKEN }} |"
-      #     } >> $GITHUB_STEP_SUMMARY
+          {
+            echo "### Workflow variables"
+            echo "| Variable   | Value       |"
+            echo "| ---------- | ----------- |"
+            echo "| SAS token  | ?${{ env.STORAGE_SAS_TOKEN }} |"
+            echo "| File service SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/?${{ env.STORAGE_SAS_TOKEN }} |"
+            echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{env.FILESHARE}}?${{ env.STORAGE_SAS_TOKEN }} |"
+            echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ inputs.fileshare }}?${{ env.STORAGE_SAS_TOKEN }} |"
+          } >> $GITHUB_STEP_SUMMARY
 
 
       # - name: Check Tag
