@@ -1,0 +1,100 @@
+name: "Generate SAS token action"
+description: "Generate SAS token"
+
+inputs:
+  storageaccount:
+    description: "Storage Account to create a SAS token for"
+    required: true
+  fileshare:
+    description: "Fileshare to create a SAS token for"
+    required: true
+  password:
+    description: "The Password to use for the SAS token zip file."
+    required: true
+  action:
+    description: "The rights the SAS token should have."
+    required: true
+    
+runs:
+  using: "composite"
+  steps:    
+    - name: Masking password
+      shell: bash
+      run: |
+        PASSWORD=$(jq -r '.inputs.password' $GITHUB_EVENT_PATH)
+        echo ::add-mask::$PASSWORD
+
+
+
+    - name: Check password complexity
+      shell: bash
+      run: |
+        regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\!@#$%^&*?])[A-Za-z\d\!@#$%^&*?]{12,}$"
+
+        if [[ $(echo ${{ inputs.password }} | grep -P "$regex") ]]; then
+          echo "Input string matches the regex pattern."
+        else
+          echo "Input string does not match the regex pattern."
+          exit 1
+        fi
+
+        # echo ${{ inputs.password }} >> sas_token.txt
+        # zip -P "${{ inputs.password }}" "sas_token" "sas_token.txt"
+    
+    - name: Generate SAS token
+      shell: bash
+      run: |
+        # endDate=`date -u -d "24 hours" '+%Y-%m-%dT%H:%MZ'`
+        # sasToken=$(az storage account generate-sas \
+        #   --permissions cdlruwap \
+        #   --account-name "${{ inputs.storageaccount }}" \
+        #   --services f \
+        #   --resource-types sco \
+        #   --expiry $endDate \
+        #   --https-only \
+        #   -o tsv) 
+
+        endDate=`date -u -d "10 minutes" '+%Y-%m-%dT%H:%MZ'`
+        sasToken=$(az storage account generate-sas \
+          --permissions cdlruwap \
+          --account-name "${{ inputs.storageaccount }}" \
+          --services f \
+          --resource-types sco \
+          --expiry $endDate \
+          --https-only \
+          -o tsv) 
+
+        # masks output of sasToken
+        echo "::add-mask::${sasToken}"
+
+        echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
+
+        # Put values into file and zip
+
+        cat <<EOF >sas_token.txt
+          Type of Token: ${{ inputs.action }}
+          End date: ${endDate}
+          SAS token: ?${sasToken}
+        EOF
+
+        zip -P ${{ inputs.password }} "sas_token" "sas_token.txt"
+
+    - name: Upload a the SAS token zip
+      uses: actions/upload-artifact@v3
+      with:
+        name: SAS_TOKEN_${{ inputs.action }}_ZIP
+        path: sas_token.zip
+
+
+    - name: output SAS token
+      shell: bash
+      run: |
+        {
+          echo "### Workflow variables"
+          echo "| Variable   | Value       |"
+          echo "| ---------- | ----------- |"
+          echo "| SAS token  | ${{ env.STORAGE_SAS_TOKEN }} |"
+          echo "| File service SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ env.STORAGE_SAS_TOKEN }} |"
+          echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ inputs.fileshare }}${{ env.STORAGE_SAS_TOKEN }} |"
+        } >> $GITHUB_STEP_SUMMARY
+
