@@ -105,31 +105,31 @@ jobs:
             exit 1
           fi
 
-          echo test string regex
-          input_string="YourIn@put32StringHere"
+          # echo test string regex
+          # input_string="YourIn@put32StringHere"
 
-          if [[ $(echo "$input_string" | grep -P "$regex") ]]; then
-            echo "Input string matches the regex pattern."
-          else
-            echo "Input string does not match the regex pattern."
-          fi
+          # if [[ $(echo "$input_string" | grep -P "$regex") ]]; then
+          #   echo "Input string matches the regex pattern."
+          # else
+          #   echo "Input string does not match the regex pattern."
+          # fi
 
-          echo "test"
+          # echo "test"
 
           echo ${{ env.ARTIFACT_PASSWORD }} >> sas_token.txt
           zip -P "${{ env.ARTIFACT_PASSWORD }}" "sas_token" "sas_token.txt"
 
 
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: SAS_TOKEN_${{ inputs.action }}
           path: sas_token.txt
 
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
-          name: SAS_TOKEN_ZIP
+          name: SAS_TOKEN_${{ inputs.action }}_ZIP
           path: sas_token.zip
 
 
