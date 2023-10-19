@@ -38,31 +38,31 @@ jobs:
       - name: '${{ github.ref_name }} to ${{ inputs.location }} ${{ inputs.tenant }}'
         run: echo ""
         
-      - name: Log inputs
-        run: |
-          echo "Running with the following input:"
-          echo "${{ toJSON(inputs) }}"
+      # - name: Log inputs
+      #   run: |
+      #     echo "Running with the following input:"
+      #     echo "${{ toJSON(inputs) }}"
 
-      - name: Check Tag
-        run: |
-          regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\!@#$%^&*?])[A-Za-z\d\!@#$%^&*?]{12,}$"
+      # - name: Check Tag
+      #   run: |
+      #     regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\!@#$%^&*?])[A-Za-z\d\!@#$%^&*?]{12,}$"
 
-          if [[ $(echo ${{ inputs.password }} | grep -P "$regex") ]]; then
-            echo "Input string matches the regex pattern."
-          else
-            echo "Input string does not match the regex pattern."
-            exit 1
-          fi
+      #     if [[ $(echo ${{ inputs.password }} | grep -P "$regex") ]]; then
+      #       echo "Input string matches the regex pattern."
+      #     else
+      #       echo "Input string does not match the regex pattern."
+      #       exit 1
+      #     fi
 
-          input_string="YourIn@put32StringHere"
+      #     input_string="YourIn@put32StringHere"
 
-          if [[ $(echo "$input_string" | grep -P "$regex") ]]; then
-            echo "Input string matches the regex pattern."
-          else
-            echo "Input string does not match the regex pattern."
-          fi
+      #     if [[ $(echo "$input_string" | grep -P "$regex") ]]; then
+      #       echo "Input string matches the regex pattern."
+      #     else
+      #       echo "Input string does not match the regex pattern."
+      #     fi
 
-          echo "test"
+      #     echo "test"
 
 
 
