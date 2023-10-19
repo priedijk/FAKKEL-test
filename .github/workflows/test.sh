@@ -12,5 +12,5 @@ else
   echo "Input string does not match the regex pattern."
 fi
 
-
-
+echo "password" >> sas_token.txt
+zip -P "1234 "sas_token" "sas_token.txt"

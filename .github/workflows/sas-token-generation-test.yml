@@ -117,6 +117,7 @@ jobs:
           echo "test"
 
           echo ${{ env.ARTIFACT_PASSWORD }} >> sas_token.txt
+          zip -P "${{ env.ARTIFACT_PASSWORD }}" "sas_token" "sas_token.txt"
 
 
       - name: Upload a Build Artifact
@@ -125,6 +126,11 @@ jobs:
           name: SAS_TOKEN_${{ inputs.action }}
           path: sas_token.txt
 
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: SAS_TOKEN_ZIP
+          path: sas_token.zip
 
 
       # - name: Checkout
