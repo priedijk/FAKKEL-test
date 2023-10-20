@@ -18,11 +18,11 @@ inputs:
 runs:
   using: "composite"
   steps:    
-    # - name: Masking password
-    #   shell: bash
-    #   run: |
-    #     PASSWORD=$(jq -r '.inputs.password' $GITHUB_EVENT_PATH)
-    #     echo ::add-mask::$PASSWORD
+    - name: Masking password
+      shell: bash
+      run: |
+        PASSWORD=$(jq -r '.inputs.password' $GITHUB_EVENT_PATH)
+        echo ::add-mask::$PASSWORD
 
     - name: Check password complexity
       shell: bash
@@ -36,7 +36,7 @@ runs:
         else
 
           echo "-----------------------------------------------------"
-          echo "Input password does not meet the required complexity."
+          echo "Password does not meet the required complexity."
           echo "-----------------------------------------------------"
           echo "Must contain at least one lowercase letter"
           echo "Must contain at least one uppercase letter"
