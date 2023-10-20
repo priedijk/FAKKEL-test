@@ -38,6 +38,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Mask password
+        run: |
+          PASSWORD=$(jq -r '.inputs.password' $GITHUB_EVENT_PATH)
+          echo ::add-mask::$PASSWORD
+
       - name: 'Az CLI login'
         uses: azure/login@v1
         with:
