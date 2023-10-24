@@ -38,11 +38,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # - name: Mask password
-      #   id: password_masking
-      #   run: |
-      #     PASSWORD=$(jq -r '.inputs.password' $GITHUB_EVENT_PATH)
-      #     echo ::add-mask::$PASSWORD
+      - name: Mask password
+        id: password_masking
+        run: |
+          PASSWORD=$(jq -r '.inputs.password' $GITHUB_EVENT_PATH)
+          echo ::add-mask::$PASSWORD
 
       - name: 'Az CLI login'
         uses: azure/login@v1
@@ -52,7 +52,6 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
      
       - name: Generate SAS token
-        if: steps.password_masking.outcome == 'success'
         uses: ./.github/actions/sas-token-generation-zip
         with:
           storageaccount: ${{ inputs.storageaccount }}
