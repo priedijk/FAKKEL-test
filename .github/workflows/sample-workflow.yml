@@ -20,15 +20,21 @@ jobs:
         with:
           ref: ${{ inputs.module_version }}
 
+
+      -  name: Prepare module info
+         id: prepare_module_info
+         run: |
+            echo "module_version=${{inputs.module_version}}" >> $GITHUB_OUTPUT  
+
       - if: always()
         name: Echo - debug
         run: |
           echo "debug"
           
-          if [[ ${{ inputs.module_version }} == $(echo ${{ github.ref_name }} | sed 's/v//g') ]]
+          if [[ ${{ steps.prepare_module_info.outputs.module_version }} == $(echo ${{ inputs.module_version }} | sed 's/v//g') ]]
           then
             echo "Module version in 'info.tf' matches with module version in Release Tag. Continue..."
           else
-            echo "Module version in 'info.tf' (${{ inputs.module_version }}) does not match with module version in Release Tag ($(echo ${{ github.ref_name }} | sed 's/v//g')). Aborted!"
+            echo "Module version in 'info.tf' (${{ inputs.module_version }}) does not match with module version in Release Tag ($(echo ${{ steps.prepare_module_info.outputs.module_version }} | sed 's/v//g')). Aborted!"
             exit 2
           fi 
