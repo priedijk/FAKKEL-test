@@ -48,6 +48,10 @@ jobs:
           echo Setting environment variables
           echo ARTIFACT_PASSWORD="$PASSWORD" >> $GITHUB_ENV
 
+
+          # masks output of sasToken
+          echo "::add-mask::${sasToken}"
+
       - name: Check Tag
         run: |
           regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\!@#$%^&*?])[A-Za-z\d\!@#$%^&*?]{12,}$"
@@ -93,7 +97,7 @@ jobs:
             -o tsv) 
 
           # masks output of sasToken
-          echo "::add-mask::${sasToken}"
+          # echo "::add-mask::${sasToken}"
 
           echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
 
