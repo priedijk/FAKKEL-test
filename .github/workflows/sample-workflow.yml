@@ -1,0 +1,34 @@
+on:
+  workflow_dispatch:
+    inputs:
+      module_version:
+        description: 'Module version'
+        type: string
+        required: true
+
+
+name: "Sample workflow"
+run-name: Sample workflow | Module version ${{ inputs.module_version }} 
+
+jobs:
+  validation:
+    runs-on: ubuntu-latest
+    environment: 'fakkel'
+    steps: 
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.module_version }}
+
+      - if: always()
+        name: Echo - debug
+        run: |
+          echo "debug"
+          
+          if [[ ${{ inputs.module_version }} == $(echo ${{ github.ref_name }} | sed 's/v//g') ]]
+          then
+            echo "Module version in 'info.tf' matches with module version in Release Tag. Continue..."
+          else
+            echo "Module version in 'info.tf' (${{ inputs.module_version }}) does not match with module version in Release Tag ($(echo ${{ github.ref_name }} | sed 's/v//g')). Aborted!"
+            exit 2
+          fi 
