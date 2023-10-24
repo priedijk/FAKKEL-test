@@ -60,9 +60,6 @@ runs:
 
           exit 1
         fi
-
-        # echo ${{ inputs.password }} >> sas_token.txt
-        # zip -P "${{ inputs.password }}" "sas_token" "sas_token.txt"
     
     - name: Generate read SAS token
       if: inputs.action == 'read'
@@ -82,16 +79,7 @@ runs:
         echo "::add-mask::${sasToken}"
 
         echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
-
-        # Put values into file and zip
-
-        cat <<EOF >sas_token.txt
-          Type of Token: ${{ inputs.action }}
-          End date: ${endDate}
-          SAS token: ?${sasToken}
-        EOF
-
-        zip -P ${{ inputs.password }} "sas_token" "sas_token.txt"
+        echo "SAS_END_DATE=${endDate}" >> $GITHUB_ENV
 
     - name: Generate write SAS token
       if: inputs.action == 'write'
@@ -111,18 +99,20 @@ runs:
         echo "::add-mask::${sasToken}"
 
         echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
+        echo "SAS_END_DATE=${endDate}" >> $GITHUB_ENV
 
-        # Put values into file and zip
-
+    - name: Generate SAS token ZIP
+      shell: bash
+      run: |
         cat <<EOF >sas_token.txt
           Type of Token: ${{ inputs.action }}
-          End date: ${endDate}
-          SAS token: ?${sasToken}
+          End date: ${{ env.SAS_END_DATE }}
+          SAS token: ?${{ env.STORAGE_SAS_TOKEN }}
         EOF
 
         zip -P ${{ inputs.password }} "sas_token" "sas_token.txt"
 
-    - name: Upload the SAS token zip
+    - name: Upload the SAS token ZIP
       uses: actions/upload-artifact@v3
       with:
         name: SAS_TOKEN_${{ inputs.action }}_ZIP
