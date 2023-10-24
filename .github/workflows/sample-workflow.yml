@@ -24,7 +24,8 @@ jobs:
       -  name: Prepare module info
          id: prepare_module_info
          run: |
-            echo "module_version=${{inputs.module_version}}" >> $GITHUB_OUTPUT  
+          echo "module_version=$(grep -h -E "(module_version)\s+=" info.tf | awk -F '=' '{print $2}' | tr -d '" ')" >> $GITHUB_OUTPUT
+
 
       - if: always()
         name: Echo - debug
