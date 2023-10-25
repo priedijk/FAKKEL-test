@@ -7,8 +7,8 @@ on:
         required: true
 
 
-name: "Sample workflow"
-run-name: Sample workflow | Module version ${{ inputs.module_version }} 
+name: "Fork Module version tag"
+run-name: Fork Module version tag | Module version ${{ inputs.module_version }} 
 
 jobs:
   validation:
