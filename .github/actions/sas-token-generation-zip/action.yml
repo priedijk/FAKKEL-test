@@ -3,16 +3,22 @@ description: "Generate SAS token"
 
 inputs:
   storageaccount:
-    description: "Storage Account to create a SAS token for"
+    description: "The Storage Account to create a SAS token for."
     required: true
   fileshare:
-    description: "Fileshare to create a SAS token for"
+    description: "The Fileshare to create a SAS token for."
+    required: true
+  container:
+    description: "The Blob container to create a SAS token for."
     required: true
   password:
     description: "The Password to use for the SAS token zip file."
     required: true
   action:
-    description: "The rights the SAS token should have."
+    description: "The type of SAS token to create."
+    required: true
+  validity:
+    description: "The validity of the SAS token in days."
     required: true
     
 runs:
@@ -24,7 +30,27 @@ runs:
         PASSWORD=$(jq -r '.inputs.password' $GITHUB_EVENT_PATH)
         echo ::add-mask::$PASSWORD
 
+    - name: Validate inputs
+      if: always()
+      shell: bash
+      run: |
+        if [[ -z ${{ inputs.fileshare }}  ||  "${{ inputs.fileshare }}" == "" ]] && [[ -z ${{ inputs.container }}  ||  "${{ inputs.container }}" == "" ]]
+
+        then
+          echo "A Fileshare or Blob container name must be given as an input"
+          exit 1
+        
+        elif [[ ${{ inputs.fileshare }} ]] && [[ ${{ inputs.container }} ]]
+        then
+          echo "Only one of Fileshare or Blob container name can be given as an input"
+          exit 1
+
+        else
+          echo "One of Fileshare or Blob container name has been given as an input"
+        fi
+
     - name: Check password complexity
+      if: always()
       shell: bash
       run: |
         regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\!@#$%^&*?])[A-Za-z\d\!@#$%^&*?]{12,}$"
@@ -41,7 +67,7 @@ runs:
           echo "Must be at least 12 characters"
           echo "Must contain at least one lowercase letter"
           echo "Must contain at least one uppercase letter"
-          echo "Must contain at least one special character (Special characters can only be one of !@#$%^&*?)"
+          echo "Must contain at least one special character - Special characters can only be one of !@#$%^&*?"
           echo "Must contain at least one number"
           echo "-----------------------------------------------------"
 
@@ -52,7 +78,7 @@ runs:
           echo "#### - Must be at least 12 characters"
           echo "#### - Must contain at least one lowercase letter"
           echo "#### - Must contain at least one uppercase letter"
-          echo "#### - Must contain at least one special character (Special characters can only be one of !@#$%^&*?)"
+          echo "#### - Must contain at least one special character - Special characters can only be one of !@#$%^&*?"
           echo "#### - Must contain at least one number"
           echo "-----------------------------------------------------"
           } >> $GITHUB_STEP_SUMMARY
@@ -60,16 +86,60 @@ runs:
           exit 1
         fi
     
-    - name: Generate read SAS token
-      if: inputs.action == 'read'
+    - name: Check SAS token validity
+      if: always()
       shell: bash
       run: |
-        endDate=`date -u -d "1 month" '+%Y-%m-%dT%H:%MZ'`
-        sasToken=$(az storage account generate-sas \
-          --permissions lr \
+        if [[  ${{ inputs.action }} == 'read' && ${{ inputs.validity }} -gt 365 ]]
+
+        then
+          echo "Specified SAS token validity is longer then the allowed maximum duration of 1 year (365 days)"
+          exit 1
+        
+        elif [[ ${{ inputs.action }} == 'write' && ${{ inputs.validity }} -gt 31 ]]
+        then
+          echo "Specified SAS token validity is longer then the allowed maximum duration of 1 Month year (31 days)"
+          exit 1
+
+        else
+          echo "Specified SAS token validity falls within the maximum duration"
+        fi
+
+
+    - name: Set SAS token variables
+      if: always()
+      shell: bash
+      run: |
+        if [[ ${{ inputs.fileshare }} ]] 
+        then
+          echo "Fileshare inputs has been given as input"
+          echo "SAS_TOKEN_TYPE=fileshare" >> $GITHUB_ENV
+        
+        elif [[ ${{ inputs.container }} ]]
+        then
+          echo "Blob container name has been given as input"
+          echo "SAS_TOKEN_TYPE=container" >> $GITHUB_ENV
+        fi    
+
+        if [[ ${{ inputs.action }} == 'read' ]] 
+        then 
+          echo "SAS_TOKEN_PERMISSION=lr" >> $GITHUB_ENV
+
+        if [[ ${{ inputs.action }} == 'write' ]] 
+        then 
+          echo "SAS_TOKEN_PERMISSION=cdlrw" >> $GITHUB_ENV
+
+
+    - name: Generate fileshare SAS token
+      if: env.SAS_TOKEN_TYPE == 'read'
+      shell: bash
+      run: |
+        endDate=`date -u -d "1 year" '+%Y-%m-%dT%H:%MZ'`
+
+        sasToken=$(az storage share generate-sas \
+          --name "${{ inputs.fileshare }}" \
+          --permissions ${{ env.SAS_TOKEN_PERMISSION }} \
           --account-name "${{ inputs.storageaccount }}" \
-          --services f \
-          --resource-types sco \
           --expiry ${endDate} \
           --https-only \
           -o tsv) 
@@ -80,16 +150,16 @@ runs:
         echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
         echo "SAS_END_DATE=${endDate}" >> $GITHUB_ENV
 
-    - name: Generate write SAS token
-      if: inputs.action == 'write'
+    - name: Generate Blob container SAS token
+      if: env.SAS_TOKEN_TYPE == 'write'
       shell: bash
       run: |
         endDate=`date -u -d "1 week" '+%Y-%m-%dT%H:%MZ'`
-        sasToken=$(az storage account generate-sas \
-          --permissions cdlruwap \
+
+        sasToken=$(az storage container generate-sas \
+          --name "${{ inputs.container }}" \
           --account-name "${{ inputs.storageaccount }}" \
-          --services f \
-          --resource-types sco \
+          --permissions ${{ env.SAS_TOKEN_PERMISSION }} \
           --expiry ${endDate} \
           --https-only \
           -o tsv) 
@@ -129,3 +199,4 @@ runs:
           echo "| File service SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ env.STORAGE_SAS_TOKEN }} |"
           echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ inputs.fileshare }}${{ env.STORAGE_SAS_TOKEN }} |"
         } >> $GITHUB_STEP_SUMMARY
+

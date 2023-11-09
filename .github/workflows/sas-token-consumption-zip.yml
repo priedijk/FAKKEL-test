@@ -4,21 +4,29 @@ on:
       storageaccount:
         description: "The Storage Account to create a SAS token for."
         type: string
-        default: 'fileshareazcopy66e4bd71'
+        default: ''
       fileshare:
         description: "The Fileshare to create a SAS token for."
         type: string
-        default: 'dev'
+        default: ''
+      container:
+        description: "The Blob container to create a SAS token for."
+        type: string
+        default: ''
       password:
         description: "The Password to use for the SAS token zip file."
         type: string
         default: ''
       action:
-        description: "The rights the SAS token should have."
+        description: "The access the SAS token should have."
         type: choice
         options:
           - 'read'
           - 'write'
+      validity:
+        description: "The validity of the SAS token in days."
+        type: string
+        default: '7'
 
 
 name: Generate SAS token zip via custom action 
@@ -56,8 +64,10 @@ jobs:
         with:
           storageaccount: ${{ inputs.storageaccount }}
           fileshare: ${{ inputs.fileshare }}
+          container: ${{ inputs.container }}
           password: ${{ inputs.password }}
           action: ${{ inputs.action }}
+          validity: ${{ inputs.validity }}
 
 
 
