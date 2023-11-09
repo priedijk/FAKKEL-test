@@ -8,9 +8,11 @@ inputs:
   fileshare:
     description: "The Fileshare to create a SAS token for."
     required: true
+    default: ""
   container:
     description: "The Blob container to create a SAS token for."
     required: true
+    default: ""
   password:
     description: "The Password to use for the SAS token zip file."
     required: true
