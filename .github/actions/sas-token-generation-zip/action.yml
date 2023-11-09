@@ -35,18 +35,36 @@ runs:
     #   run: |
     #     echo "A Fileshare or Blob container name must be given as an input"
 
-    - name: Validate empty inputs
+    - name: Check if fileshare or blob container input has been provided
       if: (inputs.fileshare == '' && inputs.container == '')
       shell: bash
       run: |
+        echo "------------------------------------------------------------------------------------------------------"
         echo "A Fileshare or Blob container name must be given as an input"
+        echo "------------------------------------------------------------------------------------------------------"
+
+        {
+        echo "------------------------------------------------------------------------------------------------------"
+        echo "A Fileshare or Blob container name must be given as an input"
+        echo "------------------------------------------------------------------------------------------------------"
+        } >> $GITHUB_STEP_SUMMARY
+
         exit 1
 
-    - name: Validate both inputs
+    - name: Check if both fileshare and blob container input has been provided
       if: (inputs.fileshare != '' && inputs.container != '')
       shell: bash
       run: |
+        echo "------------------------------------------------------------------------------------------------------"
         echo "Only one of Fileshare or Blob container name can be given as an input"
+        echo "------------------------------------------------------------------------------------------------------"
+
+        {
+        echo "------------------------------------------------------------------------------------------------------"
+        echo "Only one of Fileshare or Blob container name can be given as an input"
+        echo "------------------------------------------------------------------------------------------------------"
+        } >> $GITHUB_STEP_SUMMARY
+
         exit 1
 
 
@@ -81,26 +99,26 @@ runs:
 
         else
 
-          echo "-----------------------------------------------------"
+          echo "------------------------------------------------------------------------------------------------------"
           echo "Password does not meet the required complexity."
-          echo "-----------------------------------------------------"
+          echo "------------------------------------------------------------------------------------------------------"
           echo "Must be at least 12 characters"
           echo "Must contain at least one lowercase letter"
           echo "Must contain at least one uppercase letter"
           echo "Must contain at least one special character - Special characters can only be one of !@#$%^&*?"
           echo "Must contain at least one number"
-          echo "-----------------------------------------------------"
+          echo "------------------------------------------------------------------------------------------------------"
 
           {
-          echo "-----------------------------------------------------"
+          echo "------------------------------------------------------------------------------------------------------"
           echo "### Password does not meet the required complexity."
-          echo "-----------------------------------------------------"
+          echo "------------------------------------------------------------------------------------------------------"
           echo "#### - Must be at least 12 characters"
           echo "#### - Must contain at least one lowercase letter"
           echo "#### - Must contain at least one uppercase letter"
           echo "#### - Must contain at least one special character - Special characters can only be one of !@#$%^&*?"
           echo "#### - Must contain at least one number"
-          echo "-----------------------------------------------------"
+          echo "------------------------------------------------------------------------------------------------------"
           } >> $GITHUB_STEP_SUMMARY
 
           exit 1
@@ -113,16 +131,34 @@ runs:
         if [[  "${{ inputs.action }}" == "read" && ${{ inputs.validity }} -gt 365 ]]
 
         then
+          echo "------------------------------------------------------------------------------------------------------"
           echo "Specified SAS token validity is longer then the allowed maximum duration of 1 year (365 days)"
+          echo "------------------------------------------------------------------------------------------------------"
+
+          {
+          echo "------------------------------------------------------------------------------------------------------"
+          echo "Specified SAS token validity is longer then the allowed maximum duration of 1 year (365 days)"
+          echo "------------------------------------------------------------------------------------------------------"
+          } >> $GITHUB_STEP_SUMMARY
+
           exit 1
         
         elif [[ "${{ inputs.action }}" == "write" && ${{ inputs.validity }} -gt 31 ]]
         then
+          echo "------------------------------------------------------------------------------------------------------"
           echo "Specified SAS token validity is longer then the allowed maximum duration of 1 Month year (31 days)"
+          echo "------------------------------------------------------------------------------------------------------"
+
+          {
+          echo "------------------------------------------------------------------------------------------------------"
+          echo "Specified SAS token validity is longer then the allowed maximum duration of 1 Month year (31 days)"
+          echo "------------------------------------------------------------------------------------------------------"
+          } >> $GITHUB_STEP_SUMMARY
+
           exit 1
 
         else
-          echo "Specified SAS token validity falls within the maximum duration"
+          echo "Specified SAS token validity is within the maximum duration"
         fi
 
 
@@ -196,7 +232,8 @@ runs:
       shell: bash
       run: |
         cat <<EOF >sas_token.txt
-          Type of Token: ${{ inputs.action }}
+          Type of Token: ${{ env.SAS_TOKEN_TYPE }}
+          Token Capability: ${{ inputs.action }}
           End date: ${{ env.SAS_END_DATE }}
           SAS token: ?${{ env.STORAGE_SAS_TOKEN }}
         EOF
@@ -210,15 +247,27 @@ runs:
         path: sas_token.zip
 
 
-    - name: output SAS token
+    - name: output Filshare SAS token
+      if: env.SAS_TOKEN_TYPE == 'container'
       shell: bash
       run: |
         {
           echo "### Workflow variables"
           echo "| Variable   | Value       |"
           echo "| ---------- | ----------- |"
-          echo "| SAS token  | ${{ env.STORAGE_SAS_TOKEN }} |"
-          echo "| File service SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ env.STORAGE_SAS_TOKEN }} |"
+          echo "| Blob container SAS token  | ${{ env.STORAGE_SAS_TOKEN }} |"
+          echo "| Blob container SAS URL | https://${{ inputs.storageaccount }}.blob.core.windows.net/${{ inputs.fileshare }}${{ env.STORAGE_SAS_TOKEN }} |"
+        } >> $GITHUB_STEP_SUMMARY
+
+    - name: output Blob container SAS token
+      if: env.SAS_TOKEN_TYPE == 'container'
+      shell: bash
+      run: |
+        {
+          echo "### Workflow variables"
+          echo "| Variable   | Value       |"
+          echo "| ---------- | ----------- |"
+          echo "| Fileshare SAS token  | ${{ env.STORAGE_SAS_TOKEN }} |"
           echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ inputs.fileshare }}${{ env.STORAGE_SAS_TOKEN }} |"
         } >> $GITHUB_STEP_SUMMARY
 
