@@ -30,24 +30,46 @@ runs:
         PASSWORD=$(jq -r '.inputs.password' $GITHUB_EVENT_PATH)
         echo ::add-mask::$PASSWORD
 
-    - name: Validate inputs
-      if: always()
+
+
+    # - name: Validate empty inputs
+    #   if: ${{ (inputs.fileshare == '' && inputs.container == '') || (inputs.fileshare != '' && inputs.container != '') }}
+    #   run: |
+    #     echo "A Fileshare or Blob container name must be given as an input"
+
+    - name: Validate empty inputs
+      if: (inputs.fileshare == '' && inputs.container == '')
       shell: bash
       run: |
-        if [[ "${{ inputs.fileshare }}" == "" ]] && [[ "${{ inputs.container }}" == "" ]]
+        echo "A Fileshare or Blob container name must be given as an input"
+        exit 1
 
-        then
-          echo "A Fileshare or Blob container name must be given as an input"
-          exit 1
+    - name: Validate both inputs
+      if: (inputs.fileshare != '' && inputs.container != '')
+      shell: bash
+      run: |
+        echo "Only one of Fileshare or Blob container name can be given as an input"
+        exit 1
+
+
+    # - name: Validate inputs
+    #   if: always()
+    #   shell: bash
+    #   run: |
+    #     if [[ "${{ inputs.fileshare }}" == "" ]] && [[ "${{ inputs.container }}" == "" ]]
+
+    #     then
+    #       echo "A Fileshare or Blob container name must be given as an input"
+    #       exit 1
         
-        elif [[ ${{ inputs.fileshare }} ]] && [[ ${{ inputs.container }} ]]
-        then
-          echo "Only one of Fileshare or Blob container name can be given as an input"
-          exit 1
+    #     elif [[ ${{ inputs.fileshare }} ]] && [[ ${{ inputs.container }} ]]
+    #     then
+    #       echo "Only one of Fileshare or Blob container name can be given as an input"
+    #       exit 1
 
-        else
-          echo "One of Fileshare or Blob container name has been given as an input"
-        fi
+    #     else
+    #       echo "One of Fileshare or Blob container name has been given as an input"
+    #     fi
 
     - name: Check password complexity
       if: always()
