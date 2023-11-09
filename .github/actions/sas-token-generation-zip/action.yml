@@ -30,8 +30,6 @@ runs:
         PASSWORD=$(jq -r '.inputs.password' $GITHUB_EVENT_PATH)
         echo ::add-mask::$PASSWORD
 
-
-
     # - name: Validate empty inputs
     #   if: ${{ (inputs.fileshare == '' && inputs.container == '') || (inputs.fileshare != '' && inputs.container != '') }}
     #   run: |
@@ -112,13 +110,13 @@ runs:
       if: always()
       shell: bash
       run: |
-        if [[  ${{ inputs.action }} == 'read' && ${{ inputs.validity }} -gt 365 ]]
+        if [[  "${{ inputs.action }}" == "read" && ${{ inputs.validity }} -gt 365 ]]
 
         then
           echo "Specified SAS token validity is longer then the allowed maximum duration of 1 year (365 days)"
           exit 1
         
-        elif [[ ${{ inputs.action }} == 'write' && ${{ inputs.validity }} -gt 31 ]]
+        elif [[ "${{ inputs.action }}" == "write" && ${{ inputs.validity }} -gt 31 ]]
         then
           echo "Specified SAS token validity is longer then the allowed maximum duration of 1 Month year (31 days)"
           exit 1
@@ -155,7 +153,7 @@ runs:
 
 
     - name: Generate fileshare SAS token
-      if: env.SAS_TOKEN_TYPE == 'read'
+      if: env.SAS_TOKEN_TYPE == 'fileshare'
       shell: bash
       run: |
         endDate=`date -u -d "1 year" '+%Y-%m-%dT%H:%MZ'`
@@ -175,7 +173,7 @@ runs:
         echo "SAS_END_DATE=${endDate}" >> $GITHUB_ENV
 
     - name: Generate Blob container SAS token
-      if: env.SAS_TOKEN_TYPE == 'write'
+      if: env.SAS_TOKEN_TYPE == 'container'
       shell: bash
       run: |
         endDate=`date -u -d "1 week" '+%Y-%m-%dT%H:%MZ'`
