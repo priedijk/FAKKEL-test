@@ -45,7 +45,7 @@ runs:
 
         {
         echo "------------------------------------------------------------------------------------------------------"
-        echo "A Fileshare or Blob container name must be given as an input"
+        echo "#### A Fileshare or Blob container name must be given as an input"
         echo "------------------------------------------------------------------------------------------------------"
         } >> $GITHUB_STEP_SUMMARY
 
@@ -61,7 +61,7 @@ runs:
 
         {
         echo "------------------------------------------------------------------------------------------------------"
-        echo "Only one of Fileshare or Blob container name can be given as an input"
+        echo "#### Only one of Fileshare or Blob container name can be given as an input"
         echo "------------------------------------------------------------------------------------------------------"
         } >> $GITHUB_STEP_SUMMARY
 
@@ -137,7 +137,7 @@ runs:
 
           {
           echo "------------------------------------------------------------------------------------------------------"
-          echo "Specified SAS token validity is longer then the allowed maximum duration of 1 year (365 days)"
+          echo "#### Specified SAS token validity is longer then the allowed maximum duration of 1 year (365 days)"
           echo "------------------------------------------------------------------------------------------------------"
           } >> $GITHUB_STEP_SUMMARY
 
@@ -151,7 +151,7 @@ runs:
 
           {
           echo "------------------------------------------------------------------------------------------------------"
-          echo "Specified SAS token validity is longer then the allowed maximum duration of 1 Month year (31 days)"
+          echo "#### Specified SAS token validity is longer then the allowed maximum duration of 1 Month year (31 days)"
           echo "------------------------------------------------------------------------------------------------------"
           } >> $GITHUB_STEP_SUMMARY
 
@@ -247,7 +247,7 @@ runs:
         path: sas_token.zip
 
 
-    - name: output Filshare SAS token
+    - name: output Blob container SAS token
       if: env.SAS_TOKEN_TYPE == 'container'
       shell: bash
       run: |
@@ -259,8 +259,8 @@ runs:
           echo "| Blob container SAS URL | https://${{ inputs.storageaccount }}.blob.core.windows.net/${{ inputs.fileshare }}${{ env.STORAGE_SAS_TOKEN }} |"
         } >> $GITHUB_STEP_SUMMARY
 
-    - name: output Blob container SAS token
-      if: env.SAS_TOKEN_TYPE == 'container'
+    - name: output Fileshare SAS token
+      if: env.SAS_TOKEN_TYPE == 'fileshare'
       shell: bash
       run: |
         {
