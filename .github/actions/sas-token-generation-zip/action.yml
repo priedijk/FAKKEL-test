@@ -8,11 +8,9 @@ inputs:
   fileshare:
     description: "The Fileshare to create a SAS token for."
     required: true
-    default: ""
   container:
     description: "The Blob container to create a SAS token for."
     required: true
-    default: ""
   password:
     description: "The Password to use for the SAS token zip file."
     required: true
@@ -36,7 +34,7 @@ runs:
       if: always()
       shell: bash
       run: |
-        if [[ -z ${{ inputs.fileshare }}  ||  "${{ inputs.fileshare }}" == "" ]] && [[ -z ${{ inputs.container }}  ||  "${{ inputs.container }}" == "" ]]
+        if [[ "${{ inputs.fileshare }}" == "" ]] && [[ "${{ inputs.container }}" == "" ]]
 
         then
           echo "A Fileshare or Blob container name must be given as an input"
@@ -109,7 +107,6 @@ runs:
 
 
     - name: Set SAS token variables
-      if: always()
       shell: bash
       run: |
         if [[ ${{ inputs.fileshare }} ]] 
@@ -127,9 +124,12 @@ runs:
         then 
           echo "SAS_TOKEN_PERMISSION=lr" >> $GITHUB_ENV
 
-        if [[ ${{ inputs.action }} == 'write' ]] 
+
+        elif [[ ${{ inputs.action }} == 'write' ]] 
         then 
           echo "SAS_TOKEN_PERMISSION=cdlrw" >> $GITHUB_ENV
+        fi
+
 
 
     - name: Generate fileshare SAS token
