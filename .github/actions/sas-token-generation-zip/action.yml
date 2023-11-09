@@ -192,7 +192,7 @@ runs:
       if: env.SAS_TOKEN_TYPE == 'fileshare'
       shell: bash
       run: |
-        endDate=`date -u -d "1 year" '+%Y-%m-%dT%H:%MZ'`
+        endDate=`date -u -d "${{ inputs.validity }} days" '+%Y-%m-%dT%H:%MZ'`
 
         sasToken=$(az storage share generate-sas \
           --name "${{ inputs.fileshare }}" \
@@ -212,7 +212,7 @@ runs:
       if: env.SAS_TOKEN_TYPE == 'container'
       shell: bash
       run: |
-        endDate=`date -u -d "1 week" '+%Y-%m-%dT%H:%MZ'`
+        endDate=`date -u -d "${{ inputs.validity }} days" '+%Y-%m-%dT%H:%MZ'`
 
         sasToken=$(az storage container generate-sas \
           --name "${{ inputs.container }}" \
