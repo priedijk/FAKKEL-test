@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Convert Input
 storageAccountName=$1
 fileShareName=$2
