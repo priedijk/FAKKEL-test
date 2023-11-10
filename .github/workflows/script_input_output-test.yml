@@ -74,8 +74,8 @@ jobs:
         run: |
           ./scripts/input_output.ps1 `
           -storageAccountName ${{ inputs.storageaccount }} `
-          -fileShareName ${{ inputs.fileshare }} `
-          -containerName ${{ inputs.container }} `
+          -fileShareName "${{ inputs.fileshare }}" `
+          -containerName "${{ inputs.container }}" `
           -zipPassword ${{ inputs.password }} `
           -tokenAccess ${{ inputs.access }} `
           -tokenValidity ${{ inputs.validity }}

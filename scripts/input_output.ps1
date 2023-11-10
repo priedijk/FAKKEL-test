@@ -4,8 +4,8 @@ param(
     [String] [Parameter (Mandatory = $true)]  $zipPassword,
     [String] [Parameter (Mandatory = $true)]  $tokenAccess,
     [String] [Parameter (Mandatory = $true)]  $tokenValidity,
-    [String] [Parameter (Mandatory = $false)]  $fileShareName,
-    [String] [Parameter (Mandatory = $false)]  $containerName
+    [String] $fileShareName,
+    [String] $containerName
 )
 
 # set vars
