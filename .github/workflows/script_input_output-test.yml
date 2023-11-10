@@ -67,18 +67,18 @@ jobs:
       #     ${{ inputs.container }} \
       #     ${{ inputs.password }} \
       #     ${{ inputs.access }} \
-      #     ${{ inputs.validity }}
+      #     ${{ inputs.validity }} 
 
       - name: Generate SAS token
         shell: pwsh
         run: |
           ./scripts/input_output.ps1 `
-          -storageAccountName: ${{ inputs.storageaccount }} `
-          -fileShareName: ${{ inputs.fileshare }} `
-          -containerName: ${{ inputs.container }} `
-          -zipPassword: ${{ inputs.password }} `
-          -tokenAccess: ${{ inputs.access }} `
-          -tokenValidity: ${{ inputs.validity }}
+          -storageAccountName ${{ inputs.storageaccount }} `
+          -fileShareName ${{ inputs.fileshare }} `
+          -containerName ${{ inputs.container }} `
+          -zipPassword ${{ inputs.password }} `
+          -tokenAccess ${{ inputs.access }} `
+          -tokenValidity ${{ inputs.validity }}
 
 
       # - name: Generate SAS token
