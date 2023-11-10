@@ -73,10 +73,10 @@ jobs:
         shell: pwsh
         run: |
           ./scripts/input_output.ps1 `
-          -storageAccountName ${{ inputs.storageaccount }} `
-          -fileShareName "${{ inputs.fileshare }}" `
-          -containerName "${{ inputs.container }}" `
-          -zipPassword ${{ inputs.password }} `
+          -storageAccountName ${{ inputs.storageaccount || '' }} `
+          -fileShareName "${{ inputs.fileshare || '' }}" `
+          -containerName "${{ inputs.container || '' }}" `
+          -zipPassword "${{ inputs.password || '' }}" `
           -tokenAccess ${{ inputs.access }} `
           -tokenValidity ${{ inputs.validity }}
 
