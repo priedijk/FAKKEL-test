@@ -21,7 +21,7 @@ echo "Token validity = ${tokenValidity}"
 echo "-----------------------------------------------------------------------------------"
 
 # validation
-if [[ -z ${fileShareName}  ||  "${fileShareName}" == "" ]] && [[ -z ${containerName}  ||  "${containerName}" == "" ]]; then
+if [[ "${fileShareName}" == "" && "${containerName}" == "" ]]; then
     echo "------------------------------------------------------------------------------------------------------"
     echo "A Fileshare or Blob container name must be given as an input"
     echo "------------------------------------------------------------------------------------------------------"
@@ -88,10 +88,10 @@ fi
 #     Exit 1
 # }
 
-if [[ "${validationFailed}" == true ]]
+if [[ "${validationFailed}" == true ]]; then
     exit 1
 
-elif [[ "${validationFailed}" == false ]]
+elif [[ "${validationFailed}" == false ]]; then
     echo "Validation has been passed successfully"
 
 fi
