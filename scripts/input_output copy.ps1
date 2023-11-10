@@ -23,45 +23,43 @@ echo "Token access = ${tokenAccess}"
 echo "Token validity = ${tokenValidity}"
 echo "-----------------------------------------------------------------------------------"
 
-if [[ -z $2 && ${2+x} ]]; then
-    echo "whether a variable is null but not unset:"
-fi
-if [ -z "${2}" ]; then
-    echo "2 is unset or set to the empty string"
-fi
-if [ -z "${2+set}" ]; then
-    echo "2 is unset"
-fi
-if [ -z "${2-unset}" ]; then
-    echo "2 is set to the empty string"
-fi
-if [ -n "${2}" ]; then
-    echo "2 is set to a non-empty string"
-fi
-if [ -n "${2+set}" ]; then
-    echo "2 is set, possibly to the empty string"
-fi
-if [ -n "${2-unset}" ]; then
-    echo "2 is either unset or set to a non-empty string"
-fi
+if ($fileShareName)
+{
+   echo "fileshare has an input"
+}
+else
+{
+    echo "fileshare has no input"
+}
+
+if ($containerName)
+{
+   echo "fileshare has an input"
+}
+else
+{
+    echo "fileshare has no input"
+}
+
+echo $validationFailed
 
 
-# validation
-if [[ -z ${2}  ||  "${2}" == "" ]] && [[ -z ${3}  ||  "${3}" == "" ]]; then
-    echo "------------------------------------------------------------------------------------------------------"
-    echo "A Fileshare or Blob container name must be given as an input"
-    echo "------------------------------------------------------------------------------------------------------"
+# # validation
+# if [[ -z ${2}  ||  "${2}" == "" ]] && [[ -z ${3}  ||  "${3}" == "" ]]; then
+#     echo "------------------------------------------------------------------------------------------------------"
+#     echo "A Fileshare or Blob container name must be given as an input"
+#     echo "------------------------------------------------------------------------------------------------------"
 
-    {
-    echo "------------------------------------------------------------------------------------------------------"
-    echo "#### A Fileshare or Blob container name must be given as an input"
-    echo "------------------------------------------------------------------------------------------------------"
-    } >> $GITHUB_STEP_SUMMARY 
+#     {
+#     echo "------------------------------------------------------------------------------------------------------"
+#     echo "#### A Fileshare or Blob container name must be given as an input"
+#     echo "------------------------------------------------------------------------------------------------------"
+#     } >> $GITHUB_STEP_SUMMARY 
 
-    validationFailed=true
-else 
-    echo "a name has been given"
-fi
+#     validationFailed=true
+# else 
+#     echo "a name has been given"
+# fi
 
 # elif [[ "${fileShareName}" != ""  &&  "${containerName}" != "" ]]; then
 #     echo "------------------------------------------------------------------------------------------------------"
@@ -119,10 +117,10 @@ fi
 #     Exit 1
 # }
 
-if [[ "${validationFailed}" == true ]]; then
-    exit 1
+# if [[ "${validationFailed}" == true ]]; then
+#     exit 1
 
-elif [[ "${validationFailed}" == false ]]; then
-    echo "Validation has been passed successfully"
+# elif [[ "${validationFailed}" == false ]]; then
+#     echo "Validation has been passed successfully"
 
-fi
+# fi

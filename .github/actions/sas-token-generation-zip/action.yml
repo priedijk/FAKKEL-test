@@ -221,6 +221,23 @@ runs:
         }
         EOF
 
+        # json_object_multiple_line_cat=$(cat <<EOF
+        # {
+        #     "status": "success",
+        #     "message": "Employee list",
+        #     "start": 0,
+        #     "total_results": 1,
+        #     "data": [
+        #         {
+        #             "empId": "$id",
+        #             "name": "Tim",
+        #             "designation": "Engineer"
+        #         }
+        #     ]
+        # }
+        # EOF
+        # )
+
         zip -P ${{ inputs.password }} "sas_token" "sas_token.json"
 
     - name: Upload the SAS token ZIP

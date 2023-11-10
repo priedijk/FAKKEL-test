@@ -59,15 +59,26 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
      
+      # - name: Generate SAS token
+      #   shell: bash
+      #   run: ./scripts/input_output.sh \
+      #     ${{ inputs.storageaccount }} \
+      #     ${{ inputs.fileshare }} \
+      #     ${{ inputs.container }} \
+      #     ${{ inputs.password }} \
+      #     ${{ inputs.access }} \
+      #     ${{ inputs.validity }}
+
       - name: Generate SAS token
-        shell: bash
-        run: ./scripts/input_output.sh \
-          ${{ inputs.storageaccount }} \
-          ${{ inputs.fileshare }} \
-          ${{ inputs.container }} \
-          ${{ inputs.password }} \
-          ${{ inputs.access }} \
-          ${{ inputs.validity }}
+        shell: pwsh
+        run: |
+          ./scripts/input_output.ps1 `
+          -storageAccountName: ${{ inputs.storageaccount }} `
+          -fileShareName: ${{ inputs.fileshare }} `
+          -containerName: ${{ inputs.container }} `
+          -zipPassword: ${{ inputs.password }} `
+          -tokenAccess: ${{ inputs.access }} `
+          -tokenValidity: ${{ inputs.validity }}
 
 
       # - name: Generate SAS token
