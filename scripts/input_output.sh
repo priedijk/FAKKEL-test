@@ -21,7 +21,7 @@ echo "Token validity = ${tokenValidity}"
 echo "-----------------------------------------------------------------------------------"
 
 # validation
-if [[ "${fileShareName}" == "" && "${containerName}" == "" ]]; then
+if [[ -z "${fileShareName}"  ||  "${fileShareName}" == "" ]] && [[ -z "${containerName}"  ||  "${containerName}" == "" ]]; then
     echo "------------------------------------------------------------------------------------------------------"
     echo "A Fileshare or Blob container name must be given as an input"
     echo "------------------------------------------------------------------------------------------------------"
@@ -33,54 +33,59 @@ if [[ "${fileShareName}" == "" && "${containerName}" == "" ]]; then
     } >> $GITHUB_STEP_SUMMARY 
 
     validationFailed=true
-
-elif [[ "${fileShareName}" != ""  &&  "${containerName}" != "" ]]; then
-    echo "------------------------------------------------------------------------------------------------------"
-    echo "Only one of Fileshare or Blob container name can be given as an input"
-    echo "------------------------------------------------------------------------------------------------------"
-
-    {
-    echo "------------------------------------------------------------------------------------------------------"
-    echo "#### Only one of Fileshare or Blob container name can be given as an input"
-    echo "------------------------------------------------------------------------------------------------------"
-    } >> $GITHUB_STEP_SUMMARY
-
-    validationFailed=true
+else 
+    echo "logic not working"
 fi
 
-# validate password complexity
-regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\!@#$%^&*?])[A-Za-z\d\!@#$%^&*?]{12,}$"
+# elif [[ "${fileShareName}" != ""  &&  "${containerName}" != "" ]]; then
+#     echo "------------------------------------------------------------------------------------------------------"
+#     echo "Only one of Fileshare or Blob container name can be given as an input"
+#     echo "------------------------------------------------------------------------------------------------------"
 
-if [[ $(echo ${zipPassword} | grep -P "$regex") ]]; then
+#     {
+#     echo "------------------------------------------------------------------------------------------------------"
+#     echo "#### Only one of Fileshare or Blob container name can be given as an input"
+#     echo "------------------------------------------------------------------------------------------------------"
+#     } >> $GITHUB_STEP_SUMMARY
 
-    echo "Password matches the required complexity."
+#     validationFailed=true
+# fi
 
-else
+# # validate password complexity
+# regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\!@#$%^&*?])[A-Za-z\d\!@#$%^&*?]{12,}$"
 
-    echo "------------------------------------------------------------------------------------------------------"
-    echo "Password does not meet the required complexity."
-    echo "------------------------------------------------------------------------------------------------------"
-    echo "Must be at least 12 characters"
-    echo "Must contain at least one lowercase letter"
-    echo "Must contain at least one uppercase letter"
-    echo "Must contain at least one special character - Special characters can only be one of !@#$%^&*?"
-    echo "Must contain at least one number"
-    echo "------------------------------------------------------------------------------------------------------"
+# if [[ $(echo ${zipPassword} | grep -P "$regex") ]]; then
 
-    {
-    echo "------------------------------------------------------------------------------------------------------"
-    echo "### Password does not meet the required complexity."
-    echo "------------------------------------------------------------------------------------------------------"
-    echo "#### - Must be at least 12 characters"
-    echo "#### - Must contain at least one lowercase letter"
-    echo "#### - Must contain at least one uppercase letter"
-    echo "#### - Must contain at least one special character - Special characters can only be one of !@#$%^&*?"
-    echo "#### - Must contain at least one number"
-    echo "------------------------------------------------------------------------------------------------------"
-    } >> $GITHUB_STEP_SUMMARY
+#     echo "Password matches the required complexity."
 
-    validationFailed=true
-fi
+# else
+
+#     echo "------------------------------------------------------------------------------------------------------"
+#     echo "Password does not meet the required complexity."
+#     echo "------------------------------------------------------------------------------------------------------"
+#     echo "Must be at least 12 characters"
+#     echo "Must contain at least one lowercase letter"
+#     echo "Must contain at least one uppercase letter"
+#     echo "Must contain at least one special character - Special characters can only be one of !@#$%^&*?"
+#     echo "Must contain at least one number"
+#     echo "------------------------------------------------------------------------------------------------------"
+
+#     {
+#     echo "------------------------------------------------------------------------------------------------------"
+#     echo "### Password does not meet the required complexity."
+#     echo "------------------------------------------------------------------------------------------------------"
+#     echo "#### - Must be at least 12 characters"
+#     echo "#### - Must contain at least one lowercase letter"
+#     echo "#### - Must contain at least one uppercase letter"
+#     echo "#### - Must contain at least one special character - Special characters can only be one of !@#$%^&*?"
+#     echo "#### - Must contain at least one number"
+#     echo "------------------------------------------------------------------------------------------------------"
+#     } >> $GITHUB_STEP_SUMMARY
+
+#     validationFailed=true
+# fi
+
+
 
 # $tfStateStorage = az storage account list --query "[?starts_with(name,'sttfstate') && location=='westeurope'].name" --subscription ${{ env.ARM_SUBSCRIPTION_ID }} -o tsv
 # if (-not $tfStateStorage) {
