@@ -20,6 +20,44 @@ echo "Token access = ${tokenAccess}"
 echo "Token validity = ${tokenValidity}"
 echo "-----------------------------------------------------------------------------------"
 
+if [ -z "${fileShareName}" ]; then
+    echo "fileShareName is unset or set to the empty string"
+fi
+if [ -z "${fileShareName+set}" ]; then
+    echo "fileShareName is unset"
+fi
+if [ -z "${fileShareName-unset}" ]; then
+    echo "fileShareName is set to the empty string"
+fi
+if [ -n "${fileShareName}" ]; then
+    echo "fileShareName is set to a non-empty string"
+fi
+if [ -n "${fileShareName+set}" ]; then
+    echo "fileShareName is set, possibly to the empty string"
+fi
+if [ -n "${fileShareName-unset}" ]; then
+    echo "fileShareName is either unset or set to a non-empty string"
+fi
+
+if [ -z "${containerName}" ]; then
+    echo "containerName is unset or set to the empty string"
+fi
+if [ -z "${containerName+set}" ]; then
+    echo "containerName is unset"
+fi
+if [ -z "${containerName-unset}" ]; then
+    echo "containerName is set to the empty string"
+fi
+if [ -n "${containerName}" ]; then
+    echo "containerName is set to a non-empty string"
+fi
+if [ -n "${containerName+set}" ]; then
+    echo "containerName is set, possibly to the empty string"
+fi
+if [ -n "${containerName-unset}" ]; then
+    echo "containerName is either unset or set to a non-empty string"
+fi
+
 # validation
 if [[ -z $fileShareName  ||  "${fileShareName}" == "" ]] && [[ -z $containerName ||  "${containerName}" == "" ]]; then
     echo "------------------------------------------------------------------------------------------------------"
