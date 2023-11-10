@@ -30,11 +30,6 @@ runs:
         PASSWORD=$(jq -r '.inputs.password' $GITHUB_EVENT_PATH)
         echo ::add-mask::$PASSWORD
 
-    # - name: Validate empty inputs
-    #   if: ${{ (inputs.fileshare == '' && inputs.container == '') || (inputs.fileshare != '' && inputs.container != '') }}
-    #   run: |
-    #     echo "A Fileshare or Blob container name must be given as an input"
-
     - name: Check if fileshare or blob container input has been provided
       if: (inputs.fileshare == '' && inputs.container == '')
       shell: bash
@@ -66,26 +61,6 @@ runs:
         } >> $GITHUB_STEP_SUMMARY
 
         exit 1
-
-
-    # - name: Validate inputs
-    #   if: always()
-    #   shell: bash
-    #   run: |
-    #     if [[ "${{ inputs.fileshare }}" == "" ]] && [[ "${{ inputs.container }}" == "" ]]
-
-    #     then
-    #       echo "A Fileshare or Blob container name must be given as an input"
-    #       exit 1
-        
-    #     elif [[ ${{ inputs.fileshare }} ]] && [[ ${{ inputs.container }} ]]
-    #     then
-    #       echo "Only one of Fileshare or Blob container name can be given as an input"
-    #       exit 1
-
-    #     else
-    #       echo "One of Fileshare or Blob container name has been given as an input"
-    #     fi
 
     - name: Check password complexity
       if: always()
@@ -224,48 +199,8 @@ runs:
           echo "------------------------------------------------------------------------------------------------------"
           echo "this is a Blob container SAS"
           echo "------------------------------------------------------------------------------------------------------"
-          
+
         fi
-
-    # - name: Generate fileshare SAS token
-    #   if: env.SAS_TOKEN_TYPE == 'fileshare'
-    #   shell: bash
-    #   run: |
-    #     endDate=`date -u -d "${{ inputs.validity }} days" '+%Y-%m-%dT%H:%MZ'`
-
-    #     sasToken=$(az storage share generate-sas \
-    #       --name "${{ inputs.fileshare }}" \
-    #       --permissions ${{ env.SAS_TOKEN_PERMISSION }} \
-    #       --account-name "${{ inputs.storageaccount }}" \
-    #       --expiry ${endDate} \
-    #       --https-only \
-    #       -o tsv) 
-
-    #     # masks output of sasToken
-    #     echo "::add-mask::${sasToken}"
-
-    #     echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
-    #     echo "SAS_END_DATE=${endDate}" >> $GITHUB_ENV
-
-    # - name: Generate Blob container SAS token
-    #   if: env.SAS_TOKEN_TYPE == 'container'
-    #   shell: bash
-    #   run: |
-    #     endDate=`date -u -d "${{ inputs.validity }} days" '+%Y-%m-%dT%H:%MZ'`
-
-    #     sasToken=$(az storage container generate-sas \
-    #       --name "${{ inputs.container }}" \
-    #       --account-name "${{ inputs.storageaccount }}" \
-    #       --permissions ${{ env.SAS_TOKEN_PERMISSION }} \
-    #       --expiry ${endDate} \
-    #       --https-only \
-    #       -o tsv) 
-
-    #     # masks output of sasToken
-    #     echo "::add-mask::${sasToken}"
-
-    #     echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
-    #     echo "SAS_END_DATE=${endDate}" >> $GITHUB_ENV
 
     - name: Generate SAS token ZIP
       shell: bash
@@ -308,29 +243,3 @@ runs:
           } >> $GITHUB_STEP_SUMMARY
 
         fi
-
-    # - name: output Fileshare SAS token
-    #   if: env.SAS_TOKEN_TYPE == 'fileshare'
-    #   shell: bash
-    #   run: |
-    #     {
-    #       echo "### Workflow variables"
-    #       echo "| Variable   | Value       |"
-    #       echo "| ---------- | ----------- |"
-    #       echo "| Fileshare SAS token  | ${{ env.STORAGE_SAS_TOKEN }} |"
-    #       echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ inputs.fileshare }}${{ env.STORAGE_SAS_TOKEN }} |"
-    #     } >> $GITHUB_STEP_SUMMARY
-
-    # - name: output Blob container SAS token
-    #   if: env.SAS_TOKEN_TYPE == 'container'
-    #   shell: bash
-    #   run: |
-    #     {
-    #       echo "### Workflow variables"
-    #       echo "| Variable   | Value       |"
-    #       echo "| ---------- | ----------- |"
-    #       echo "| Blob container SAS token  | ${{ env.STORAGE_SAS_TOKEN }} |"
-    #       echo "| Blob container SAS URL | https://${{ inputs.storageaccount }}.blob.core.windows.net/${{ inputs.fileshare }}${{ env.STORAGE_SAS_TOKEN }} |"
-    #     } >> $GITHUB_STEP_SUMMARY
-
-
