@@ -128,9 +128,7 @@ runs:
       if: always()
       shell: bash
       run: |
-        if [[  "${{ inputs.action }}" == "read" && ${{ inputs.validity }} -gt 365 ]]
-
-        then
+        if [[  "${{ inputs.action }}" == "read" && ${{ inputs.validity }} -gt 365 ]]; then
           echo "------------------------------------------------------------------------------------------------------"
           echo "Specified SAS token validity is longer then the allowed maximum duration of 1 year (365 days)"
           echo "------------------------------------------------------------------------------------------------------"
@@ -143,8 +141,7 @@ runs:
 
           exit 1
         
-        elif [[ "${{ inputs.action }}" == "write" && ${{ inputs.validity }} -gt 31 ]]
-        then
+        elif [[ "${{ inputs.action }}" == "write" && ${{ inputs.validity }} -gt 31 ]]; then
           echo "------------------------------------------------------------------------------------------------------"
           echo "Specified SAS token validity is longer then the allowed maximum duration of 1 Month year (31 days)"
           echo "------------------------------------------------------------------------------------------------------"
@@ -165,68 +162,110 @@ runs:
     - name: Set SAS token variables
       shell: bash
       run: |
-        if [[ "${{ inputs.fileshare }}" != "" ]] 
-        then
+        if [[ "${{ inputs.fileshare }}" != "" ]]; then
           echo "Fileshare inputs has been given as input"
           echo "SAS_TOKEN_TYPE=fileshare" >> $GITHUB_ENV
         
-        elif [[ "${{ inputs.container }}" != "" ]]
-        then
+        elif [[ "${{ inputs.container }}" != "" ]]; then
           echo "Blob container name has been given as input"
           echo "SAS_TOKEN_TYPE=container" >> $GITHUB_ENV
         fi    
 
-        if [[ ${{ inputs.action }} == 'read' ]] 
-        then 
+        if [[ ${{ inputs.action }} == 'read' ]]; then 
           echo "SAS_TOKEN_PERMISSION=lr" >> $GITHUB_ENV
 
-
-        elif [[ ${{ inputs.action }} == 'write' ]] 
-        then 
+        elif [[ ${{ inputs.action }} == 'write' ]]; then
           echo "SAS_TOKEN_PERMISSION=cdlrw" >> $GITHUB_ENV
         fi
 
 
 
-    - name: Generate fileshare SAS token
-      if: env.SAS_TOKEN_TYPE == 'fileshare'
+    - name: Generate SAS token
       shell: bash
       run: |
         endDate=`date -u -d "${{ inputs.validity }} days" '+%Y-%m-%dT%H:%MZ'`
 
-        sasToken=$(az storage share generate-sas \
-          --name "${{ inputs.fileshare }}" \
-          --permissions ${{ env.SAS_TOKEN_PERMISSION }} \
-          --account-name "${{ inputs.storageaccount }}" \
-          --expiry ${endDate} \
-          --https-only \
-          -o tsv) 
+        if [[ "${{ env.SAS_TOKEN_TYPE}}" == "fileshare" ]]; then
 
-        # masks output of sasToken
-        echo "::add-mask::${sasToken}"
+          sasToken=$(az storage share generate-sas \
+            --name "${{ inputs.fileshare }}" \
+            --permissions ${{ env.SAS_TOKEN_PERMISSION }} \
+            --account-name "${{ inputs.storageaccount }}" \
+            --expiry ${endDate} \
+            --https-only \
+            -o tsv) 
 
-        echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
-        echo "SAS_END_DATE=${endDate}" >> $GITHUB_ENV
+          # masks output of sasToken
+          echo "::add-mask::${sasToken}"
 
-    - name: Generate Blob container SAS token
-      if: env.SAS_TOKEN_TYPE == 'container'
-      shell: bash
-      run: |
-        endDate=`date -u -d "${{ inputs.validity }} days" '+%Y-%m-%dT%H:%MZ'`
+          echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
+          echo "SAS_END_DATE=${endDate}" >> $GITHUB_ENV
 
-        sasToken=$(az storage container generate-sas \
-          --name "${{ inputs.container }}" \
-          --account-name "${{ inputs.storageaccount }}" \
-          --permissions ${{ env.SAS_TOKEN_PERMISSION }} \
-          --expiry ${endDate} \
-          --https-only \
-          -o tsv) 
+          echo "------------------------------------------------------------------------------------------------------"
+          echo "this is a fileshare SAS"
+          echo "------------------------------------------------------------------------------------------------------"
+        
+        elif [[ "${{ env.SAS_TOKEN_TYPE}}" == "container" ]]; then
 
-        # masks output of sasToken
-        echo "::add-mask::${sasToken}"
+          sasToken=$(az storage container generate-sas \
+            --name "${{ inputs.container }}" \
+            --account-name "${{ inputs.storageaccount }}" \
+            --permissions ${{ env.SAS_TOKEN_PERMISSION }} \
+            --expiry ${endDate} \
+            --https-only \
+            -o tsv) 
 
-        echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
-        echo "SAS_END_DATE=${endDate}" >> $GITHUB_ENV
+          # masks output of sasToken
+          echo "::add-mask::${sasToken}"
+
+          echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
+          echo "SAS_END_DATE=${endDate}" >> $GITHUB_ENV
+
+          echo "------------------------------------------------------------------------------------------------------"
+          echo "this is a Blob container SAS"
+          echo "------------------------------------------------------------------------------------------------------"
+
+
+
+    # - name: Generate fileshare SAS token
+    #   if: env.SAS_TOKEN_TYPE == 'fileshare'
+    #   shell: bash
+    #   run: |
+    #     endDate=`date -u -d "${{ inputs.validity }} days" '+%Y-%m-%dT%H:%MZ'`
+
+    #     sasToken=$(az storage share generate-sas \
+    #       --name "${{ inputs.fileshare }}" \
+    #       --permissions ${{ env.SAS_TOKEN_PERMISSION }} \
+    #       --account-name "${{ inputs.storageaccount }}" \
+    #       --expiry ${endDate} \
+    #       --https-only \
+    #       -o tsv) 
+
+    #     # masks output of sasToken
+    #     echo "::add-mask::${sasToken}"
+
+    #     echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
+    #     echo "SAS_END_DATE=${endDate}" >> $GITHUB_ENV
+
+    # - name: Generate Blob container SAS token
+    #   if: env.SAS_TOKEN_TYPE == 'container'
+    #   shell: bash
+    #   run: |
+    #     endDate=`date -u -d "${{ inputs.validity }} days" '+%Y-%m-%dT%H:%MZ'`
+
+    #     sasToken=$(az storage container generate-sas \
+    #       --name "${{ inputs.container }}" \
+    #       --account-name "${{ inputs.storageaccount }}" \
+    #       --permissions ${{ env.SAS_TOKEN_PERMISSION }} \
+    #       --expiry ${endDate} \
+    #       --https-only \
+    #       -o tsv) 
+
+    #     # masks output of sasToken
+    #     echo "::add-mask::${sasToken}"
+
+    #     echo "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
+    #     echo "SAS_END_DATE=${endDate}" >> $GITHUB_ENV
 
     - name: Generate SAS token ZIP
       shell: bash
@@ -247,27 +286,51 @@ runs:
         path: sas_token.zip
 
 
-    - name: output Blob container SAS token
-      if: env.SAS_TOKEN_TYPE == 'container'
+    - name: output SAS token
       shell: bash
       run: |
-        {
-          echo "### Workflow variables"
-          echo "| Variable   | Value       |"
-          echo "| ---------- | ----------- |"
-          echo "| Blob container SAS token  | ${{ env.STORAGE_SAS_TOKEN }} |"
-          echo "| Blob container SAS URL | https://${{ inputs.storageaccount }}.blob.core.windows.net/${{ inputs.fileshare }}${{ env.STORAGE_SAS_TOKEN }} |"
-        } >> $GITHUB_STEP_SUMMARY
+        if [[ "${{ env.SAS_TOKEN_TYPE}}" == "fileshare" ]]; then
+          {
+            echo "### Workflow variables"
+            echo "| Variable   | Value       |"
+            echo "| ---------- | ----------- |"
+            echo "| Fileshare SAS token | ${{ env.STORAGE_SAS_TOKEN }} |"
+            echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ inputs.fileshare }}${{ env.STORAGE_SAS_TOKEN }} |"
+          } >> $GITHUB_STEP_SUMMARY
+        
+        elif [[ "${{ env.SAS_TOKEN_TYPE}}" == "container" ]]; then
+          {
+            echo "### Workflow variables"
+            echo "| Variable   | Value       |"
+            echo "| ---------- | ----------- |"
+            echo "| Blob container SAS token | ${{ env.STORAGE_SAS_TOKEN }} |"
+            echo "| Blob container SAS URL | https://${{ inputs.storageaccount }}.blob.core.windows.net/${{ inputs.container }}${{ env.STORAGE_SAS_TOKEN }} |"
+          } >> $GITHUB_STEP_SUMMARY
 
-    - name: output Fileshare SAS token
-      if: env.SAS_TOKEN_TYPE == 'fileshare'
-      shell: bash
-      run: |
-        {
-          echo "### Workflow variables"
-          echo "| Variable   | Value       |"
-          echo "| ---------- | ----------- |"
-          echo "| Fileshare SAS token  | ${{ env.STORAGE_SAS_TOKEN }} |"
-          echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ inputs.fileshare }}${{ env.STORAGE_SAS_TOKEN }} |"
-        } >> $GITHUB_STEP_SUMMARY
+        fi
+
+    # - name: output Fileshare SAS token
+    #   if: env.SAS_TOKEN_TYPE == 'fileshare'
+    #   shell: bash
+    #   run: |
+    #     {
+    #       echo "### Workflow variables"
+    #       echo "| Variable   | Value       |"
+    #       echo "| ---------- | ----------- |"
+    #       echo "| Fileshare SAS token  | ${{ env.STORAGE_SAS_TOKEN }} |"
+    #       echo "| Fileshare SAS URL | https://${{ inputs.storageaccount }}.file.core.windows.net/${{ inputs.fileshare }}${{ env.STORAGE_SAS_TOKEN }} |"
+    #     } >> $GITHUB_STEP_SUMMARY
+
+    # - name: output Blob container SAS token
+    #   if: env.SAS_TOKEN_TYPE == 'container'
+    #   shell: bash
+    #   run: |
+    #     {
+    #       echo "### Workflow variables"
+    #       echo "| Variable   | Value       |"
+    #       echo "| ---------- | ----------- |"
+    #       echo "| Blob container SAS token  | ${{ env.STORAGE_SAS_TOKEN }} |"
+    #       echo "| Blob container SAS URL | https://${{ inputs.storageaccount }}.blob.core.windows.net/${{ inputs.fileshare }}${{ env.STORAGE_SAS_TOKEN }} |"
+    #     } >> $GITHUB_STEP_SUMMARY
+
 

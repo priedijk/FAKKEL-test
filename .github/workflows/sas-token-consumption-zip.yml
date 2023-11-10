@@ -30,7 +30,7 @@ on:
 
 
 name: Generate SAS token zip via custom action 
-run-name: Generate SAS token | ${{ inputs.storageaccount }} | ${{ inputs.fileshare }} | ${{ inputs.password }}
+run-name: Generate SAS token | ${{ inputs.storageaccount }} | ${{ inputs.fileshare }} ${{ inputs.container}} | ${{ inputs.password }}
           
 permissions:
   id-token: write
