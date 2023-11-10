@@ -14,8 +14,8 @@ echo "outputting variables"
 echo "-----------------------------------------------------------------------------------"
 echo "team = ${storageAccountName}"
 echo "Fileshare Name = ${fileShareName}"
-echo "Blob container name  = ${containerName}"
-echo "Zip password  = ${zipPassword}"
+echo "Blob container name = ${containerName}"
+echo "Zip password = ${zipPassword}"
 echo "Token access = ${tokenAccess}"
 echo "Token validity = ${tokenValidity}"
 echo "-----------------------------------------------------------------------------------"
@@ -44,7 +44,7 @@ fi
 
 
 # validation
-if [[ -z $fileShareName  ||  "${fileShareName}" == "" ]] && [[ -z $containerName ||  "${containerName}" == "" ]]; then
+if [[ -z ${fileShareName}  ||  "${fileShareName}" == "" ]] && [[ -z ${containerName}  ||  "${containerName}" == "" ]]; then
     echo "------------------------------------------------------------------------------------------------------"
     echo "A Fileshare or Blob container name must be given as an input"
     echo "------------------------------------------------------------------------------------------------------"
@@ -57,7 +57,7 @@ if [[ -z $fileShareName  ||  "${fileShareName}" == "" ]] && [[ -z $containerName
 
     validationFailed=true
 else 
-    echo "logic not working"
+    echo "a name has been given"
 fi
 
 # elif [[ "${fileShareName}" != ""  &&  "${containerName}" != "" ]]; then
