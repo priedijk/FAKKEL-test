@@ -14,7 +14,7 @@ validationFailed=false
 echo "-----------------------------------------------------------------------------------"
 echo "outputting variables"
 echo "-----------------------------------------------------------------------------------"
-echo "team = ${storageAccountName}"
+echo "storageAccountName = ${storageAccountName}"
 echo "Fileshare Name = ${fileShareName}"
 echo "Blob container name = ${containerName}"
 echo "Zip password = ${zipPassword}"
@@ -22,31 +22,31 @@ echo "Token access = ${tokenAccess}"
 echo "Token validity = ${tokenValidity}"
 echo "-----------------------------------------------------------------------------------"
 
-if [[ -z $fileShareName && ${fileShareName+x} ]]; then
+if [[ -z $2 && ${2+x} ]]; then
     echo "whether a variable is null but not unset:"
 fi
-if [ -z "${fileShareName}" ]; then
-    echo "fileShareName is unset or set to the empty string"
+if [ -z "${2}" ]; then
+    echo "2 is unset or set to the empty string"
 fi
-if [ -z "${fileShareName+set}" ]; then
-    echo "fileShareName is unset"
+if [ -z "${2+set}" ]; then
+    echo "2 is unset"
 fi
-if [ -z "${fileShareName-unset}" ]; then
-    echo "fileShareName is set to the empty string"
+if [ -z "${2-unset}" ]; then
+    echo "2 is set to the empty string"
 fi
-if [ -n "${fileShareName}" ]; then
-    echo "fileShareName is set to a non-empty string"
+if [ -n "${2}" ]; then
+    echo "2 is set to a non-empty string"
 fi
-if [ -n "${fileShareName+set}" ]; then
-    echo "fileShareName is set, possibly to the empty string"
+if [ -n "${2+set}" ]; then
+    echo "2 is set, possibly to the empty string"
 fi
-if [ -n "${fileShareName-unset}" ]; then
-    echo "fileShareName is either unset or set to a non-empty string"
+if [ -n "${2-unset}" ]; then
+    echo "2 is either unset or set to a non-empty string"
 fi
 
 
 # validation
-if [[ -z ${fileShareName}  ||  "${fileShareName}" == "" ]] && [[ -z ${containerName}  ||  "${containerName}" == "" ]]; then
+if [[ -z ${2}  ||  "${2}" == "" ]] && [[ -z ${3}  ||  "${3}" == "" ]]; then
     echo "------------------------------------------------------------------------------------------------------"
     echo "A Fileshare or Blob container name must be given as an input"
     echo "------------------------------------------------------------------------------------------------------"
