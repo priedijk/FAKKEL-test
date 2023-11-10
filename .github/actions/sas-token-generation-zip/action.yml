@@ -163,7 +163,7 @@ runs:
       shell: bash
       run: |
         if [[ "${{ inputs.fileshare }}" != "" ]]; then
-          echo "Fileshare inputs has been given as input"
+          echo "Fileshare name has been given as input"
           echo "SAS_TOKEN_TYPE=fileshare" >> $GITHUB_ENV
         
         elif [[ "${{ inputs.container }}" != "" ]]; then
@@ -224,8 +224,8 @@ runs:
           echo "------------------------------------------------------------------------------------------------------"
           echo "this is a Blob container SAS"
           echo "------------------------------------------------------------------------------------------------------"
-
-
+          
+        fi
 
     # - name: Generate fileshare SAS token
     #   if: env.SAS_TOKEN_TYPE == 'fileshare'
