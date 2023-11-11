@@ -8,8 +8,15 @@ param(
     [String] $containerName
 )
 
+
 # set vars
 $validationFailed=$false
+
+
+# test vars
+# $fileShareName="dev"
+# $containerName="gfg"
+
 
 # Output input
 Write-Output "-----------------------------------------------------------------------------------"
@@ -36,16 +43,33 @@ if (( ${fileShareName} -eq $null -or ${fileShareName} -eq "" ) -and ( ${containe
     Write-Output "------------------------------------------------------------------------------------------------------"
 
     {
-    Write-Output "------------------------------------------------------------------------------------------------------"
-    Write-Output "#### A Fileshare or Blob container name must be given as an input"
-    Write-Output "------------------------------------------------------------------------------------------------------"
+    echo "------------------------------------------------------------------------------------------------------"
+    echo "#### A Fileshare or Blob container name must be given as an input"
+    echo "------------------------------------------------------------------------------------------------------"
     } >> $GITHUB_STEP_SUMMARY 
 
     $validationFailed=$true
 }
 
+
+
+if ( ${validationFailed} -eq $true )
+{
+    Write-Output "At least one validation step has failed"
+    exit 1
+}    
+elseif ( ${validationFailed} -eq $false )
+{
+    Write-Output "Validation has been passed successfully"
+}
+
+
+
+
+
+
 # validate if fileshare name and container name are not defined
-elseif (( ${fileShareName} -ne $null -or ${fileShareName} -ne "" ) -and ( ${containerName} -ne $null -or ${containerName} -ne "" )) 
+elseif (( -not ${fileShareName} -and -not ${containerName} )) 
 {
     Write-Output "------------------------------------------------------------------------------------------------------"
     Write-Output "Only one of Fileshare or Blob container name can be given as an input"
@@ -120,9 +144,15 @@ elseif ( ${validationFailed} -eq $false )
 
 
 
+# validate if storage account exists in subscription
+$storageAccount = (az storage account list --query "[?starts_with(name, '${}')].name" -o tsv)
+if (-not $storageAccount) {
+    Write-Error "ERROR Could not find Storage Account."
 
-# $tfStateStorage = az storage account list --query "[?starts_with(name,'sttfstate') && location=='westeurope'].name" --subscription ${{ env.ARM_SUBSCRIPTION_ID }} -o tsv
-# if (-not $tfStateStorage) {
-#     Write-Error "ERROR Could not determine storage account for Terraform state."
-#     Exit 1
-# }
+    $validationFailed=$true
+}
+
+# validate if fileshare or blob container exists
+
+
+# determine access and scope of SAS token
