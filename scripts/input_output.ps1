@@ -11,7 +11,7 @@ param(
 
 # set vars
 $validationFailed=$false
-$summary="Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append"
+writeToSummary="Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append"
 
 
 # test vars
@@ -44,9 +44,9 @@ if (( ${fileShareName} -eq $null -or ${fileShareName} -eq "" ) -and ( ${containe
     Write-Output "------------------------------------------------------------------------------------------------------"
 
     "#### A Fileshare or Blob container name must be given as an input" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
-    "------------------------------------------------------------------------------------------------------" | $summary
-    "#### A Fileshare or Blob container name must be given as an input" | $summary
-    "------------------------------------------------------------------------------------------------------" | $summary
+    # "------------------------------------------------------------------------------------------------------" | writeToSummary
+    # "#### A Fileshare or Blob container name must be given as an input" | writeToSummary
+    # "------------------------------------------------------------------------------------------------------" | writeToSummary
 
     $validationFailed=$true
 }
