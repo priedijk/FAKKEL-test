@@ -43,10 +43,10 @@ if (( ${fileShareName} -eq $null -or ${fileShareName} -eq "" ) -and ( ${containe
     Write-Output "A Fileshare or Blob container name must be given as an input"
     Write-Output "------------------------------------------------------------------------------------------------------"
 
-    Write-Output "------------------------------------------------------------------------------------------------------" | $summary
-    Write-Output "#### A Fileshare or Blob container name must be given as an input" | $summary
-    Write-Output "#### A Fileshare or Blob container name must be given as an input" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
-    Write-Output "------------------------------------------------------------------------------------------------------" | $summary
+    "#### A Fileshare or Blob container name must be given as an input" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "------------------------------------------------------------------------------------------------------" | $summary
+    "#### A Fileshare or Blob container name must be given as an input" | $summary
+    "------------------------------------------------------------------------------------------------------" | $summary
 
     $validationFailed=$true
 }
