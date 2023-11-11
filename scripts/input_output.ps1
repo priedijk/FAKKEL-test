@@ -32,6 +32,28 @@ Write-Output "Token validity = ${tokenValidity}"
 Write-Output "-----------------------------------------------------------------------------------"
 
 
+
+
+# validate if fileshare name and container name are not both empty
+if (( ${fileShareName} -eq $null -or ${fileShareName} -eq "" ) -and ( ${containerName} -eq $null -or ${containerName} -eq "" )) 
+{
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Output "A Fileshare or Blob container name must be given as an input"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+
+    {
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Output "#### A Fileshare or Blob container name must be given as an input"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    } | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    
+    $validationFailed=$true
+}
+
+
+
+
+
 ##########################################################################################################################################
 ###### validation steps
 ##########################################################################################################################################
@@ -43,10 +65,9 @@ if (( ${fileShareName} -eq $null -or ${fileShareName} -eq "" ) -and ( ${containe
     Write-Output "A Fileshare or Blob container name must be given as an input"
     Write-Output "------------------------------------------------------------------------------------------------------"
 
+    "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
     "#### A Fileshare or Blob container name must be given as an input" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
-    # "------------------------------------------------------------------------------------------------------" | $writeToSummary
-    # "#### A Fileshare or Blob container name must be given as an input" | $writeToSummary
-    # "------------------------------------------------------------------------------------------------------" | $writeToSummary
+    "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
 
     $validationFailed=$true
 }
@@ -75,11 +96,9 @@ elseif (( -not ${fileShareName} -and -not ${containerName} ))
     Write-Output "Only one of Fileshare or Blob container name can be given as an input"
     Write-Output "------------------------------------------------------------------------------------------------------"
 
-    {
-    Write-Output "------------------------------------------------------------------------------------------------------"
-    Write-Output "#### Only one of Fileshare or Blob container name can be given as an input"
-    Write-Output "------------------------------------------------------------------------------------------------------"
-    } >> $GITHUB_STEP_SUMMARY
+    "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "#### Only one of Fileshare or Blob container name can be given as an input" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
 
     $validationFailed=$true
 }
@@ -111,24 +130,18 @@ else
     Write-Output "Must contain at least one number"
     Write-Output "------------------------------------------------------------------------------------------------------"
 
-    {
-    Write-Output "------------------------------------------------------------------------------------------------------"
+    "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
     Write-Output "### Password does not meet the required complexity."
-    Write-Output "------------------------------------------------------------------------------------------------------"
-    Write-Output "#### - Must be at least 12 characters"
-    Write-Output "#### - Must contain at least one lowercase letter"
-    Write-Output "#### - Must contain at least one uppercase letter"
-    Write-Output "#### - Must contain at least one special character - Special characters can only be one of !@#$%^&*?"
-    Write-Output "#### - Must contain at least one number"
-    Write-Output "------------------------------------------------------------------------------------------------------"
-    } >> $GITHUB_STEP_SUMMARY
+    "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    Write-Output "#### - Must be at least 12 characters" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    Write-Output "#### - Must contain at least one lowercase letter" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    Write-Output "#### - Must contain at least one uppercase letter" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    Write-Output "#### - Must contain at least one special character - Special characters can only be one of !@#$%^&*?" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    Write-Output "#### - Must contain at least one number" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
 
     $validationFailed=$true
 }
-
-
-az storage account list
-
 
 
 
