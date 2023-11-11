@@ -12,102 +12,112 @@ param(
 $validationFailed=$false
 
 # Output input
-echo "-----------------------------------------------------------------------------------"
-echo "outputting variables"
-echo "-----------------------------------------------------------------------------------"
-echo "storageAccountName = ${storageAccountName}"
-echo "Fileshare Name = ${fileShareName}"
-echo "Blob container name = ${containerName}"
-echo "Zip password = ${zipPassword}"
-echo "Token access = ${tokenAccess}"
-echo "Token validity = ${tokenValidity}"
-echo "-----------------------------------------------------------------------------------"
+Write-Output "-----------------------------------------------------------------------------------"
+Write-Output "outputting variables"
+Write-Output "-----------------------------------------------------------------------------------"
+Write-Output "storageAccountName = ${storageAccountName}"
+Write-Output "Fileshare Name = ${fileShareName}"
+Write-Output "Blob container name = ${containerName}"
+Write-Output "Zip password = ${zipPassword}"
+Write-Output "Token access = ${tokenAccess}"
+Write-Output "Token validity = ${tokenValidity}"
+Write-Output "-----------------------------------------------------------------------------------"
 
-if ($fileShareName)
+
+##########################################################################################################################################
+###### validation steps
+##########################################################################################################################################
+
+# validate if fileshare name and container name are not both empty
+if (( ${fileShareName} -eq $null -or ${fileShareName} -eq "" ) -and ( ${containerName} -eq $null -or ${containerName} -eq "" )) 
 {
-   echo "fileshare has an input"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Output "A Fileshare or Blob container name must be given as an input"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+
+    {
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Output "#### A Fileshare or Blob container name must be given as an input"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    } >> $GITHUB_STEP_SUMMARY 
+
+    $validationFailed=$true
 }
+
+# validate if fileshare name and container name are not defined
+elseif (( ${fileShareName} -ne $null -or ${fileShareName} -ne "" ) -and ( ${containerName} -ne $null -or ${containerName} -ne "" )) 
+{
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Output "Only one of Fileshare or Blob container name can be given as an input"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+
+    {
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Output "#### Only one of Fileshare or Blob container name can be given as an input"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    } >> $GITHUB_STEP_SUMMARY
+
+    $validationFailed=$true
+}
+
 else
 {
-    echo "fileshare has no input"
+    Write-Output "Fileshare or Blob container name has been provided"
 }
 
-if ($containerName)
-{
-   echo "fileshare has an input"
-}
-else
-{
-    echo "fileshare has no input"
-}
-
-echo $validationFailed
-
-
-# # validation
-# if [[ -z ${2}  ||  "${2}" == "" ]] && [[ -z ${3}  ||  "${3}" == "" ]]; then
-#     echo "------------------------------------------------------------------------------------------------------"
-#     echo "A Fileshare or Blob container name must be given as an input"
-#     echo "------------------------------------------------------------------------------------------------------"
-
-#     {
-#     echo "------------------------------------------------------------------------------------------------------"
-#     echo "#### A Fileshare or Blob container name must be given as an input"
-#     echo "------------------------------------------------------------------------------------------------------"
-#     } >> $GITHUB_STEP_SUMMARY 
-
-#     validationFailed=true
-# else 
-#     echo "a name has been given"
-# fi
-
-# elif [[ "${fileShareName}" != ""  &&  "${containerName}" != "" ]]; then
-#     echo "------------------------------------------------------------------------------------------------------"
-#     echo "Only one of Fileshare or Blob container name can be given as an input"
-#     echo "------------------------------------------------------------------------------------------------------"
-
-#     {
-#     echo "------------------------------------------------------------------------------------------------------"
-#     echo "#### Only one of Fileshare or Blob container name can be given as an input"
-#     echo "------------------------------------------------------------------------------------------------------"
-#     } >> $GITHUB_STEP_SUMMARY
-
-#     validationFailed=true
-# fi
 
 # # validate password complexity
-# regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\!@#$%^&*?])[A-Za-z\d\!@#$%^&*?]{12,}$"
+$regex = @” 
+^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\!@#$%^&*?])[A-Za-z\d\!@#$%^&*?]{12,}$
+“@
 
-# if [[ $(echo ${zipPassword} | grep -P "$regex") ]]; then
+if ( $zipPassword -cmatch $regex )
+{
+    Write-Output "Password matches the required complexity."
+}
+else
+{
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Output "Password does not meet the required complexity."
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Output "Must be at least 12 characters"
+    Write-Output "Must contain at least one lowercase letter"
+    Write-Output "Must contain at least one uppercase letter"
+    Write-Output "Must contain at least one special character - Special characters can only be one of !@#$%^&*?"
+    Write-Output "Must contain at least one number"
+    Write-Output "------------------------------------------------------------------------------------------------------"
 
-#     echo "Password matches the required complexity."
+    {
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Output "### Password does not meet the required complexity."
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Output "#### - Must be at least 12 characters"
+    Write-Output "#### - Must contain at least one lowercase letter"
+    Write-Output "#### - Must contain at least one uppercase letter"
+    Write-Output "#### - Must contain at least one special character - Special characters can only be one of !@#$%^&*?"
+    Write-Output "#### - Must contain at least one number"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    } >> $GITHUB_STEP_SUMMARY
 
-# else
+    $validationFailed=$true
+}
 
-#     echo "------------------------------------------------------------------------------------------------------"
-#     echo "Password does not meet the required complexity."
-#     echo "------------------------------------------------------------------------------------------------------"
-#     echo "Must be at least 12 characters"
-#     echo "Must contain at least one lowercase letter"
-#     echo "Must contain at least one uppercase letter"
-#     echo "Must contain at least one special character - Special characters can only be one of !@#$%^&*?"
-#     echo "Must contain at least one number"
-#     echo "------------------------------------------------------------------------------------------------------"
 
-#     {
-#     echo "------------------------------------------------------------------------------------------------------"
-#     echo "### Password does not meet the required complexity."
-#     echo "------------------------------------------------------------------------------------------------------"
-#     echo "#### - Must be at least 12 characters"
-#     echo "#### - Must contain at least one lowercase letter"
-#     echo "#### - Must contain at least one uppercase letter"
-#     echo "#### - Must contain at least one special character - Special characters can only be one of !@#$%^&*?"
-#     echo "#### - Must contain at least one number"
-#     echo "------------------------------------------------------------------------------------------------------"
-#     } >> $GITHUB_STEP_SUMMARY
+az storage account list
 
-#     validationFailed=true
-# fi
+
+
+
+if ( ${validationFailed} -eq $true )
+{
+    Write-Output "At least one validation step has failed"
+    exit 1
+}    
+elseif ( ${validationFailed} -eq $false )
+{
+    Write-Output "Validation has been passed successfully"
+}
+
 
 
 
@@ -116,11 +126,3 @@ echo $validationFailed
 #     Write-Error "ERROR Could not determine storage account for Terraform state."
 #     Exit 1
 # }
-
-# if [[ "${validationFailed}" == true ]]; then
-#     exit 1
-
-# elif [[ "${validationFailed}" == false ]]; then
-#     echo "Validation has been passed successfully"
-
-# fi

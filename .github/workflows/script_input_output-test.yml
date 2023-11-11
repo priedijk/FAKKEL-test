@@ -4,44 +4,43 @@ on:
       storageaccount:
         description: "The Storage Account to create a SAS token for."
         type: string
-        default: ''
+        default: ""
       fileshare:
         description: "The Fileshare to create a SAS token for."
         type: string
-        default: ''
+        default: ""
       container:
         description: "The Blob container to create a SAS token for."
         type: string
-        default: ''
+        default: ""
       password:
         description: "The Password to use for the SAS token zip file."
         type: string
-        default: ''
+        default: ""
       access:
         description: "The access the SAS token should have."
         type: choice
         options:
-          - 'read'
-          - 'write'
+          - "read"
+          - "write"
       validity:
         description: "The validity of the SAS token in days."
         type: string
-        default: '7'
-
+        default: "7"
 
 name: Script input output test
 run-name: script | ${{ inputs.storageaccount }} | ${{ inputs.fileshare }} ${{ inputs.container}} | ${{ inputs.password }}
-          
+
 permissions:
   id-token: write
   contents: read
-  issues: write 
+  issues: write
 
 jobs:
   generate-sas-token:
     runs-on: ubuntu-latest
-    environment: 'fakkel'
-    
+    environment: "fakkel"
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -52,13 +51,13 @@ jobs:
           PASSWORD=$(jq -r '.inputs.password' $GITHUB_EVENT_PATH)
           echo ::add-mask::$PASSWORD
 
-      - name: 'Az CLI login'
+      - name: "Az CLI login"
         uses: azure/login@v1
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-     
+
       # - name: Generate SAS token
       #   shell: bash
       #   run: ./scripts/input_output.sh \
@@ -67,9 +66,9 @@ jobs:
       #     ${{ inputs.container }} \
       #     ${{ inputs.password }} \
       #     ${{ inputs.access }} \
-      #     ${{ inputs.validity }} 
+      #     ${{ inputs.validity }}
 
-      - name: Generate SAS token
+      - name: Script test
         shell: pwsh
         run: |
           ./scripts/input_output.ps1 `
@@ -80,7 +79,6 @@ jobs:
           -tokenAccess ${{ inputs.access }} `
           -tokenValidity ${{ inputs.validity }}
 
-
       # - name: Generate SAS token
       #   uses: ./.github/actions/sas-token-generation-zip
       #   with:
@@ -90,6 +88,3 @@ jobs:
       #     password: ${{ inputs.password }}
       #     access: ${{ inputs.access }}
       #     validity: ${{ inputs.validity }}
-
-
-
