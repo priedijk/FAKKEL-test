@@ -11,8 +11,6 @@ param(
 
 # set vars
 $validationFailed=$false
-# $writeToSummary="Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append"
-
 
 # test vars
 # $fileShareName="dev"
@@ -30,28 +28,6 @@ Write-Output "Zip password = ${zipPassword}"
 Write-Output "Token access = ${tokenAccess}"
 Write-Output "Token validity = ${tokenValidity}"
 Write-Output "-----------------------------------------------------------------------------------"
-
-
-
-
-# validate if fileshare name and container name are not both empty
-if (( ${fileShareName} -eq $null -or ${fileShareName} -eq "" ) -and ( ${containerName} -eq $null -or ${containerName} -eq "" )) 
-{
-    Write-Output "------------------------------------------------------------------------------------------------------"
-    Write-Output "A Fileshare or Blob container name must be given as an input"
-    Write-Output "------------------------------------------------------------------------------------------------------"
-
-    {
-    "------------------------------------------------------------------------------------------------------"
-    "#### A Fileshare or Blob container name must be given as an input"
-    "------------------------------------------------------------------------------------------------------"
-    } | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
-
-    $validationFailed=$true
-}
-
-
-
 
 
 ##########################################################################################################################################
@@ -72,23 +48,6 @@ if (( ${fileShareName} -eq $null -or ${fileShareName} -eq "" ) -and ( ${containe
     $validationFailed=$true
 }
 
-
-
-if ( ${validationFailed} -eq $true )
-{
-    Write-Output "At least one validation step has failed"
-    exit 1
-}    
-elseif ( ${validationFailed} -eq $false )
-{
-    Write-Output "Validation has been passed successfully"
-}
-
-
-
-
-
-
 # validate if fileshare name and container name are not defined
 elseif (( -not ${fileShareName} -and -not ${containerName} )) 
 {
@@ -107,7 +66,6 @@ else
 {
     Write-Output "Fileshare or Blob container name has been provided"
 }
-
 
 # # validate password complexity
 $regex = @” 
@@ -143,6 +101,16 @@ else
     $validationFailed=$true
 }
 
+# validate if storage account exists in subscription
+$storageAccount = (az storage account list --query "[?starts_with(name, '${storageAccountName}')].name" -o tsv)
+if (-not $storageAccount) {
+    Write-Error "ERROR Could not find Storage Account."
+
+    $validationFailed=$true
+}
+
+# validate if fileshare or blob container exists
+
 
 
 if ( ${validationFailed} -eq $true )
@@ -157,15 +125,7 @@ elseif ( ${validationFailed} -eq $false )
 
 
 
-# validate if storage account exists in subscription
-$storageAccount = (az storage account list --query "[?starts_with(name, '${storageAccountName}')].name" -o tsv)
-if (-not $storageAccount) {
-    Write-Error "ERROR Could not find Storage Account."
 
-    $validationFailed=$true
-}
-
-# validate if fileshare or blob container exists
 
 
 # determine access and scope of SAS token
