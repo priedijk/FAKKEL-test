@@ -84,7 +84,7 @@ else {
     Write-Output "------------------------------------------------------------------------------------------------------"
 
     "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
-    "### Password does not meet the required complexity."
+    "### Password does not meet the required complexity." | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
     "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
     "#### - Must be at least 12 characters" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
     "#### - Must contain at least one lowercase letter" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
@@ -99,7 +99,7 @@ else {
 # validate if storage account exists in subscription
 $storageAccount = (az storage account list --query "[?starts_with(name, '${storageAccountName}')].name" -o tsv)
 if (-not $storageAccount) {
-    Write-Error "Could not find Storage Account."
+    Write-Outpu "Could not find Storage Account."
 
     "Could not find Storage Account." | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
 
