@@ -145,7 +145,7 @@ elseif ( ${validationFailed} -eq $false )
 
 
 # validate if storage account exists in subscription
-$storageAccount = (az storage account list --query "[?starts_with(name, '${}')].name" -o tsv)
+$storageAccount = (az storage account list --query "[?starts_with(name, '${storageAccountName}')].name" -o tsv)
 if (-not $storageAccount) {
     Write-Error "ERROR Could not find Storage Account."
 
