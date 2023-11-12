@@ -78,7 +78,7 @@ jobs:
             SAS token: ?${{ env.STORAGE_SAS_TOKEN }}
           EOF
 
-          zip -P ${{ inputs.password }} "sas_token" "sas_token.json"
+          zip -P ${{ inputs.password }} "sas_token" "sas_token.txt"
 
       - name: Upload the SAS token ZIP
         uses: actions/upload-artifact@v3

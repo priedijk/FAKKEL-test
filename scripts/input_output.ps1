@@ -179,6 +179,7 @@ if ( ${tokenType} -eq "fileshare" ) {
     $fileshare = (az storage share list `
             --account-name ${storageAccountName} `
             --query "[?starts_with(name, '${fileshareName}')].name" `
+            --only-show-errors `
             -o tsv)
 
 
@@ -209,6 +210,7 @@ elseif ( ${tokenType} -eq "container" ) {
     $container = (az storage container list `
             --account-name ${storageAccountName} `
             --query "[?starts_with(name, '${containerName}')].name" `
+            --only-show-errors `
             -o tsv)
 
     if (-not $container) {
@@ -234,11 +236,16 @@ elseif ( ${tokenType} -eq "container" ) {
 
 # Fail script if one more validation steps have failed
 if ( ${validationFailed} -eq $true ) {
-    Write-Output "At least one validation step has failed"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Error "At least one validation step has failed"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    
     exit 1
 }    
 elseif ( ${validationFailed} -eq $false ) {
+    Write-Output "------------------------------------------------------------------------------------------------------"
     Write-Output "Validation has been passed successfully"
+    Write-Output "------------------------------------------------------------------------------------------------------"
 }
 
 
@@ -258,7 +265,8 @@ if ( ${tokenType} -eq "fileshare" ) {
             --permissions ${tokenPermission} `
             --expiry ${endDateFormatted} `
             --https-only `
-            -o tsv) 
+            --only-show-errors `
+            -o tsv)
 
     # masks output of sasToken
     Write-Output "::add-mask::${sasToken}"
@@ -278,7 +286,8 @@ elseif ( ${tokenType} -eq "container" ) {
             --permissions ${tokenPermission} `
             --expiry ${endDateFormatted} `
             --https-only `
-            -o tsv) 
+            --only-show-errors `
+            -o tsv)
 
     # masks output of sasToken
     Write-Output "::add-mask::${sasToken}"
