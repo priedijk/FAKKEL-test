@@ -60,9 +60,18 @@ elseif (( ${fileShareName} -and ${containerName} )) {
     $validationFailed = $true
 }
 
-else {
-    Write-Output "Fileshare or Blob container name has been provided"
+elseif ( ${fileShareName} ) {
+
+    Write-Output "Fileshare name has been given as input"
+    $tokenType = "fileshare"
 }
+
+elseif ( ${containerName} ) {
+
+    Write-Output "Blob container name has been given as input"
+    $tokenType = "container"
+}
+
 
 # # validate password complexity
 $regex = @” 
@@ -96,10 +105,50 @@ else {
     $validationFailed = $true
 }
 
+$tokenAccess = "write"
+$tokenValidity = 31
+
+# validate SAS token validity
+if (  ${tokenAccess} -eq "read" -and ${tokenValidity} -gt 365 ) {
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Output "Specified SAS token validity is longer then the allowed maximum duration of 1 year (365 days)"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+
+    "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "#### Specified SAS token validity is longer then the allowed maximum duration of 1 year (365 days)" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+
+    $validationFailed = $true
+}
+
+elseif (  ${tokenAccess} -eq "read" -and ${tokenValidity} -le 365 ) {
+
+    Write-Output "Specified SAS token validity is within the maximum duration"
+    $tokenPermission = "lr"
+}
+
+if ( ${tokenAccess} -eq "write" -and ${tokenValidity} -gt 31 ) {
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Output "Specified SAS token validity is longer then the allowed maximum duration of 1 Month (31 days)"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+
+    "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "#### Specified SAS token validity is longer then the allowed maximum duration of 1 Month year (31 days)" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    $validationFailed = $true
+}
+
+elseif ( ${tokenAccess} -eq "write" -and ${tokenValidity} -le 31 ) {
+    
+    Write-Output "Specified SAS token validity is within the maximum duration"
+    $tokenPermission = "cdlrw"
+}
+
+
 # validate if storage account exists in subscription
 $storageAccount = (az storage account list --query "[?starts_with(name, '${storageAccountName}')].name" -o tsv)
 if (-not $storageAccount) {
-    Write-Outpu "Could not find Storage Account."
+    Write-Output "Could not find Storage Account."
 
     "Could not find Storage Account." | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
 
@@ -109,10 +158,13 @@ else {
     Write-Output "Storage Account ${storageAccountName} exist in the subscription"
 }
 
+
 # validate if fileshare or blob container exists
 
 
 
+
+# Fail script if one more validation steps have failed
 if ( ${validationFailed} -eq $true ) {
     Write-Output "At least one validation step has failed"
     exit 1
@@ -122,8 +174,57 @@ elseif ( ${validationFailed} -eq $false ) {
 }
 
 
+##########################################################################################################################################
+###### Generate SAS token
+##########################################################################################################################################
+
+# Generate fileshare SAS token
+$endDate = (Get-Date).AddDays(${tokenValidity})
+
+if ( ${tokenType} -eq "fileshare" ) {
+
+    $sasToken = (az storage share generate-sas `
+            --name ${fileshareName} `
+            --account-name ${storageAccountName} `
+            --permissions ${tokenPermission} `
+            --expiry ${endDate} `
+            --https-only `
+            -o tsv) 
+
+    # masks output of sasToken
+    Write-Output "::add-mask::${sasToken}"
+
+    # Write-Output "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
+    # Write-Output "SAS_END_DATE=${endDate}" >> $GITHUB_ENV
+
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Output "fileshare SAS has been generated"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+}
 
 
+# Generate blob container SAS token
+elseif ( ${tokenType} -eq "container" ) {
 
+    $sasToken = (az storage container generate-sas `
+            --name ${containerName} `
+            --account-name ${storageAccountName} `
+            --permissions ${tokenPermission} `
+            --expiry ${endDate} `
+            --https-only `
+            -o tsv) 
 
-# determine access and scope of SAS token
+    # masks output of sasToken
+    Write-Output "::add-mask::${sasToken}"
+
+    # Write-Output "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
+    # Write-Output "SAS_END_DATE=${endDate}" >> $GITHUB_ENV
+
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Output "Blob container SAS has been generated"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+}
+
+${sasToken}
+${sasToken}
+${sasToken}
