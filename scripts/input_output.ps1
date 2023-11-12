@@ -213,7 +213,7 @@ elseif ( ${tokenType} -eq "container" ) {
             --name ${containerName} `
             --account-name ${storageAccountName} `
             --permissions ${tokenPermission} `
-            --expiry ${endDate} `
+            --expiry ${endDateFormatted} `
             --https-only `
             -o tsv) 
 
