@@ -83,7 +83,7 @@ jobs:
       - name: Upload the SAS token ZIP
         uses: actions/upload-artifact@v3
         with:
-          name: SAS_TOKEN_${{ inputs.action }}_ZIP
+          name: SAS_TOKEN_${{ env.SAS_TOKEN_TYPE }}_${{ inputs.access }}_ZIP
           path: sas_token.zip
 
       - name: output SAS token
