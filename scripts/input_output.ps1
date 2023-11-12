@@ -31,7 +31,7 @@ Write-Output "------------------------------------------------------------------
 
 
 ##########################################################################################################################################
-###### validation steps
+###### Validation steps
 ##########################################################################################################################################
 
 # validate if fileshare name and container name are not both empty
@@ -61,14 +61,18 @@ elseif (( ${fileShareName} -and ${containerName} )) {
 }
 
 elseif ( ${fileShareName} ) {
-
+    Write-Output "------------------------------------------------------------------------------------------------------"
     Write-Output "Fileshare name has been given as input"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+
     $tokenType = "fileshare"
 }
 
 elseif ( ${containerName} ) {
-
+    Write-Output "------------------------------------------------------------------------------------------------------"
     Write-Output "Blob container name has been given as input"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+
     $tokenType = "container"
 }
 
@@ -79,7 +83,9 @@ $regex = @”
 “@
 
 if ( $zipPassword -cmatch $regex ) {
+    Write-Output "------------------------------------------------------------------------------------------------------"
     Write-Output "Password matches the required complexity."
+    Write-Output "------------------------------------------------------------------------------------------------------"
 }
 else {
     Write-Output "------------------------------------------------------------------------------------------------------"
@@ -105,8 +111,6 @@ else {
     $validationFailed = $true
 }
 
-$tokenAccess = "write"
-$tokenValidity = 31
 
 # validate SAS token validity
 if (  ${tokenAccess} -eq "read" -and ${tokenValidity} -gt 365 ) {
@@ -123,7 +127,10 @@ if (  ${tokenAccess} -eq "read" -and ${tokenValidity} -gt 365 ) {
 
 elseif (  ${tokenAccess} -eq "read" -and ${tokenValidity} -le 365 ) {
 
+    Write-Output "------------------------------------------------------------------------------------------------------"
     Write-Output "Specified SAS token validity is within the maximum duration"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+
     $tokenPermission = "lr"
 }
 
@@ -148,20 +155,81 @@ elseif ( ${tokenAccess} -eq "write" -and ${tokenValidity} -le 31 ) {
 # validate if storage account exists in subscription
 $storageAccount = (az storage account list --query "[?starts_with(name, '${storageAccountName}')].name" -o tsv)
 if (-not $storageAccount) {
-    Write-Output "Could not find Storage Account."
 
-    "Could not find Storage Account." | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Output "Storage Account: ${storageAccountName}, does not exist in the subscription"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+
+    "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "#### Storage Account: ${storageAccountName}, does not exist in the subscription" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
 
     $validationFailed = $true
 }
 else {
-    Write-Output "Storage Account ${storageAccountName} exists in the subscription"
+    Write-Output "------------------------------------------------------------------------------------------------------"
+    Write-Output "Storage Account: ${storageAccountName}, exists in the subscription"
+    Write-Output "------------------------------------------------------------------------------------------------------"
 }
-
 
 # validate if fileshare or blob container exists
 
+if ( ${tokenType} -eq "fileshare" ) {
 
+    $fileshare = (az storage share list `
+            --account-name ${storageAccountName} `
+            --query "[?starts_with(name, '${fileshareName}')].name" `
+            -o tsv)
+
+
+    if (-not $fileshare) {
+
+        Write-Output "------------------------------------------------------------------------------------------------------"
+        Write-Output "Fileshare: ${fileshareName}, does not exist inside Storage Account: ${storageAccountName}"
+        Write-Output "------------------------------------------------------------------------------------------------------"
+        
+        "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+        "#### Fileshare: ${fileshareName}, does not exist inside Storage Account: ${storageAccountName}" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+        "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+        
+        $validationFailed = $true
+    }
+    else {
+        Write-Output "------------------------------------------------------------------------------------------------------"
+        Write-Output "Fileshare: ${fileshareName}, exists inside Storage Account: ${storageAccountName}"
+        Write-Output "------------------------------------------------------------------------------------------------------"
+    }
+            
+}
+
+
+# Generate blob container SAS token
+elseif ( ${tokenType} -eq "container" ) {
+
+    $container = (az storage container list `
+            --account-name ${storageAccountName} `
+            --query "[?starts_with(name, '${containerName}')].name" `
+            -o tsv)
+
+    if (-not $container) {
+
+        Write-Output "------------------------------------------------------------------------------------------------------"
+        Write-Output "Blob container: ${containerName}, does not exist inside Storage Account: ${storageAccountName}"
+        Write-Output "------------------------------------------------------------------------------------------------------"
+    
+        "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+        "#### Blob container: ${containerName}, does not exist inside Storage Account: ${storageAccountName}" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+        "------------------------------------------------------------------------------------------------------" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    
+        $validationFailed = $true
+    }
+    else {
+        Write-Output "------------------------------------------------------------------------------------------------------"
+        Write-Output "Blob container: ${containerName}, exists inside Storage Account: ${storageAccountName}"
+        Write-Output "------------------------------------------------------------------------------------------------------"
+    }
+        
+}
 
 
 # Fail script if one more validation steps have failed
@@ -179,8 +247,6 @@ elseif ( ${validationFailed} -eq $false ) {
 ##########################################################################################################################################
 
 # Generate fileshare SAS token
-
-
 $endDate = (Get-Date).AddDays(${tokenValidity})
 $endDateFormatted = ${endDate}.ToString("yyyy-MM-ddTHH:mmZ")
 
@@ -196,9 +262,6 @@ if ( ${tokenType} -eq "fileshare" ) {
 
     # masks output of sasToken
     Write-Output "::add-mask::${sasToken}"
-
-    # Write-Output "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
-    # Write-Output "SAS_END_DATE=${endDate}" >> $GITHUB_ENV
 
     Write-Output "------------------------------------------------------------------------------------------------------"
     Write-Output "fileshare SAS has been generated"
@@ -220,14 +283,18 @@ elseif ( ${tokenType} -eq "container" ) {
     # masks output of sasToken
     Write-Output "::add-mask::${sasToken}"
 
-    # Write-Output "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
-    # Write-Output "SAS_END_DATE=${endDate}" >> $GITHUB_ENV
-
     Write-Output "------------------------------------------------------------------------------------------------------"
     Write-Output "Blob container SAS has been generated"
     Write-Output "------------------------------------------------------------------------------------------------------"
 }
 
-${sasToken}
-${sasToken}
-${sasToken}
+
+##########################################################################################################################################
+###### Output variables
+##########################################################################################################################################
+
+# Write variables to Github env
+Write-Output "SAS_TOKEN_TYPE=${tokenType}" >> $GITHUB_ENV
+Write-Output "SAS_TOKEN_ACCESS=${tokenAccess}" >> $GITHUB_ENV
+Write-Output "SAS_END_DATE=${endDateFormatted}" >> $GITHUB_ENV
+Write-Output "STORAGE_SAS_TOKEN=${sasToken}" >> $GITHUB_ENV
