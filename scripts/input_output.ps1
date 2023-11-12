@@ -155,7 +155,7 @@ if (-not $storageAccount) {
     $validationFailed = $true
 }
 else {
-    Write-Output "Storage Account ${storageAccountName} exist in the subscription"
+    Write-Output "Storage Account ${storageAccountName} exists in the subscription"
 }
 
 
@@ -179,7 +179,10 @@ elseif ( ${validationFailed} -eq $false ) {
 ##########################################################################################################################################
 
 # Generate fileshare SAS token
+
+
 $endDate = (Get-Date).AddDays(${tokenValidity})
+$endDateFormatted = ${endDate}.ToString("yyyy-MM-ddTHH:mmZ")
 
 if ( ${tokenType} -eq "fileshare" ) {
 
@@ -187,7 +190,7 @@ if ( ${tokenType} -eq "fileshare" ) {
             --name ${fileshareName} `
             --account-name ${storageAccountName} `
             --permissions ${tokenPermission} `
-            --expiry ${endDate} `
+            --expiry ${endDateFormatted} `
             --https-only `
             -o tsv) 
 
