@@ -3,7 +3,7 @@ param(
     [String] [Parameter (Mandatory = $true)]  $storageAccountName,
     [String] [Parameter (Mandatory = $true)]  $zipPassword,
     [String] [Parameter (Mandatory = $true)]  $tokenAccess,
-    [String] [Parameter (Mandatory = $true)]  $tokenValidity,
+    [int] [Parameter (Mandatory = $true)] $tokenValidity,
     [String] $fileShareName,
     [String] $containerName
 )
