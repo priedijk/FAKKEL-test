@@ -57,7 +57,7 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Script test
+      - name: Generate SAS token
         shell: pwsh
         run: |
           ./scripts/input_output.ps1 `
@@ -108,23 +108,3 @@ jobs:
             } >> $GITHUB_STEP_SUMMARY
 
           fi
-
-      # - name: Generate SAS token
-      #   shell: bash
-      #   run: ./scripts/input_output.sh \
-      #     ${{ inputs.storageaccount }} \
-      #     ${{ inputs.fileshare }} \
-      #     ${{ inputs.container }} \
-      #     ${{ inputs.password }} \
-      #     ${{ inputs.access }} \
-      #     ${{ inputs.validity }}
-
-      # - name: Generate SAS token
-      #   uses: ./.github/actions/sas-token-generation-zip
-      #   with:
-      #     storageaccount: ${{ inputs.storageaccount }}
-      #     fileshare: ${{ inputs.fileshare }}
-      #     container: ${{ inputs.container }}
-      #     password: ${{ inputs.password }}
-      #     access: ${{ inputs.access }}
-      #     validity: ${{ inputs.validity }}
