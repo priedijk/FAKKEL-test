@@ -302,6 +302,9 @@ elseif ( ${tokenType} -eq "container" ) {
 ###### Output 
 ##########################################################################################################################################
 
+"SAS_TOKEN_TYPE=${tokenType}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+
 # generate ZIP file
 "Type of Token: ${tokenType}" | Out-File -FilePath "sas_token.txt" -Append
 "Token Capability: ${tokenAccess}" | Out-File -FilePath "sas_token.txt" -Append
