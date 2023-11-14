@@ -68,17 +68,17 @@ jobs:
           -tokenAccess ${{ inputs.access }} `
           -tokenValidity ${{ inputs.validity }}
 
-      - name: Generate SAS token ZIP
-        shell: bash
-        run: |
-          cat <<EOF >sas_token.txt
-            Type of Token: ${{ env.SAS_TOKEN_TYPE }}
-            Token Capability: ${{ env.SAS_TOKEN_ACCESS }}
-            End date: ${{ env.SAS_END_DATE }}
-            SAS token: ?${{ env.STORAGE_SAS_TOKEN }}
-          EOF
+      # - name: Generate SAS token ZIP
+      #   shell: bash
+      #   run: |
+      #     cat <<EOF >sas_token.txt
+      #       Type of Token: ${{ env.SAS_TOKEN_TYPE }}
+      #       Token Capability: ${{ env.SAS_TOKEN_ACCESS }}
+      #       End date: ${{ env.SAS_END_DATE }}
+      #       SAS token: ?${{ env.STORAGE_SAS_TOKEN }}
+      #     EOF
 
-          zip -P ${{ inputs.password }} "sas_token" "sas_token.txt"
+      #     zip -P ${{ inputs.password }} "sas_token" "sas_token.txt"
 
       - name: Upload the SAS token ZIP
         uses: actions/upload-artifact@v3

@@ -314,4 +314,4 @@ elseif ( ${tokenType} -eq "container" ) {
 "End date: ${endDateFormatted}" | Out-File -FilePath ../test.txt -Append
 "SAS token: ?${sasToken}" | Out-File -FilePath ../test.txt -Append
 
-zip -P "feojoajp" "sas_token" "../test.txt"
+zip -P ${zipPassword} "sas_token" "../test.txt"
