@@ -84,7 +84,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: SAS_TOKEN_${{ env.SAS_TOKEN_TYPE }}_${{ inputs.access }}_ZIP
-          path: sas_token.zip
+          path: scripts/sas_token.zip
 
       - name: output SAS token
         shell: bash

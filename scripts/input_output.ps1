@@ -309,9 +309,9 @@ elseif ( ${tokenType} -eq "container" ) {
 "STORAGE_SAS_TOKEN=${sasToken}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
 
-"Type of Token: ${tokenType}" | Out-File -FilePath ../test.txt -Append
-"Token Capability: ${tokenAccess}" | Out-File -FilePath ../test.txt -Append
-"End date: ${endDateFormatted}" | Out-File -FilePath ../test.txt -Append
-"SAS token: ?${sasToken}" | Out-File -FilePath ../test.txt -Append
+"Type of Token: ${tokenType}" | Out-File -FilePath "sas_token.txt" -Append
+"Token Capability: ${tokenAccess}" | Out-File -FilePath "sas_token.txt" -Append
+"End date: ${endDateFormatted}" | Out-File -FilePath "sas_token.txt" -Append
+"SAS token: ?${sasToken}" | Out-File -FilePath "sas_token.txt" -Append
 
-zip -P ${zipPassword} "sas_token" "../test.txt"
+zip -P ${zipPassword} "sas_token" "sas_token.txt"
