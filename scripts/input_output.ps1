@@ -312,11 +312,6 @@ zip -P ${zipPassword} "sas_token" "sas_token.txt"
 
 
 # Write SAS information to Github Step Summary
-# "SAS_TOKEN_TYPE=${tokenType}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-# "SAS_TOKEN_ACCESS=${tokenAccess}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-# "SAS_END_DATE=${endDateFormatted}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-# "STORAGE_SAS_TOKEN=${sasToken}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-
 if ( ${tokenType} -eq "fileshare" ) {
     "### Workflow variables" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
     "| Variable   | Value       |" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
