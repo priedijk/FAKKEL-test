@@ -299,19 +299,36 @@ elseif ( ${tokenType} -eq "container" ) {
 
 
 ##########################################################################################################################################
-###### Output variables
+###### Output 
 ##########################################################################################################################################
 
-# Write variables to Github env
-"SAS_TOKEN_TYPE=${tokenType}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-"SAS_TOKEN_ACCESS=${tokenAccess}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-"SAS_END_DATE=${endDateFormatted}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-"STORAGE_SAS_TOKEN=${sasToken}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-
-
+# generate ZIP file
 "Type of Token: ${tokenType}" | Out-File -FilePath "sas_token.txt" -Append
 "Token Capability: ${tokenAccess}" | Out-File -FilePath "sas_token.txt" -Append
 "End date: ${endDateFormatted}" | Out-File -FilePath "sas_token.txt" -Append
 "SAS token: ?${sasToken}" | Out-File -FilePath "sas_token.txt" -Append
 
 zip -P ${zipPassword} "sas_token" "sas_token.txt"
+
+
+# Write SAS information to Github Step Summary
+# "SAS_TOKEN_TYPE=${tokenType}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+# "SAS_TOKEN_ACCESS=${tokenAccess}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+# "SAS_END_DATE=${endDateFormatted}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+# "STORAGE_SAS_TOKEN=${sasToken}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+if ( ${tokenType} -eq "fileshare" ) {
+    "### Workflow variables" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "| Variable   | Value       |" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "| ---------- | ----------- |" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "| Fileshare SAS token | ${sasToken} |" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "| Fileshare SAS URL | https://${storageaccountName}.file.core.windows.net/${fileshareName}${sasToken} |" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+}
+
+elseif ( ${tokenType} -eq "container" ) {
+    "### Workflow variables" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "| Variable   | Value       |" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "| ---------- | ----------- |" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "| Blob container SAS token | ${sasToken} |" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+    "| Blob container SAS URL | https://${storageaccountName}.blob.core.windows.net/${containerName}${sasToken} |" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf-8 -Append
+}
