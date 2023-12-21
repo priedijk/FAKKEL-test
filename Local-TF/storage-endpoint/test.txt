@@ -1,0 +1,1 @@
+terraform import azurerm_storage_account.example "/subscriptions/6d67d5d0-fc45-49eb-af8d-053a6064db99/resourceGroups/rg-st-correct-endpoint/providers/Microsoft.Storage/storageAccounts/stendpointccount13408"
