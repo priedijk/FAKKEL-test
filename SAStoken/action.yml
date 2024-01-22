@@ -1,0 +1,48 @@
+name: "Generate SAS token action"
+description: "Generate SAS token"
+
+inputs:
+  storageaccount:
+    description: "The Storage Account to create a SAS token for."
+    required: true
+  fileshare:
+    description: "The Fileshare to create a SAS token for."
+    required: true
+  container:
+    description: "The Blob container to create a SAS token for."
+    required: true
+  password:
+    description: "The Password to use for the SAS token zip file."
+    required: true
+  access:
+    description: "The type of SAS token to create."
+    required: true
+  validity:
+    description: "The validity of the SAS token in days."
+    required: true
+    
+runs:
+  using: "composite"
+  steps:    
+    - name: Masking password
+      shell: bash
+      run: |
+        PASSWORD=$(jq -r '.inputs.password' $GITHUB_EVENT_PATH)
+        echo ::add-mask::$PASSWORD
+
+    - name: Generate SAS token
+      shell: pwsh
+      run: |
+        ${{ github.action_path }}/scripts/generate_sas.ps1 `
+        -storageAccountName ${{ inputs.storageaccount }} `
+        -fileShareName "${{ inputs.fileshare }}" `
+        -containerName "${{ inputs.container }}" `
+        -zipPassword ${{ inputs.password }} `
+        -tokenAccess ${{ inputs.access }} `
+        -tokenValidity ${{ inputs.validity }}
+
+    - name: Upload the SAS token ZIP
+      uses: actions/upload-artifact@v3
+      with:
+        name: SAS_TOKEN_${{ env.SAS_TOKEN_TYPE }}_${{ inputs.access }}
+        path: sas_token.zip
