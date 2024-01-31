@@ -1,0 +1,20 @@
+---
+    - name: ansible template name
+      set_fact:
+        app_name: "WEB@ (OU VUI PHP)" 
+
+    - name: service name
+      set_fact:
+        replaced_name: "{{ app_name | regex_replace('[^A-Za-z0-9@ ]', '') | replace('@', 'a') | replace(' ', '') | lower }}"  
+    
+    - name: service name
+      set_fact:
+        placed_name: "{{ replaced_name[:35] }}"  
+
+    - name: Print replaced_name
+      debug:
+        msg: "{{ replaced_name }}"
+
+    - name: Print placed_name
+      debug:
+        msg: "{{ placed_name }}"

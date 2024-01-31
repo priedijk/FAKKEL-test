@@ -1,0 +1,18 @@
+---
+  - name: "Playing with Ansible and Git"
+    hosts: localhost
+    connection: local 
+    tasks:
+
+      - name: ansible template name
+        set_fact:
+          upper_name: "TRueUPPPER" 
+
+      - name: test variables
+        include_tasks: test.yml
+        vars:
+          app_name: "{{ upper_name | lower }}"
+
+      - name: Print ending
+        debug:
+          msg: "after ending play message"

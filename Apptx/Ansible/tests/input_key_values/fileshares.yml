@@ -1,0 +1,11 @@
+fileshares:
+  fs-share-1: 
+    protocol: SMB
+  fs-share-2:
+    protocol: NFS
+  fs-share-3:
+    protocol: NFS
+  fs-share-4:
+    quota: 1000
+  fs-share-5: 
+    quota: 200gb

@@ -1,0 +1,76 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+
+    - name: Set App Service Plan Number tag to 2 if second plan does not exist
+      register: app_service_plan_number_2
+      set_fact:
+        app_service_plan_number: "3"  
+
+    - name: Get facts for app service plan 1
+      register: appserviceplan1_output
+      azure_rm_resourcegroup_info:
+        tags: app_service_plan_number:1
+
+    - name: Get facts for app service plan 2
+      register: appserviceplan2_output
+      azure_rm_resourcegroup_info:
+        tags: app_service_plan_number:2
+        
+    - name: Get facts for app service plan 3
+      register: appserviceplan3_output
+      azure_rm_resourcegroup_info:
+        tags: app_service_plan_number:3
+
+    - name: Get facts for app service plan 4
+      register: appserviceplan4_output
+      azure_rm_resourcegroup_info:
+        tags: app_service_plan_number:4
+
+    - name: Get facts for app service plan 5
+      register: appserviceplan5_output
+      azure_rm_resourcegroup_info:
+        tags: app_service_plan_number:5
+
+
+    - name: Print rg
+      debug:
+        msg: "RG = {{ appserviceplan1_output.resourcegroups }}"
+    - name: Print rg
+      debug:
+        msg: "RG = {{ appserviceplan2_output.resourcegroups }}"
+    - name: Print rg
+      debug:
+        msg: "RG = {{ appserviceplan3_output.resourcegroups }}"
+    - name: Print rg
+      debug:
+        msg: "RG = {{ appserviceplan4_output.resourcegroups }}"
+    - name: Print rg
+      debug:
+        msg: "RG = {{ appserviceplan5_output.resourcegroups }}"
+
+    - name: Fail the playbook if App service plan 1 does not exist
+      fail:
+        msg: "App Service Plan 1 does not exist, Please create it plan first"
+      when: app_service_plan_number == "1" and appserviceplan1_output.resourcegroups|length == 0
+
+    - name: Fail the playbook if App service plan 2 does not exist
+      fail:
+        msg: "App Service Plan 2 does not exist, Please create it plan first"
+      when: app_service_plan_number == "2" and appserviceplan2_output.resourcegroups|length == 0
+
+    - name: Fail the playbook if App service plan 3 does not exist
+      fail:
+        msg: "App Service Plan 3 does not exist, Please create it plan first"
+      when: app_service_plan_number == "3" and appserviceplan3_output.resourcegroups|length == 0
+
+    - name: Fail the playbook if App service plan 4 does not exist
+      fail:
+        msg: "App Service Plan 4 does not exist, Please create it plan first"
+      when: app_service_plan_number == "4" and appserviceplan4_output.resourcegroups|length == 0
+
+    - name: Fail the playbook if App service plan 5 does not exist
+      fail:
+        msg: "App Service Plan 5 does not exist, Please create it plan first"
+      when: app_service_plan_number == "5" and appserviceplan5_output.resourcegroups|length == 0

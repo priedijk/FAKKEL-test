@@ -1,0 +1,40 @@
+    - name: ansible template name
+      set_fact:
+        tf_folder_name: "cosmos"
+
+    - name: post provisioning template name
+      set_fact:
+        migrated_service_categories: "[ 'operation', 'cosmos' ]"
+
+    - name: if sting is in list of values
+      debug:
+        msg: "if sting is in list of values {{ tf_folder_name }}"
+      when: tf_folder_name in migrated_service_categories
+
+    - name: Print list
+      debug:
+        msg: "{{ migrated_service_categories }}"
+
+    # - name: Set workspace_name - new
+    #   set_fact:
+    #     workspace_name: "ws-{{ tf_folder_name }}"
+    #   when: tf_folder_name in migrated_service_categories
+
+    # - name: Set workspace_name - old
+    #   set_fact:
+    #     workspace_name: "old-convention-{{ tf_folder_name }}"
+    #   when: tf_folder_name not in migrated_service_categories
+
+    - name: Set workspace_name - VM
+      set_fact:
+        workspace_name: "ws-{{ tf_folder_name }}"
+      when: tf_folder_name == 'operation'
+
+    - name: Set workspace_name - general
+      set_fact:
+        workspace_name: "old-convention-{{ tf_folder_name }}"
+      when: tf_folder_name != 'operation'
+
+    - name: print workspace_name
+      debug:
+        msg: "workspace: {{ workspace_name }}"

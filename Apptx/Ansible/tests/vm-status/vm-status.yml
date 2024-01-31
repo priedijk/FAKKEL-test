@@ -1,0 +1,56 @@
+---
+    - name: set vm name
+      set_fact:
+        vm_name: "Ansible-VM"
+    
+    - name: Get VM information
+      ansible.builtin.shell: az vm list --show-details --query "[?name=='{{ vm_name }}']"
+      register: vm_details
+
+    - name: set multiple facts
+      set_fact:
+        vm1: "{{ vm_details.stdout | from_json }}"
+
+    - block:
+        - name: "end play if VM does not exist"
+          debug:
+            msg: "VM does not exist in Azure, ending play"
+          when: not (vm_details.stdout | from_json)
+
+        - name: "vm details"
+          debug:
+            msg: var = {{ vm_details.stdout }}
+      when: (vm_details.stdout | from_json)
+
+    - block:
+        - name: Retrieve VM properties
+          ansible.builtin.set_fact:
+            vm_powerstate: "{{ vm_details.stdout | from_json | first | json_query('powerState') }}"
+            vm_resource_group: "{{ vm_details.stdout | from_json | first | json_query('resourceGroup') }}"
+
+        - name: Print VM powerstate
+          debug:
+            msg: "{{ vm_powerstate }}"
+
+        - name: Print VM vm_resource_group
+          debug:
+            msg: "{{ vm_resource_group }}" 
+          when: vm_powerstate == 'VM running'
+
+        - name: start Azure VM
+          ansible.builtin.shell: az vm start -n '{{ vm_name }}' -g "{{ vm_resource_group }}"
+          when: vm_powerstate != 'VM running'
+
+        - name: Wait for Azure VM to start
+          ansible.builtin.shell: az vm list --show-details --query "[?name=='{{ vm_name }}']"
+          register: vm_status
+          until: "(vm_status.stdout | from_json | first | json_query('powerState')) == 'VM running'"
+          delay: 5
+          retries: 25
+          when: vm_powerstate != 'VM running'
+      when: (vm_details.stdout | from_json)
+
+    - name: "end play if VM does not exist"
+      debug:
+        msg: "VM does not exist in Azure, ending play"
+      when: not (vm_details.stdout | from_json)

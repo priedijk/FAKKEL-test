@@ -1,0 +1,98 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Get facts for app service plan 1
+      register: appserviceplan1_output
+      azure_rm_resourcegroup_info:
+        tags: app_service_plan_number:1
+
+    - name: Get facts for app service plan 2
+      register: appserviceplan2_output
+      azure_rm_resourcegroup_info:
+        tags: app_service_plan_number:2
+        
+    - name: Get facts for app service plan 3
+      register: appserviceplan3_output
+      azure_rm_resourcegroup_info:
+        tags: app_service_plan_number:3
+
+    - name: Get facts for app service plan 4
+      register: appserviceplan4_output
+      azure_rm_resourcegroup_info:
+        tags: app_service_plan_number:4
+
+    - name: Get facts for app service plan 5
+      register: appserviceplan5_output
+      azure_rm_resourcegroup_info:
+        tags: app_service_plan_number:5
+
+    - name: Get facts for app service plan 6
+      register: appserviceplan6_output
+      azure_rm_resourcegroup_info:
+        tags: app_service_plan_number:6
+
+
+
+
+
+    - name: Set App Service Plan Number tag to 1 if first plan does not exist
+      register: app_service_plan_number_1
+      set_fact:
+        app_service_plan_number: "1"  
+      when: appserviceplan1_output.resourcegroups|length == 0
+      
+    - name: Set App Service Plan Number tag to 2 if second plan does not exist
+      register: app_service_plan_number_2
+      set_fact:
+        app_service_plan_number: "2"  
+      when: appserviceplan2_output.resourcegroups|length == 0 and (app_service_plan_number_1 is skipped)
+
+    - name: Set App Service Plan Number tag to 3 if third plan does not exist
+      register: app_service_plan_number_3
+      set_fact:
+        app_service_plan_number: "3"  
+      when: appserviceplan3_output.resourcegroups|length == 0 and (app_service_plan_number_1 is skipped and app_service_plan_number_2 is skipped)
+
+    - name: Set App Service Plan Number tag to 4 if fourth plan does not exist
+      register: app_service_plan_number_4
+      set_fact:
+        app_service_plan_number: "4"  
+      when: appserviceplan4_output.resourcegroups|length == 0 and (app_service_plan_number_1 is skipped and app_service_plan_number_2 is skipped and app_service_plan_number_3 is skipped)
+
+    - name: Set App Service Plan Number tag to 5 if fifth plan does not exist
+      register: app_service_plan_number_5
+      set_fact:
+        app_service_plan_number: "5"  
+      when: appserviceplan5_output.resourcegroups|length == 0 and (app_service_plan_number_1 is skipped and app_service_plan_number_2 is skipped and app_service_plan_number_3 is skipped and app_service_plan_number_4 is skipped)
+
+    - name: Fail the playbook if 5 App Service Plans exist
+      fail:
+        msg: "Current amount of App Service Plans equals 5, You can't deploy any more plans"
+      when: appserviceplan6_output.resourcegroups|length != 0 or (app_service_plan_number_1 is skipped and app_service_plan_number_2 is skipped and app_service_plan_number_3 is skipped and app_service_plan_number_4 is skipped and app_service_plan_number_5 is skipped)
+
+    - name: Print rg 1
+      debug:
+        msg: "RG = {{ appserviceplan1_output.resourcegroups }}"
+    - name: Print rg 2
+      debug:
+        msg: "RG = {{ appserviceplan2_output.resourcegroups }}"
+    - name: Print rg 3
+      debug:
+        msg: "RG = {{ appserviceplan3_output.resourcegroups }}"
+    - name: Print rg 4
+      debug:
+        msg: "RG = {{ appserviceplan4_output.resourcegroups }}"
+    - name: Print rg 5
+      debug:
+        msg: "RG = {{ appserviceplan5_output.resourcegroups }}"
+
+
+
+
+    - name: Creating resource group
+      azure_rm_resourcegroup:
+        name: "Made-by-Ansible-{{ app_service_plan_number }}"
+        location: "westeurope"
+        tags: 
+            app_service_plan_number: "{{ app_service_plan_number }}"

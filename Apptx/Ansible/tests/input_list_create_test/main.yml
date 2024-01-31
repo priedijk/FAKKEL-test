@@ -1,0 +1,19 @@
+---
+  - name: "Playing with Ansible and Git"
+    hosts: localhost
+    connection: local 
+    tasks:
+
+      - name: set facts
+        set_fact:
+          resource_group_name: "fileshare-tests"
+          fileshare_protocol: "SMB"
+          quota: "100"
+          storage_account_name: filesharetest12408
+          
+      - name: test loop
+        include_tasks: loop.yml
+          
+      - name: Print ending
+        debug:
+          msg: "after ending play message"

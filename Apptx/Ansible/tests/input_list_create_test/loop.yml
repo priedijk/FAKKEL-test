@@ -1,0 +1,9 @@
+---
+  - name: "Print full var"
+    debug:
+      msg: "{{ fileshares }}"
+
+  - name: Create fileshares
+    shell: "az storage share-rm create --resource-group {{ resource_group_name }} --storage-account {{ storage_account_name }} --name {{ item }} --enabled-protocol {{ fileshare_protocol }} --quota {{ quota }}"
+    when: fileshare_protocol == "SMB"
+    loop: "{{ fileshares }}"

@@ -1,0 +1,30 @@
+---
+  - name: "Playing with Ansible and Git"
+    hosts: localhost
+    connection: local 
+    tasks:
+
+    - name: ansible template name
+      set_fact:
+        tower_job_template_name: "template-vm"
+
+    - name: set post provisioning template name
+      block:
+        - name: set post provisioning template name template-vm-post-provisioning
+          when: tower_job_template_name == "template-vm"
+          set_fact: 
+            post_provisioning_template_name: "template-vm-post-provisioning" 
+
+        - name: set post provisioning template name to template-vm-post-provisioning-dev
+          when: tower_job_template_name == "template-vm-dev"
+          set_fact: 
+            post_provisioning_template_name: "template-vm-post-provisioning-dev" 
+
+        - name: set post provisioning template name to template-vm-post-provisioning-dev1
+          when: tower_job_template_name == "template-vm-dev1"
+          set_fact: 
+            post_provisioning_template_name: "template-vm-post-provisioning-dev1" 
+
+    - name: Print post provisioning template name
+      debug:
+        msg: "{{ post_provisioning_template_name }}"

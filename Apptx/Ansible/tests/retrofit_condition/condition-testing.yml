@@ -1,0 +1,83 @@
+    - name: ansible template name
+      set_fact:
+        ansible_template_name: "stapp-cconditio" 
+
+    - name: service name
+      set_fact:
+        services: "st"  
+
+    - name: template condition
+      set_fact:
+        template_condition: "{{ 'no will not be taken' if ansible_template_name.startswith('stapp') else 'will be taken' }}"
+    
+    - name: Print template_condition
+      debug:
+        msg: "file_is_taken = {{ template_condition }}"
+        
+    - name: Print ansible_template_name value
+      debug:
+        msg: "ansible_template_name = {{ ansible_template_name }}"
+
+    - name: Print when
+      debug:
+        msg: "when printed"
+      when: (ansible_template_name.startswith('stapp')) or 
+            (ansible_template_name.startswith('diff'))
+
+    - name: item path
+      set_fact:
+        item_path: "storage/sttest-pop.tf"
+
+    - name: Print item path
+      debug:
+        msg: "{{ item_path }}"
+
+    - name: Print split1
+      debug:
+        msg: "{{ item_path | basename | replace('.tf', '') }}"
+
+# split on '/' take last split so xxx/zz-yy --> take zz-yy. split zz-yy on '-' take first split --> zz
+    - name: Print split2
+      debug:
+        msg: "{{ item_path.split('/')[-1].split('-')[0] }}"
+
+# split on '/' take last split so xxx/zz-yy --> take zz-yy. take first two characters --> zz
+    - name: Print split3
+      debug:
+        msg: "{{ item_path.split('/')[-1][:2] }}"
+        # st
+    - name: Print split4
+      debug:
+        msg: "{{ item_path.split('/')[0] }}"
+        # storage
+    - name: Print split5
+      debug:
+        msg: "{{ item_path.split('/')[1] }}"
+        # sttest-pop.tf
+    - name: Print split6
+      debug:
+        msg: "{{ item_path.split('/')[-1] }}"
+        # sttest-pop.tf
+    - name: Print split7
+      debug:
+        msg: "{{ item_path.split('/')[-2] }}"
+        # storage
+
+    - name: Print condition result
+      debug:
+        msg: "one of the conditions have been met"
+      when: (item_path.split('/')[-1].split('-')[0] in services) or # sttest
+            (item_path.split('/')[-1][:2] in services) or # st
+            # (item_path.split('/')[-1][:2] in services and (item_path.split('/')[-2] == "storage" and "stapp" not in (item_path | basename | replace('.tf', '')))) or 
+            (item_path.split('/')[-2] == "operation" and "vm" in services) or # storage 
+            (services == "all")
+
+
+
+
+  when: 
+    # - (item_path | basename | replace('.tf', '') not in skipped_list)
+    - (item_path.split('/')[-1].split('-')[0] in services) or
+      (item_path.split('/')[-1][:2] in services) or 
+      (item_path.split('/')[-2] == "operation" and "vm" in services) or 
+      (services[0] == "all")

@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+
+    - name: Set App Service Plan Number
+      set_fact:
+        app_service_plan_number: "1"  
+
+    - name: When plan is 1 chosen set first subnet
+      set_fact:
+        subnet_name: "{{ 'AppServiceEndpointSubnet' if (app_service_plan_number == '1') else 'AppServiceEndpointLargeSubnet' }}"
+
+
+    - name: Print rg
+      debug:
+        msg: "subnet = {{ subnet_name }}"

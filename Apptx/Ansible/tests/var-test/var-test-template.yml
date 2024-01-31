@@ -1,0 +1,35 @@
+    - name: ansible template name
+      set_fact:
+        ansible_template_name: "template-ops-dev-3" 
+        variable1: "number1"
+        variable2: "number2" 
+
+    - name: ansible template name
+      set_fact:
+        variable3: "{{ variable1 | default(variable2) }}"
+
+    - name: post provisioning template name
+      set_fact:
+        post_provisioning_template: "{{ 'vm-post-provisioning' if (ansible_template_name == 'template-ops-main') else 'vm-post-provisioning-dev' }}"  
+
+    - name: negative in variable
+      set_fact:
+        negative_template: "{{ 'vm-post-provisioning' if (not 'template-ops-dev' in ansible_template_name) else 'vm-post-provisioning-dev' }}"
+    
+    - name: Print post provisioning template name
+      debug:
+        msg: "post-prov-template = {{ post_provisioning_template }}"
+
+    - name: Print negative template name
+      debug:
+        msg: "post-prov-template = {{ negative_template }}"
+
+
+
+    - name: Print var1/2
+      debug:
+        msg: "target = {{ variable1 | default(variable2) }}"
+
+    - name: Print var 3
+      debug:
+        msg: "target = {{ variable3 }}"

@@ -1,0 +1,18 @@
+---
+- name: "Playing with Ansible and Git"
+  hosts: localhost
+  connection: local 
+
+  tasks:
+
+    - name: var
+      debug:
+        msg: "{{ application_name }}"
+
+    - name: block var
+      debug:
+        msg: "{{ resource_tags }}"
+
+    - name: nested var
+      debug:
+        msg: "{{ resource_tags['tag2'] }}"

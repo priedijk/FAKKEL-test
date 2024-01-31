@@ -1,0 +1,51 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+
+    - name: Get facts of specific subnet
+      register: subnet_output
+      azure_rm_subnet_info:
+        resource_group: rg-appserviceplanintegration
+        virtual_network_name: appsvc
+        name: delegation_subnet
+
+    - name: Print subnet
+      debug:
+        msg: "subnet = {{ subnet_output }}"
+
+    # - name: Get all the access keys
+    #   shell: az account show -s "SUBSCRIPTION"
+    #   register: sub
+
+
+    # - name: Print subnet
+    #   debug:
+    #     msg: "subscription = {{ sub }}"
+
+    - name: Get the subscription
+      register: subscription_output
+      environment:
+        AZURE_SUBSCRIPTION_ID: "SUBSCRIPTION"
+      azure.azcollection.azure_rm_subscription_info:
+        id: "SUBSCRIPTION"
+
+
+    - name: Print subnet
+      debug:
+        msg: "subscription = {{ subscription_output }}"
+
+    - name: Get the subscription
+      register: subscription_output
+      environment:
+        AZURE_SUBSCRIPTION_ID: "SUBSCRIPTION"
+      azure_rm_subscription_info:
+        id: "SUBSCRIPTION"
+
+
+    - name: Print subnet
+      debug:
+        msg: "subscription = {{ subscription_output }}"
+
+
+        

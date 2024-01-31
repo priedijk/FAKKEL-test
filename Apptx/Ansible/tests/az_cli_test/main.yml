@@ -1,0 +1,16 @@
+- name: test az cli play
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - block:
+        - set_fact:
+            tenant_id: "SECRET"
+            app_id: "CLIENT ID"
+            password: "SECRET"
+
+        - name: az login
+          shell: "az login --service-principal -u {{ app_id }} -p {{ password }} --tenant {{ tenant_id }}"
+
+        - name: az cli creation test
+          shell: "az group create -n 'cli-ansible-group' -l 'westeurope'"

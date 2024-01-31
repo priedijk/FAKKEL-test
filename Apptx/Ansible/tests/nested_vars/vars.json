@@ -1,0 +1,9 @@
+{
+    "application_name": "helpme",
+    "variable_name": "named_variable",
+
+    "resource_tags": {
+        "tag1": "tagger1",
+        "tag2": "nbmoe13"
+    }
+}

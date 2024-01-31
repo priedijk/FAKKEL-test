@@ -1,0 +1,9 @@
+---
+  - name: "Print full var"
+    debug:
+      msg: "{{ fileshares }}"
+
+  - name: "Print items in var"
+    debug:
+      msg: "{{ item }}"
+    loop: "{{ fileshares }}"

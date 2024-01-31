@@ -1,0 +1,24 @@
+- name: Generate Input parameter file
+  include: ./generate-input-arg-file.yml
+  vars:
+    input_file: "{{ item.path }}"
+  loop: "{{ tf_files.files }}"
+  loop_control:
+    label: "{{ item.path | basename }}"
+  when: item.path | basename != "provider.tf" and (item.path | basename | replace('.tf', '') not in skipped_list) and (item.path.split('/')[-1].split('-')[0] in services or item.path.split('/')[-1][:2] in services or (item.path.split('/')[-2] == "operation" and "vm" in services) or services[0] == "all" )
+
+
+- name: Generate Input parameter file
+  include: ./generate-input-arg-file.yml
+  vars:
+    input_file: "{{ item.path }}"
+  loop: "{{ tf_files.files }}"
+  loop_control:
+    label: "{{ item.path | basename }}"
+  when: 
+    - (item.path | basename != "provider.tf")
+    - (item.path | basename | replace('.tf', '') not in skipped_list)
+    - (item.path.split('/')[-1].split('-')[0] in services) or 
+      (item.path.split('/')[-1][:2] in services) or 
+      (item.path.split('/')[-2] == "operation" and "vm" in services) or 
+      (services[0] == "all")

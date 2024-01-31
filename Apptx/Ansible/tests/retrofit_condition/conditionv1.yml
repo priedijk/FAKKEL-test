@@ -1,0 +1,68 @@
+# will only do storage account that start with `st` and skipp 'stapp-`    
+    - name: ansible template name
+      set_fact:
+        ansible_template_name: "stapptx" 
+
+    - name: service name
+      set_fact:
+        services: "st"  
+
+    - name: template condition
+      set_fact:
+        template_condition: "{{ 'no will not be taken' if ansible_template_name.startswith('stapp-') else 'will be taken' }}"
+    
+    - name: Print template_condition
+      debug:
+        msg: "file_is_taken = {{ template_condition }}"
+        
+    - name: Print ansible_template_name value
+      debug:
+        msg: "ansible_template_name = {{ ansible_template_name }}"
+
+    - name: Print when
+      debug:
+        msg: "printed because starts with 'stapp-'"
+      when: (ansible_template_name.startswith('stapp-'))
+
+    - name: item path
+      set_fact:
+        item_path: "storage/stapptx.tf"
+
+    - name: Print item path
+      debug:
+        msg: "{{ item_path }}"
+
+    - name: Print split1
+      debug:
+        msg: "{{ item_path | basename | replace('.tf', '') }}"
+
+    - name: Print split2
+      debug:
+        msg: "{{ item_path.split('/')[-1].split('-')[0] }}"
+
+    - name: Print split3
+      debug:
+        msg: "{{ item_path.split('/')[-1][:2] }}"
+
+    - name: Print split4
+      debug:
+        msg: "{{ item_path.split('/')[0] }}"
+    - name: Print split5
+      debug:
+        msg: "{{ item_path.split('/')[1] }}"
+    - name: Print split6
+      debug:
+        msg: "{{ item_path.split('/')[-1] }}"
+    - name: Print split7
+      debug:
+        msg: "{{ item_path.split('/')[-2] }}"
+
+    - name: Print condition result
+      debug:
+        msg: "one of the conditions have been met file name is {{ item_path }}"
+      when: (item_path.split('/')[-1].split('-')[0] in services) or 
+            (item_path.split('/')[-1][:6] == "stapp-" and item_path.split('/')[-2] == "platform") or
+            (item_path.split('/')[-1][:2] in services and (item_path.split('/')[-2] == "storage" and "stapp-" not in (item_path | basename | replace('.tf', '')))) or 
+            (item_path.split('/')[-2] == "operation" and "vm" in services) or 
+            (services == "all")
+

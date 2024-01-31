@@ -1,0 +1,12 @@
+---
+  - name: "Playing with Ansible and Git"
+    hosts: localhost
+    connection: local 
+    tasks:
+
+      - name: test variables
+        include_tasks: var-test-template.yml
+
+      - name: Print plans
+        debug:
+          msg: "after ending play message"

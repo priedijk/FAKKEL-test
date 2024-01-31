@@ -1,0 +1,11 @@
+---
+  - name: "Print full var"
+    debug:
+      var: fileshares
+
+  - name: Dict test
+    debug:
+      msg: "fileshare name is {{ item.key }} protocol is {{ item.value.protocol | default('no input') }} share quota is {{ item.value.quota  | default(100)}}"
+    loop: "{{ fileshares | dict2items }}"
+    loop_control:
+      label: "{{ item.key }}"
