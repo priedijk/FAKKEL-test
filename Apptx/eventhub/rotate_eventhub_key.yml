@@ -48,9 +48,9 @@ jobs:
     environment: ${{ github.event.inputs.tenant || 'PRD' }}
     timeout-minutes: 360
     env:
-      ARM_CLIENT_ID: ${{ secrets.LZ_CREATION_CLIENT_ID }}
-      ARM_TENANT_ID: ${{ secrets.LZ_CREATION_TENANT_ID }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.LZ_CREATION_SUBSCRIPTION_ID }}
+      ARM_CLIENT_ID: ${{ secrets.SPN_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ secrets.SPN_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.SPN_SUBSCRIPTION_ID }}
       ARM_USE_OIDC: true
 
     steps:
@@ -69,9 +69,9 @@ jobs:
       - name: Azure Login
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.LZ_CREATION_CLIENT_ID }}
-          tenant-id: ${{ secrets.LZ_CREATION_TENANT_ID }}
-          subscription-id: ${{ secrets.LZ_CREATION_SUBSCRIPTION_ID }}
+          client-id: ${{ secrets.SPN_CLIENT_ID }}
+          tenant-id: ${{ secrets.SPN_TENANT_ID }}
+          subscription-id: ${{ secrets.SPN_SUBSCRIPTION_ID }}
           allow-no-subscriptions: true
 
       - name: Rotate Eventhub authorization rule key
@@ -79,7 +79,7 @@ jobs:
         shell: pwsh
         run: |
           ./foundation/landingzone/powershell/rotate_applog_eventhub_key.ps1 `
-              -hubSubscriptionId ${{ secrets.LZ_CREATION_SUBSCRIPTION_ID }}
+              -hubSubscriptionId ${{ secrets.SPN_SUBSCRIPTION_ID }}
               -location {{ inputs.location }} `
               -tenant {{ inputs.tenant }} `
               -location {{ inputs.environment }} `
