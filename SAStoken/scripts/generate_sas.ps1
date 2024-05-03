@@ -42,7 +42,7 @@ if (( ${fileShareName} -eq $null -or ${fileShareName} -eq "" ) -and ( ${containe
     $validationFailed = $true
 }
 
-# validate if fileshare name and container name are not defined
+# validate if fileshare name and container name are not both defined
 elseif (( ${fileShareName} -and ${containerName} )) {
     Write-Output "------------------------------------------------------------------------------------------------------"
     Write-Output "Only one of Fileshare or Blob container name can be given as an input"
